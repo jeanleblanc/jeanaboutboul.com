@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jean Aboutboul - CV</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .cv-section {
+            margin-bottom: 3rem;
+        }
+        .cv-detail-item {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .cv-detail-item:last-child {
+            border-bottom: none;
+        }
+        .cv-detail-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .cv-position {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .cv-institution {
+            font-style: italic;
+        }
+        .cv-date {
+            color: var(--accent-color);
+        }
+        .cv-description {
+            margin-top: 1rem;
+        }
+        .cv-description ul {
+            margin-top: 0.5rem;
+            margin-left: 1.5rem;
+        }
+        .cv-skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .cv-skill-category {
+            margin-bottom: 1.5rem;
+        }
+        .cv-skill-category h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        .cv-skill-list {
+            list-style-type: none;
+        }
+        .cv-skill-list li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .cv-skill-list li:before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">Jean Aboutboul</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cv.html">CV</a></li>
+            <li><a href="notes.html">Notes</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- CV Header -->
+    <section class="section">
+        <div class="cv-header">
+            <h1>Curriculum Vitae</h1>
+            <p>Mechanical Engineering Student | Passionate about Robotics, AI, and Music</p>
+            <a href="cv.pdf" class="download-btn" download>
+                <i class="fas fa-download"></i> Download PDF Version
+            </a>
+        </div>
+
+        <!-- Personal Statement -->
+        <div class="cv-section">
+            <h2>Personal Statement</h2>
+            <div class="cv-detail-item">
+                <p>Since a young age, I have always been passionate about science and learning. This innate curiosity naturally led me to study engineering, with the desire to contribute to a better world through my skills and creativity.</p>
+                <p>Currently a mechanical engineering student at EPFL, I have discovered a particular interest in robotics. This promising field offers numerous application possibilities in various sectors, such as ecology, medicine, and industry. Robotics has the potential to provide innovative and effective solutions to concrete problems.</p>
+                <p>Beyond its applications, robotics appeals to me because of its multidisciplinary nature. It allows for the combination of different exciting fields, such as neuroscience, artificial intelligence, and even aerospace. It is a domain that offers a wide range of opportunities for a curious mind.</p>
+                <p>What truly motivates me is the prospect of realising my own projects. With the knowledge and skills I am acquiring, I aim to bring my ideas to life, independently or in collaboration. It is a stimulating and rewarding challenge to complete a project from A to Z.</p>
+                <p>Alongside my technical skills, I have developed strong project management and team leadership abilities. Through various academic and personal projects, I have demonstrated my capability to create clear and structured conceptual plans, efficiently coordinate team efforts, and maintain effective communication among members.</p>
+                <p>Outside of my studies, I am passionate about music. I have been playing the piano since the age of three and a half, primarily exploring the classical repertoire but also jazz. Music is a central element of my life.</p>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="cv-section">
+            <h2>Education</h2>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div>
+                        <div class="cv-position">B.Sc. in Mechanical Engineering</div>
+                        <div class="cv-institution">École Polytechnique Fédérale de Lausanne (EPFL)</div>
+                    </div>
+                    <div class="cv-date">2023-present</div>
+                </div>
+                <div class="cv-description">
+                    <p>Key coursework:</p>
+                    <ul>
+                        <li><strong>Ba1:</strong> Analysis I, Linear Algebra, Mechanical Physics, Materials Chemistry, Science and Technology of Electricity, Mechanical Construction</li>
+                        <li><strong>Ba2:</strong> Analysis II (in English), Thermodynamic Physics, Mechanical Structure (in English), Computer Science (theory and programming), Global Issues: Communication (around AI), Mechanical Construction Project</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div>
+                        <div class="cv-position">Secondary School Diploma (CESS)</div>
+                        <div class="cv-institution">École Decroly, Brussels, Belgium</div>
+                    </div>
+                    <div class="cv-date">2017-2023</div>
+                </div>
+                <div class="cv-description">
+                    <p>Orientation Mathematics (6h) and Sciences (7h)</p>
+                    <p>Overall average: 80.4%</p>
+                    <p>Notable results:</p>
+                    <ul>
+                        <li>Mathematics (6h): 92.5%</li>
+                        <li>Physics (3h): 88.5%</li>
+                        <li>Biology (2h): 90%</li>
+                        <li>Advanced Philosophy (2h, additional course): 82.5%</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div>
+                        <div class="cv-position">Primary School Certificate (CEB)</div>
+                        <div class="cv-institution">École Hamaïde, Brussels, Belgium</div>
+                    </div>
+                    <div class="cv-date">2011-2017</div>
+                </div>
+                <div class="cv-description">
+                    <p>Overall average: 95%</p>
+                    <p>Notable results:</p>
+                    <ul>
+                        <li>Mathematics: 100%</li>
+                        <li>Scientific initiation: 96%</li>
+                        <li>French: 93%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Experience -->
+        <div class="cv-section">
+            <h2>Professional Experience</h2>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div>
+                        <div class="cv-position">Internship</div>
+                        <div class="cv-institution">Ajinomatrix, Brussels</div>
+                    </div>
+                    <div class="cv-date">2 weeks</div>
+                </div>
+                <div class="cv-description">
+                    <p>Internship with François Wayenberg, CEO and founder of Ajinomatrix, a pioneering company in developing sensory measurement software using artificial intelligence.</p>
+                    <p>Discovery of the company's activities, offering innovative solutions to interpret sensory taste and smell measurements using AI, in collaboration with consumers, tasting judge panels, and sensors such as electronic noses and mouths.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div>
+                        <div class="cv-position">Accompanist Pianist</div>
+                        <div class="cv-institution">Freelance</div>
+                    </div>
+                    <div class="cv-date"></div>
+                </div>
+                <div class="cv-description">
+                    <p>Musical accompaniment at various events and ceremonies.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div>
+                        <div class="cv-position">Youth Movement Leader</div>
+                        <div class="cv-institution">JJL, Brussels</div>
+                    </div>
+                    <div class="cv-date">2 years</div>
+                </div>
+                <div class="cv-description">
+                    <p>Supervision and animation of activities for young people.</p>
+                    <p>Development of leadership and team management skills.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div>
+                        <div class="cv-position">Restaurant Staff</div>
+                        <div class="cv-institution">Canne en Ville (Starred Restaurant), Brussels</div>
+                    </div>
+                    <div class="cv-date"></div>
+                </div>
+                <div class="cv-description">
+                    <p>Experience in high-end restaurant service.</p>
+                    <p>Development of customer service skills and teamwork in a demanding environment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Skills -->
+        <div class="cv-section">
+            <h2>Technical Skills</h2>
+            
+            <div class="cv-skills-grid">
+                <div class="cv-skill-category">
+                    <h3>Design and Modeling</h3>
+                    <ul class="cv-skill-list">
+                        <li>CATIA</li>
+                        <li>Fusion 360</li>
+                        <li>Blender</li>
+                    </ul>
+                </div>
+                
+                <div class="cv-skill-category">
+                    <h3>Programming</h3>
+                    <ul class="cv-skill-list">
+                        <li>LaTeX</li>
+                        <li>Bash</li>
+                        <li>Python</li>
+                        <li>Julia</li>
+                        <li>C</li>
+                        <li>HTML, CSS, JavaScript</li>
+                        <li>JSON</li>
+                    </ul>
+                </div>
+                
+                <div class="cv-skill-category">
+                    <h3>Development Tools</h3>
+                    <ul class="cv-skill-list">
+                        <li>Linux</li>
+                        <li>Git, GitHub/GitLab</li>
+                        <li>Markdown</li>
+                        <li>Vim, Neovim</li>
+                        <li>SQL (basic)</li>
+                        <li>Manim</li>
+                    </ul>
+                </div>
+                
+                <div class="cv-skill-category">
+                    <h3>Music</h3>
+                    <ul class="cv-skill-list">
+                        <li>Piano (advanced)</li>
+                        <li>Music Theory (advanced)</li>
+                    </ul>
+                </div>
+                
+                <div class="cv-skill-category">
+                    <h3>Artificial Intelligence</h3>
+                    <ul class="cv-skill-list">
+                        <li>Machine Learning (basic)</li>
+                    </ul>
+                </div>
+                
+                <div class="cv-skill-category">
+                    <h3>Graphics</h3>
+                    <ul class="cv-skill-list">
+                        <li>Adobe Creative Cloud Suite (basic)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="cv-section">
+            <h2>Projects</h2>
+            
+            <h3>Academic Projects</h3>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">Design of a Mechanical Forestry Winch (CATIA)</div>
+                </div>
+                <div class="cv-description">
+                    <p>Complete design of a mechanical forestry winch in CATIA, from 3D modelling to physical calculations. Skills developed: mechanical design, 3D modelling, force and stress analysis.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">Creation of a Poster on an AI-related Issue</div>
+                </div>
+                <div class="cv-description">
+                    <p>Creation of a scientific poster presenting a specific issue in the field of AI. Skills developed: information synthesis, scientific communication, popularisation.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">National Physics Olympiads</div>
+                </div>
+                <div class="cv-description">
+                    <p>Participation in the National Physics Olympiads, a competition highlighting knowledge and scientific thinking. Skills developed: solving complex physical problems, scientific reasoning, stress management.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">CanSat Project</div>
+                </div>
+                <div class="cv-description">
+                    <p>Participation in the CanSat project, which involves designing, building, and launching a nanosatellite the size of a can. Skills developed: teamwork, project management, embedded systems design, data analysis.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">Creation of a "Candy Crush" Type Game in C Language</div>
+                </div>
+                <div class="cv-description">
+                    <p>Development of a game inspired by Candy Crush using the C programming language. Skills developed: programming in C, algorithm design, game logic management.</p>
+                </div>
+            </div>
+            
+            <h3>Personal Projects</h3>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">JeanFlix: Personal Video Streaming Platform</div>
+                </div>
+                <div class="cv-description">
+                    <p>Creation of a personal video streaming platform, including website development, hosting, and database management. Skills developed: web development (HTML, CSS, JavaScript), database management, web hosting.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">CV Website (Portfolio)</div>
+                </div>
+                <div class="cv-description">
+                    <p>Creation of a dynamic showcase website serving as an online portfolio. Skills developed: web development (HTML, CSS, JavaScript), web design, hosting.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">Website on Classical Music and Piece Analysis</div>
+                </div>
+                <div class="cv-description">
+                    <p>Development of a website dedicated to classical music, allowing for the publication of piece analyses without having to redo the site. Skills developed: web development, content writing, musical analysis, popularisation.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">Creation of a Music Recommendation AI</div>
+                </div>
+                <div class="cv-description">
+                    <p>Development of a music recommendation system based on artificial intelligence. Skills developed: data processing, recommendation algorithms, machine learning.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">Python Projects</div>
+                </div>
+                <div class="cv-description">
+                    <ul>
+                        <li>Desktop Cleaner: script to automate file cleaning and organisation on a computer</li>
+                        <li>Web Scraper: tool to extract data from websites</li>
+                        <li>Budget Tracker: application to track and manage a personal budget</li>
+                    </ul>
+                    <p>Skills developed: programming in Python, file management, web data extraction, data manipulation.</p>
+                </div>
+            </div>
+            
+            <div class="cv-detail-item">
+                <div class="cv-detail-header">
+                    <div class="cv-position">C Projects</div>
+                </div>
+                <div class="cv-description">
+                    <ul>
+                        <li>Library Management System: application to manage books, members, and loans in a library</li>
+                        <li>Banking Management System: application simulating basic banking operations</li>
+                        <li>Matrix Calculator: program to perform mathematical operations on matrices</li>
+                        <li>E-book Reader Application: software to read and manage e-books</li>
+                        <li>Automated Teller Machine (ATM): simulation of an ATM with basic functionalities</li>
+                    </ul>
+                    <p>Skills developed: programming in C, data management, algorithmic, user interfaces.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (Footer) -->
+    <section id="contact" class="section footer">
+        <h2>Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>jean.aboutboul@epfl.ch</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>jeanaboutboul@icloud.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Lausanne, Switzerland</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="download-cv">
+                <a href="cv.pdf" class="download-btn" download>
+                    <i class="fas fa-download"></i> Download CV
+                </a>
+            </div>
+            <div class="qr-code">
+                <img src="https://via.placeholder.com/150" alt="Website QR Code">
+                <p>Scan to visit my website</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Jean Aboutboul. All rights reserved.</p>
+        </div>
+    </section>
+
+    <script src="index.js"></script>
+</body>
+</html>

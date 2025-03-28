@@ -1,0 +1,297 @@
+\documentclass[letterpaper,11pt]{article}
+\newlength{\outerbordwidth}
+\pagestyle{empty}
+\raggedbottom
+\raggedright
+\usepackage[svgnames]{xcolor}
+\usepackage{framed}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+\robustify\cftdotfill
+
+%-----------------------------------------------------------
+\setlength{\outerbordwidth}{3pt}  % Width of border outside of title bars
+\definecolor{shadecolor}{gray}{0.75}  % Outer background color of title bars (0 = black, 1 = white)
+\definecolor{shadecolorB}{gray}{0.93}  % Inner background color of title bars
+
+%-----------------------------------------------------------
+% Margin setup
+\setlength{\evensidemargin}{-0.25in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\oddsidemargin}{-0.25in}
+\setlength{\paperheight}{11in}
+\setlength{\paperwidth}{8.5in}
+\setlength{\tabcolsep}{0in}
+\setlength{\textheight}{9.5in}
+\setlength{\textwidth}{7in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\topskip}{0in}
+\setlength{\voffset}{0.1in}
+
+%-----------------------------------------------------------
+% Custom commands
+\newcommand{\resitem}[1]{\item #1 \vspace{-2pt}}
+\newcommand{\resheading}[1]{\vspace{8pt}
+  \parbox{\textwidth}{\setlength{\FrameSep}{\outerbordwidth}
+    \begin{shaded}
+\setlength{\fboxsep}{0pt}\framebox[\textwidth][l]{\setlength{\fboxsep}{4pt}\fcolorbox{shadecolorB}{shadecolorB}{\textbf{\sffamily{\mbox{~}\makebox[6.762in][l]{\large #1} \vphantom{p\^{E}}}}}}
+    \end{shaded}
+  }\vspace{-5pt}
+}
+\newcommand{\ressubheading}[4]{
+\begin{tabular*}{6.5in}{l@{\cftdotfill{\cftsecdotsep}\extracolsep{\fill}}r}
+    \textbf{#1} & #2 \\
+    \textit{#3} & \textit{#4} \\
+\end{tabular*}\vspace{-6pt}}
+
+%-----------------------------------------------------------
+
+\begin{document}
+
+\begin{tabular*}{7in}{l@{\extracolsep{\fill}}r}
+\textbf{\Large Jean Aboutboul}, \Large Detailed CV & \textbf{\today} \\
+Microengineering Student & jean.aboutboul@epfl.ch \\
+jeanaboutboul.com & jeanaboutboul@icloud.com \\
+\end{tabular*}
+\\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\resheading{Education}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+\item
+    \ressubheading{École Polytechnique Fédérale de Lausanne (EPFL)}{Lausanne, Switzerland}{B.Sc. in Mechanical Engineering}{2023-present}\\
+\begin{itemize}
+\item \textbf{Ba1} : Analysis I, Linear Algebra, Mechanical Physics, Materials Chemistry, Science and Technology of Electricity, Mechanical Construction
+\item \textbf{Ba2} : Analysis II (in English), Thermodynamic Physics, Mechanical Structure (in English), Computer Science (theory and programming), Global Issues: Communication (around AI), Mechanical Construction Project
+\end{itemize}
+
+\item
+    \ressubheading{École Decroly}{Brussels, Belgium}{Secondary School}{2017-2023}\\
+\vspace{0.25cm}
+\textbf{Diploma of Upper Secondary Education (CESS)}, Orientation Mathematics (6h) and Sciences (7h) \\
+Overall average: 80.4\%\\
+Notable results:
+\begin{itemize}
+\item Mathematics (6h): 92.5\%
+\item Physics (3h): 88.5\%
+\item Biology (2h): 90\%
+\item Advanced Philosophy (2h, additional course): 82.5\%
+\end{itemize}
+\textbf{First Degree Diploma of Secondary Education (CE1D)} \\
+Overall average: 86\%\\
+Notable results: Mathematics (93\%), Sciences (88\%), French (82\%), Dutch (79\%)
+
+\item \ressubheading{École Hamaïde}{Brussels, Belgium}{Primary School}{2011-2017}\\
+\vspace{0.25cm}
+Primary Education Certificate (CEB)\\
+Overall average: 95\%\\
+Notable results:
+\begin{itemize}
+\item Mathematics (quantities, numbers and operations, solids and figures): 100\%
+\item Awakening (scientific initiation): 96\%
+\item French (listening, writing, reading fiction): 93\%
+\end{itemize}
+\end{itemize}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\resheading{Personal Statement}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{center}
+  \parbox{6.762in}{
+Since a young age, I have always been passionate about science and learning. This innate curiosity naturally led me to study engineering, with the desire to contribute to a better world through my skills and creativity.\\
+Currently a mechanical engineering student at EPFL, I have discovered a particular interest in robotics. This promising field offers numerous application possibilities in various sectors, such as ecology, medicine, and industry. Robotics has the potential to provide innovative and effective solutions to concrete problems.\\
+Beyond its applications, robotics appeals to me because of its multidisciplinary nature. It allows for the combination of different exciting fields, such as neuroscience, artificial intelligence, and even aerospace. It is a domain that offers a wide range of opportunities for a curious mind.\\
+What truly motivates me is the prospect of realising my own projects. With the knowledge and skills I am acquiring, I aim to bring my ideas to life, independently or in collaboration. It is a stimulating and rewarding challenge to complete a project from A to Z.\\
+Alongside my technical skills, I have developed strong project management and team leadership abilities. Through various academic and personal projects, I have demonstrated my capability to create clear and structured conceptual plans, efficiently coordinate team efforts, and maintain effective communication among members. I particularly enjoy the collaborative creation process and can adapt to different profiles and skills to bring out the best in the group. These experiences have taught me to be organised, anticipate challenges, and propose creative solutions to achieve objectives within deadlines.\\
+Outside of my studies, I am passionate about music. I have been playing the piano since the age of three and a half, primarily exploring the classical repertoire but also jazz. Music is a central element of my life.\\
+In summary, I am a student passionate about science and robotics, eager to use my skills and creativity for meaningful projects. With determination and enthusiasm, I am ready to take on the challenges ahead to achieve my goals and contribute positively in my own way.
+  }
+  \end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\resheading{Professional Experience}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{itemize}[label={}]
+\item \ressubheading{Ajinomatrix}{Brussels}{Internship}{2 weeks}
+\begin{itemize}[label={}]
+\item Internship with François Wayenberg, CEO and founder of Ajinomatrix, a pioneering company in developing sensory measurement software using artificial intelligence
+\item Discovery of the company's activities, offering innovative solutions to interpret sensory taste and smell measurements using AI, in collaboration with consumers, tasting judge panels, and sensors such as electronic noses and mouths
+\item Ajinomatrix, founded in the 2000s, has evolved from a specific application to become an open-source platform offering a wide range of services to simplify users' lives and revolutionise the sensory industry
+\item The founder, François Wayenberg, has years of experience in food R\&D at a large Japanese company, as well as expertise in cutting-edge projects with NASA and advanced experimental projects in Israel. He is also an author, poet, filmmaker, inventor, and serial entrepreneur.
+\end{itemize}
+
+\item \ressubheading{Accompanist Pianist}{}{}{}
+\begin{itemize}[label={}]
+\item Musical accompaniment at various events and ceremonies
+\end{itemize}
+
+\item \ressubheading{Youth Movement Leader, JJL}{Brussels}{}{2 years}
+\begin{itemize}[label={}]
+\item Supervision and animation of activities for young people
+\item Development of leadership and team management skills
+\end{itemize}
+
+\item \ressubheading{Work in Starred Restaurant "Canne en Ville"}{Brussels}{}{}
+\begin{itemize}[label={}]
+\item Experience in high-end restaurant service
+\item Development of customer service skills and teamwork in a demanding environment
+\end{itemize}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\resheading{Technical Skills}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ressubheading{Design and Modelling Software}{}{}{}\\
+\vspace{-0.5cm}
+\begin{itemize}[label={}]
+\item CATIA: Skills acquired in the first year of university
+\item Fusion 360: Basic skills
+\item Blender: Basic skills
+\end{itemize}
+
+\ressubheading{Programming and Development}{}{}{}\\
+\vspace{-0.5cm}
+\begin{itemize}[label={}]
+\item \LaTeX: Advanced level (self-taught, mainly using Overleaf tutorials and YouTube videos)
+\item Programming languages: Bash, Python, Julia, C, HTML, CSS, JavaScript, JSON
+\item Computer science theory: Knowledge gained from university courses at EPFL, "Crash Course Computer Science" on YouTube, Berkeley online courses, and the book "Introduction to the Theory of Computation" by Michael Sipser
+\item Linux: Mastery of the operating system (4 years of user experience, in-depth knowledge from the book "How Linux Works" by Brian Ward)
+\item Databases: Basic skills in SQL
+\item Development tools: Git, GitHub/GitLab, Markdown, Vim, Neovim, Manim
+\end{itemize}
+
+\ressubheading{Artificial Intelligence}{}{}{}\\
+\vspace{-0.5cm}
+\begin{itemize}[label={}]
+\item Machine Learning: Basic skills (main references: "Machine Learning" specialisation on Coursera by Stanford and Andrew Ng, 3Blue1Brown courses on YouTube)
+\end{itemize}
+
+\ressubheading{Music}{}{}{}\\
+\vspace{-0.5cm}
+\begin{itemize}[label={}]
+\item Piano: Advanced skills
+\item Music theory: Advanced skills (main references: musictheory.net and "Jazz Theory" by Mark Levine)
+\end{itemize}
+
+\ressubheading{Graphics and Creativity}{}{}{}\\
+\vspace{-0.5cm}
+\begin{itemize}[label={}]
+\item Adobe Creative Cloud Suite: Basic skills
+\end{itemize}
+
+\ressubheading{Complementary Scientific Knowledge}{}{}{}\\
+\vspace{-0.5cm}
+\begin{itemize}[label={}]
+\item \textbf{Mathematics}
+\begin{itemize}[label={}]
+\item Graph Theory: "Graph Theory" by Reinhard Diestel
+\item Concrete Mathematics: "Concrete Mathematics" by Ronald Graham
+\item Statistics and data analysis: "Mathematical Statistics and Data Analysis" by John Rice
+\item Philosophy of Mathematics: "Thinking About Mathematics" by Stewart Shapiro.
+\end{itemize}
+\item \textbf{Physics}
+\begin{itemize}[label={}]
+\item Cosmology: cosmology courses by Aurélien Barrau on YouTube, "Cosmos" by Carl Sagan
+\item Quantum Mechanics: "Introduction to Quantum Mechanics" by David Griffiths
+\item Spacetime and Geometry: "Spacetime and Geometry" by Sean Carroll
+\end{itemize}
+\item \textbf{Neuroscience and Biology}
+\begin{itemize}[label={}]
+\item Neuroscience: "Neuroscience: Exploring the Brain" by Mark Bear (foundation)
+\item Biology: "Campbell Biology"
+\end{itemize}
+\end{itemize}
+
+I would like to emphasise that I do not consider any of my skills to be definitively acquired. I am aware that there is always room for improvement and deepening of knowledge. Additionally, as mentioned in the "About Me" section, I have a genuine passion for learning. Therefore, I am more than willing and enthusiastic to acquire new skills or improve the ones I already possess, in any field that would be necessary or desired to successfully complete the projects entrusted to me.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\resheading{Projects}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ressubheading{Academic Projects}{}{}{}\\
+\vspace{-0.5cm}
+\begin{itemize}[label={}]
+\item \textbf{Design of a Mechanical Forestry Winch (CATIA)}
+\begin{itemize}
+\item Complete design of a mechanical forestry winch in CATIA, from 3D modelling to physical calculations
+\item Skills developed: mechanical design, 3D modelling, force and stress analysis
+\end{itemize}
+
+\item \textbf{Creation of a Poster on an AI-related Issue}
+\begin{itemize}
+\item Creation of a scientific poster presenting a specific issue in the field of AI
+\item Skills developed: information synthesis, scientific communication, popularisation
+\end{itemize}
+
+\item \textbf{National Physics Olympiads}
+\begin{itemize}
+\item Participation in the National Physics Olympiads, a competition highlighting knowledge and scientific thinking
+\item Skills developed: solving complex physical problems, scientific reasoning, stress management
+\end{itemize}
+
+\item \textbf{CanSat Project}
+\begin{itemize}
+\item Participation in the CanSat project, which involves designing, building, and launching a nanosatellite the size of a can
+\item Skills developed: teamwork, project management, embedded systems design, data analysis
+\end{itemize}
+
+\item \textbf{Creation of a "Candy Crush" Type Game in C Language}
+\begin{itemize}
+\item Development of a game inspired by Candy Crush using the C programming language
+\item Skills developed: programming in C, algorithm design, game logic management
+\end{itemize}
+\end{itemize}
+
+\ressubheading{Personal Projects}{}{}{}\\
+\vspace{-0.5cm}
+\begin{itemize}[label={}]
+\item \textbf{JeanFlix: Personal Video Streaming Platform}
+\begin{itemize}
+\item Creation of a personal video streaming platform, including website development, hosting, and database management
+\item Skills developed: web development (HTML, CSS, JavaScript), database management, web hosting
+\end{itemize}
+
+\item \textbf{CV Website (Portfolio)}
+\begin{itemize}
+\item Creation of a dynamic showcase website serving as an online portfolio
+\item Skills developed: web development (HTML, CSS, JavaScript), web design, hosting
+\end{itemize}
+
+\item \textbf{Website on Classical Music and Piece Analysis}
+\begin{itemize}
+\item Development of a website dedicated to classical music, allowing for the publication of piece analyses without having to redo the site
+\item Skills developed: web development, content writing, musical analysis, popularisation
+\end{itemize}
+
+\item \textbf{Creation of a Music Recommendation AI}
+\begin{itemize}
+\item Development of a music recommendation system based on artificial intelligence
+\item Skills developed: data processing, recommendation algorithms, machine learning
+\end{itemize}
+
+\item \textbf{Python Projects}
+\begin{itemize}
+\item Desktop Cleaner: script to automate file cleaning and organisation on a computer
+\item Web Scraper: tool to extract data from websites
+\item Budget Tracker: application to track and manage a personal budget
+\item Skills developed: programming in Python, file management, web data extraction, data manipulation
+\end{itemize}
+
+\item \textbf{C Projects}
+\begin{itemize}
+\item Library Management System: application to manage books, members, and loans in a library
+\item Banking Management System: application simulating basic banking operations (deposits, withdrawals, transfers)
+\item Matrix Calculator: program to perform mathematical operations on matrices
+\item E-book Reader Application: software to read and manage e-books
+\item Automated Teller Machine (ATM): simulation of an ATM with basic functionalities
+\item Skills developed: programming in C, data management, algorithmic, user interfaces
+\end{itemize}
+\end{itemize}
+
+It is important to note that the projects presented here are only a selection of my achievements. Not all of my projects have necessarily been successful, but each one has been a valuable learning experience, allowing me to develop my skills and learn from my mistakes. Additionally, for reasons of confidentiality and privacy, some projects, particularly those carried out in a professional setting or in collaboration with third parties, are not detailed or made public in this CV.
+
+\end{document}

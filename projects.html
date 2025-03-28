@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jean Aboutboul - Projects</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .projects-page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .projects-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 3rem;
+            justify-content: center;
+        }
+        .filter-button {
+            background-color: var(--light-color);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .filter-button:hover, .filter-button.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .projects-portfolio {
+            margin-bottom: 4rem;
+        }
+        .featured-project {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 4rem;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        .featured-project-image {
+            flex: 1 1 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .featured-project-image img {
+            width: 100%;
+            height: auto;
+            transition: var(--transition);
+        }
+        .featured-project:hover .featured-project-image img {
+            transform: scale(1.02);
+        }
+        .featured-project-content {
+            flex: 1 1 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-category {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        .featured-project-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        .featured-project-description {
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .project-tag {
+            font-size: 0.85rem;
+            padding: 5px 12px;
+            background-color: rgba(184, 40, 40, 0.1);
+            color: var(--accent-color);
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+        .project-tag:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .project-links {
+            display: flex;
+            gap: 15px;
+        }
+        .project-link {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .view-project {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .view-project:hover {
+            background-color: var(--dark-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        .view-code {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            border: 1px solid var(--accent-color);
+        }
+        .view-code:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .project-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .project-card-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        .project-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .project-card:hover .project-card-image img {
+            transform: scale(1.05);
+        }
+        .project-card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .project-card-description {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .project-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .technologies {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .view-details {
+            color: var(--accent-color);
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .view-details:hover {
+            color: var(--dark-color);
+        }
+        .view-details i {
+            transition: var(--transition);
+        }
+        .view-details:hover i {
+            transform: translateX(3px);
+        }
+        .project-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-completed {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: #27AE60;
+        }
+        .status-in-progress {
+            background-color: rgba(241, 196, 15, 0.1);
+            color: #F1C40F;
+        }
+        .status-planned {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: #3498DB;
+        }
+        .project-grid-item {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">Jean Aboutboul</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cv.html">CV</a></li>
+            <li><a href="notes.html">Notes</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Projects Content -->
+    <section class="section">
+        <div class="projects-page-header">
+            <h1>My Projects</h1>
+            <p>A showcase of my academic, personal, and professional works</p>
+        </div>
+
+        <!-- Projects Filter -->
+        <div class="projects-filter">
+            <button class="filter-button active" data-filter="all">All Projects</button>
+            <button class="filter-button" data-filter="academic">Academic</button>
+            <button class="filter-button" data-filter="personal">Personal</button>
+            <button class="filter-button" data-filter="web">Web Development</button>
+            <button class="filter-button" data-filter="engineering">Engineering</button>
+            <button class="filter-button" data-filter="programming">Programming</button>
+            <button class="filter-button" data-filter="music">Music</button>
+        </div>
+
+        <!-- Projects Portfolio -->
+        <div class="projects-portfolio">
+            <!-- Featured Project -->
+            <div class="featured-project" data-categories="personal web programming">
+                <div class="featured-project-image">
+                    <img src="https://via.placeholder.com/600x400" alt="JeanFlix">
+                </div>
+                <div class="featured-project-content">
+                    <div class="project-category">Featured Project</div>
+                    <h2 class="featured-project-title">JeanFlix</h2>
+                    <div class="featured-project-description">
+                        <p>A personal video streaming platform that I created to host and organize my media collection. The platform includes user authentication, content categorization, and a recommendation system based on viewing history.</p>
+                        <p>This project allowed me to tackle challenges in web development, database design, and backend services. I implemented a responsive interface that works seamlessly across devices.</p>
+                    </div>
+                    <div class="project-tags">
+                        <span class="project-tag">HTML/CSS</span>
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">SQL</span>
+                        <span class="project-tag">Docker</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link view-project">
+                            <i class="fas fa-external-link-alt"></i> View Project
+                        </a>
+                        <a href="#" class="project-link view-code">
+                            <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regular Projects Grid -->
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-grid-item" data-categories="academic engineering">
+                    <div class="project-card">
+                        <div class="project-card-image">
+                            <img src="https://via.placeholder.com/400x300" alt="Mechanical Forestry Winch">
+                        </div>
+                        <div class="project-card-content">
+                            <div class="project-category">Academic</div>
+                            <h3 class="project-card-title">Mechanical Forestry Winch</h3>
+                            <div class="project-card-description">
+                                <p>Complete design of a mechanical forestry winch in CATIA, from 3D modelling to physical calculations of forces and stresses.</p>
+                            </div>
+                            <div class="project-card-footer">
+                                <span class="technologies">CATIA, Mechanics</span>
+                                <a href="#" class="view-details">
+                                    Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-status status-completed">Completed</div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-grid-item" data-categories="personal programming">
+                    <div class="project-card">
+                        <div class="project-card-image">
+                            <img src="https://via.placeholder.com/400x300" alt="Music Recommendation AI">
+                        </div>
+                        <div class="project-card-content">
+                            <div class="project-category">Personal</div>
+                            <h3 class="project-card-title">Music Recommendation AI</h3>
+                            <div class="project-card-description">
+                                <p>Development of a music recommendation system based on artificial intelligence that analyzes listening patterns and suggests new tracks.</p>
+                            </div>
+                            <div class="project-card-footer">
+                                <span class="technologies">Python, TensorFlow, ML</span>
+                                <a href="#" class="view-details">
+                                    Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-status status-in-progress">In Progress</div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-grid-item" data-categories="academic engineering">
+                    <div class="project-card">
+                        <div class="project-card-image">
+                            <img src="https://via.placeholder.com/400x300" alt="CanSat Project">
+                        </div>
+                        <div class="project-card-content">
+                            <div class="project-category">Academic</div>
+                            <h3 class="project-card-title">CanSat Project</h3>
+                            <div class="project-card-description">
+                                <p>Design, build, and launch of a nanosatellite the size of a soda can. The satellite collected and transmitted atmospheric data during its descent.</p>
+                            </div>
+                            <div class="project-card-footer">
+                                <span class="technologies">Electronics, C, Data Analysis</span>
+                                <a href="#" class="view-details">
+                                    Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-status status-completed">Completed</div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-grid-item" data-categories="personal programming">
+                    <div class="project-card">
+                        <div class="project-card-image">
+                            <img src="https://via.placeholder.com/400x300" alt="Desktop Cleaner">
+                        </div>
+                        <div class="project-card-content">
+                            <div class="project-category">Personal</div>
+                            <h3 class="project-card-title">Desktop Cleaner</h3>
+                            <div class="project-card-description">
+                                <p>Python script that automatically organizes and categorizes files on your desktop based on file type, creation date, and naming patterns.</p>
+                            </div>
+                            <div class="project-card-footer">
+                                <span class="technologies">Python, File Management</span>
+                                <a href="#" class="view-details">
+                                    Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-status status-completed">Completed</div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-grid-item" data-categories="personal web music">
+                    <div class="project-card">
+                        <div class="project-card-image">
+                            <img src="https://via.placeholder.com/400x300" alt="Classical Music Analysis">
+                        </div>
+                        <div class="project-card-content">
+                            <div class="project-category">Personal</div>
+                            <h3 class="project-card-title">Classical Music Analysis</h3>
+                            <div class="project-card-description">
+                                <p>Website dedicated to classical music, featuring in-depth analyses of pieces, compositional techniques, and historical context of various works.</p>
+                            </div>
+                            <div class="project-card-footer">
+                                <span class="technologies">HTML/CSS, JavaScript, Music Theory</span>
+                                <a href="#" class="view-details">
+                                    Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-status status-in-progress">In Progress</div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-grid-item" data-categories="academic programming">
+                    <div class="project-card">
+                        <div class="project-card-image">
+                            <img src="https://via.placeholder.com/400x300" alt="Candy Crush Game">
+                        </div>
+                        <div class="project-card-content">
+                            <div class="project-category">Academic</div>
+                            <h3 class="project-card-title">Candy Crush Type Game</h3>
+                            <div class="project-card-description">
+                                <p>Implemented a match-three game inspired by Candy Crush using C programming language, featuring custom game mechanics and scoring system.</p>
+                            </div>
+                            <div class="project-card-footer">
+                                <span class="technologies">C, Game Development</span>
+                                <a href="#" class="view-details">
+                                    Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-status status-completed">Completed</div>
+                    </div>
+                </div>
+
+                <!-- Project 7 -->
+                <div class="project-grid-item" data-categories="personal programming">
+                    <div class="project-card">
+                        <div class="project-card-image">
+                            <img src="https://via.placeholder.com/400x300" alt="Library Management System">
+                        </div>
+                        <div class="project-card-content">
+                            <div class="project-category">Personal</div>
+                            <h3 class="project-card-title">Library Management System</h3>
+                            <div class="project-card-description">
+                                <p>C application to manage books, members, and loans in a library with features for tracking due dates and sending reminders.</p>
+                            </div>
+                            <div class="project-card-footer">
+                                <span class="technologies">C, Data Structures</span>
+                                <a href="#" class="view-details">
+                                    Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-status status-completed">Completed</div>
+                    </div>
+                </div>
+
+                <!-- Project 8 -->
+                <div class="project-grid-item" data-categories="personal programming">
+                    <div class="project-card">
+                        <div class="project-card-image">
+                            <img src="https://via.placeholder.com/400x300" alt="E-book Reader">
+                        </div>
+                        <div class="project-card-content">
+                            <div class="project-category">Personal</div>
+                            <h3 class="project-card-title">E-book Reader Application</h3>
+                            <div class="project-card-description">
+                                <p>Software for reading and managing e-books with features like bookmarking, highlighting, and note-taking capabilities.</p>
+                            </div>
+                            <div class="project-card-footer">
+                                <span class="technologies">C, UI Development</span>
+                                <a href="#" class="view-details">
+                                    Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-status status-planned">Planned</div>
+                    </div>
+                </div>
+
+                <!-- Project 9 -->
+                <div class="project-grid-item" data-categories="academic engineering">
+                    <div class="project-card">
+                        <div class="project-card-image">
+                            <img src="https://via.placeholder.com/400x300" alt="AI Poster">
+                        </div>
+                        <div class="project-card-content">
+                            <div class="project-category">Academic</div>
+                            <h3 class="project-card-title">AI Ethics Poster</h3>
+                            <div class="project-card-description">
+                                <p>Scientific poster presenting ethical issues in the field of artificial intelligence, with a focus on bias in machine learning algorithms.</p>
+                            </div>
+                            <div class="project-card-footer">
+                                <span class="technologies">Research, Design, AI Ethics</span>
+                                <a href="#" class="view-details">
+                                    Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-status status-completed">Completed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (Footer) -->
+    <section id="contact" class="section footer">
+        <h2>Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>jean.aboutboul@epfl.ch</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>jeanaboutboul@icloud.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Lausanne, Switzerland</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="download-cv">
+                <a href="cv.pdf" class="download-btn" download>
+                    <i class="fas fa-download"></i> Download CV
+                </a>
+            </div>
+            <div class="qr-code">
+                <img src="https://via.placeholder.com/150" alt="Website QR Code">
+                <p>Scan to visit my website</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Jean Aboutboul. All rights reserved.</p>
+        </div>
+    </section>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Project filtering
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const projectItems = document.querySelectorAll('.project-grid-item, .featured-project');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    projectItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-categories').includes(filter)) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Project details links (would link to individual project pages in a real implementation)
+            document.querySelectorAll('.view-details, .view-project, .view-code').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // In a real implementation, this would navigate to a project detail page
+                    alert('This would navigate to a project detail page in a full implementation.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

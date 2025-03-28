@@ -3,10 +3,10 @@
 
 /* Variables */
 :root {
-    --primary-color: #F6EEE0;
-    --accent-color: #C2703D;
-    --dark-color: #3C2A21;
-    --light-color: #FFF9F2;
+    --primary-color: #F9E8E8;
+    --accent-color: #B82828;
+    --dark-color: #4A0F0F;
+    --light-color: #FFF0F0;
     --text-color: #1E1E1E;
     --transition: all 0.3s ease;
 }
@@ -202,7 +202,7 @@ img {
 }
 
 .scroll-btn:after {
-    content: '“';
+    content: 'ï¿½';
     position: absolute;
     right: 0;
     animation: bounce 2s infinite;

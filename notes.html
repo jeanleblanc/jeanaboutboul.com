@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jean Aboutboul - Notes</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .notes-page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .notes-search-container {
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            position: relative;
+        }
+        .notes-search {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--accent-color);
+            border-radius: 30px;
+            font-size: 1rem;
+            background-color: var(--light-color);
+            transition: var(--transition);
+        }
+        .notes-search:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(184, 40, 40, 0.3);
+        }
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+        .notes-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 3rem;
+            justify-content: center;
+        }
+        .category-tag {
+            background-color: var(--light-color);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .category-tag:hover, .category-tag.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 4rem;
+        }
+        .note-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .note-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .note-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .note-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        .note-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .note-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .note-tag {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            background-color: rgba(184, 40, 40, 0.1);
+            color: var(--accent-color);
+            border-radius: 10px;
+        }
+        .note-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .note-excerpt {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .note-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: rgba(242, 242, 242, 0.5);
+        }
+        .read-more {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .read-more:hover {
+            background-color: var(--dark-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 3rem;
+        }
+        .page-number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .page-number:hover, .page-number.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #666;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">Jean Aboutboul</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cv.html">CV</a></li>
+            <li><a href="notes.html">Notes</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Notes Content -->
+    <section class="section">
+        <div class="notes-page-header">
+            <h1>My Notes</h1>
+            <p>A collection of thoughts, learnings, and explorations across various fields</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="notes-search-container">
+            <input type="text" class="notes-search" id="notesSearch" placeholder="Search notes by title, content, or tags...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <!-- Categories Filter -->
+        <div class="notes-categories">
+            <div class="category-tag active" data-category="all">All</div>
+            <div class="category-tag" data-category="mathematics">Mathematics</div>
+            <div class="category-tag" data-category="physics">Physics</div>
+            <div class="category-tag" data-category="computer-science">Computer Science</div>
+            <div class="category-tag" data-category="robotics">Robotics</div>
+            <div class="category-tag" data-category="music">Music Theory</div>
+            <div class="category-tag" data-category="neuroscience">Neuroscience</div>
+            <div class="category-tag" data-category="engineering">Engineering</div>
+        </div>
+
+        <!-- Notes Grid -->
+        <div class="notes-grid" id="notesGrid">
+            <!-- Note 1 -->
+            <div class="note-card" data-categories="robotics neuroscience">
+                <div class="note-header">
+                    <h2 class="note-title">Robotics & Multidisciplinarity</h2>
+                    <div class="note-meta">
+                        <span class="note-date">March 15, 2025</span>
+                        <div class="note-tags">
+                            <span class="note-tag">Robotics</span>
+                            <span class="note-tag">Neuroscience</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-content">
+                    <div class="note-excerpt">
+                        <p>Robotics fascinates me because of its multidisciplinary nature, combining neuroscience, AI, mechanics, and electronics to create systems that can sense, process, and act in the real world...</p>
+                        <p>The field draws inspiration from biological systems, particularly neuroscience, which provides insights into how natural intelligence functions. This connection between nature and technology creates...</p>
+                    </div>
+                </div>
+                <div class="note-footer">
+                    <a href="#" class="read-more">Read More</a>
+                    <i class="far fa-bookmark"></i>
+                </div>
+            </div>
+
+            <!-- Note 2 -->
+            <div class="note-card" data-categories="mathematics computer-science">
+                <div class="note-header">
+                    <h2 class="note-title">Graph Theory Applications in Computer Science</h2>
+                    <div class="note-meta">
+                        <span class="note-date">February 28, 2025</span>
+                        <div class="note-tags">
+                            <span class="note-tag">Mathematics</span>
+                            <span class="note-tag">Computer Science</span>
+                            <span class="note-tag">Algorithms</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-content">
+                    <div class="note-excerpt">
+                        <p>Graph theory offers powerful abstractions for solving complex computational problems. In this note, I explore various algorithms like breadth-first search (BFS), depth-first search (DFS), and Dijkstra's algorithm...</p>
+                        <p>The elegant mathematical foundation of graphs allows us to model relationships between entities in a way that facilitates efficient problem-solving...</p>
+                    </div>
+                </div>
+                <div class="note-footer">
+                    <a href="#" class="read-more">Read More</a>
+                    <i class="far fa-bookmark"></i>
+                </div>
+            </div>
+
+            <!-- Note 3 -->
+            <div class="note-card" data-categories="physics">
+                <div class="note-header">
+                    <h2 class="note-title">Quantum Mechanics and Spacetime Geometry</h2>
+                    <div class="note-meta">
+                        <span class="note-date">January 12, 2025</span>
+                        <div class="note-tags">
+                            <span class="note-tag">Physics</span>
+                            <span class="note-tag">Quantum</span>
+                            <span class="note-tag">Cosmology</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-content">
+                    <div class="note-excerpt">
+                        <p>The relationship between quantum mechanics and general relativity remains one of the most profound puzzles in modern physics. This note explores some of the conceptual challenges in reconciling these two foundational theories...</p>
+                        <p>Drawing from Sean Carroll's work on spacetime geometry, I reflect on how our understanding of reality is shaped by these seemingly incompatible descriptions of nature...</p>
+                    </div>
+                </div>
+                <div class="note-footer">
+                    <a href="#" class="read-more">Read More</a>
+                    <i class="far fa-bookmark"></i>
+                </div>
+            </div>
+
+            <!-- Note 4 -->
+            <div class="note-card" data-categories="music">
+                <div class="note-header">
+                    <h2 class="note-title">Analysis of Bach's Goldberg Variations</h2>
+                    <div class="note-meta">
+                        <span class="note-date">December 5, 2024</span>
+                        <div class="note-tags">
+                            <span class="note-tag">Music</span>
+                            <span class="note-tag">Classical</span>
+                            <span class="note-tag">Analysis</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-content">
+                    <div class="note-excerpt">
+                        <p>Bach's Goldberg Variations represent one of the most remarkable achievements in keyboard literature. This analysis explores the structural symmetry, harmonic innovation, and contrapuntal mastery displayed throughout the work...</p>
+                        <p>As both a pianist and music theorist, I find particular interest in how Bach develops the initial aria through a series of increasingly complex variations while maintaining...</p>
+                    </div>
+                </div>
+                <div class="note-footer">
+                    <a href="#" class="read-more">Read More</a>
+                    <i class="far fa-bookmark"></i>
+                </div>
+            </div>
+
+            <!-- Note 5 -->
+            <div class="note-card" data-categories="engineering robotics">
+                <div class="note-header">
+                    <h2 class="note-title">Force and Stress Analysis in Mechanical Design</h2>
+                    <div class="note-meta">
+                        <span class="note-date">November 20, 2024</span>
+                        <div class="note-tags">
+                            <span class="note-tag">Engineering</span>
+                            <span class="note-tag">Mechanics</span>
+                            <span class="note-tag">Design</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-content">
+                    <div class="note-excerpt">
+                        <p>Proper force and stress analysis is fundamental to creating robust mechanical systems. This note documents my approach to analyzing the forestry winch design project, including the calculation of static and dynamic loads...</p>
+                        <p>I explore how different material choices affect the design constraints and safety factors, with particular attention to the balance between weight, strength, and cost...</p>
+                    </div>
+                </div>
+                <div class="note-footer">
+                    <a href="#" class="read-more">Read More</a>
+                    <i class="far fa-bookmark"></i>
+                </div>
+            </div>
+
+            <!-- Note 6 -->
+            <div class="note-card" data-categories="computer-science">
+                <div class="note-header">
+                    <h2 class="note-title">Linux System Architecture and Kernel Internals</h2>
+                    <div class="note-meta">
+                        <span class="note-date">October 8, 2024</span>
+                        <div class="note-tags">
+                            <span class="note-tag">Computer Science</span>
+                            <span class="note-tag">Linux</span>
+                            <span class="note-tag">Operating Systems</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-content">
+                    <div class="note-excerpt">
+                        <p>Drawing from Brian Ward's "How Linux Works," this note explores the internal architecture of the Linux operating system, with a focus on kernel operations, memory management, and process scheduling...</p>
+                        <p>Understanding these core concepts has greatly enhanced my ability to write efficient code and troubleshoot system-level issues in my projects...</p>
+                    </div>
+                </div>
+                <div class="note-footer">
+                    <a href="#" class="read-more">Read More</a>
+                    <i class="far fa-bookmark"></i>
+                </div>
+            </div>
+
+            <!-- Note 7 -->
+            <div class="note-card" data-categories="mathematics physics">
+                <div class="note-header">
+                    <h2 class="note-title">Mathematical Foundations of Thermodynamics</h2>
+                    <div class="note-meta">
+                        <span class="note-date">September 15, 2024</span>
+                        <div class="note-tags">
+                            <span class="note-tag">Mathematics</span>
+                            <span class="note-tag">Physics</span>
+                            <span class="note-tag">Thermodynamics</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-content">
+                    <div class="note-excerpt">
+                        <p>Thermodynamics provides a powerful framework for understanding energy transformations. This note delves into the mathematical structures underlying thermodynamic principles, including differential forms, vector fields, and partial derivatives...</p>
+                        <p>I explore how concepts from multivariable calculus illuminate the relationships between heat, work, entropy, and the fundamental laws of thermodynamics...</p>
+                    </div>
+                </div>
+                <div class="note-footer">
+                    <a href="#" class="read-more">Read More</a>
+                    <i class="far fa-bookmark"></i>
+                </div>
+            </div>
+
+            <!-- Note 8 -->
+            <div class="note-card" data-categories="neuroscience">
+                <div class="note-header">
+                    <h2 class="note-title">Neural Correlates of Music Perception</h2>
+                    <div class="note-meta">
+                        <span class="note-date">August 22, 2024</span>
+                        <div class="note-tags">
+                            <span class="note-tag">Neuroscience</span>
+                            <span class="note-tag">Music</span>
+                            <span class="note-tag">Perception</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-content">
+                    <div class="note-excerpt">
+                        <p>How does the brain process music? This note explores the neural mechanisms involved in music perception, drawing connections between my piano practice and the latest neuroscience research...</p>
+                        <p>From pitch processing in the auditory cortex to emotional responses mediated by the limbic system, music engages a remarkably distributed network of brain regions...</p>
+                    </div>
+                </div>
+                <div class="note-footer">
+                    <a href="#" class="read-more">Read More</a>
+                    <i class="far fa-bookmark"></i>
+                </div>
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults">
+                <p>No notes found matching your search criteria.</p>
+                <p>Try different keywords or clear the search filter.</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="page-number active">1</div>
+            <div class="page-number">2</div>
+            <div class="page-number">3</div>
+            <div class="page-number"><i class="fas fa-ellipsis-h"></i></div>
+            <div class="page-number">10</div>
+        </div>
+    </section>
+
+    <!-- Contact Section (Footer) -->
+    <section id="contact" class="section footer">
+        <h2>Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>jean.aboutboul@epfl.ch</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>jeanaboutboul@icloud.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Lausanne, Switzerland</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="download-cv">
+                <a href="cv.pdf" class="download-btn" download>
+                    <i class="fas fa-download"></i> Download CV
+                </a>
+            </div>
+            <div class="qr-code">
+                <img src="https://via.placeholder.com/150" alt="Website QR Code">
+                <p>Scan to visit my website</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Jean Aboutboul. All rights reserved.</p>
+        </div>
+    </section>
+
+    <script src="index.js"></script>
+    <script>
+        // Notes search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('notesSearch');
+            const noteCards = document.querySelectorAll('.note-card');
+            const noResults = document.getElementById('noResults');
+            const categoryTags = document.querySelectorAll('.category-tag');
+            
+            let activeCategory = 'all';
+            
+            // Search function
+            function filterNotes() {
+                const searchTerm = searchInput.value.toLowerCase();
+                let resultsFound = false;
+                
+                noteCards.forEach(card => {
+                    const cardTitle = card.querySelector('.note-title').textContent.toLowerCase();
+                    const cardContent = card.querySelector('.note-excerpt').textContent.toLowerCase();
+                    const cardTags = Array.from(card.querySelectorAll('.note-tag')).map(tag => tag.textContent.toLowerCase());
+                    const cardCategories = card.dataset.categories?.split(' ') || [];
+                    
+                    // Check if card matches search term
+                    const matchesSearch = searchTerm === '' || 
+                                        cardTitle.includes(searchTerm) || 
+                                        cardContent.includes(searchTerm) || 
+                                        cardTags.some(tag => tag.includes(searchTerm));
+                    
+                    // Check if card matches active category
+                    const matchesCategory = activeCategory === 'all' || cardCategories.includes(activeCategory);
+                    
+                    if (matchesSearch && matchesCategory) {
+                        card.style.display = 'flex';
+                        resultsFound = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show or hide "no results" message
+                noResults.style.display = resultsFound ? 'none' : 'block';
+            }
+            
+            // Search input event
+            searchInput.addEventListener('input', filterNotes);
+            
+            // Category selection
+            categoryTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    // Update active category
+                    activeCategory = this.dataset.category;
+                    
+                    // Update active class
+                    categoryTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Refilter notes
+                    filterNotes();
+                });
+            });
+            
+            // Pagination (just for show in this demo)
+            const pageNumbers = document.querySelectorAll('.page-number');
+            pageNumbers.forEach(num => {
+                num.addEventListener('click', function() {
+                    if (!this.classList.contains('active') && !this.querySelector('.fa-ellipsis-h')) {
+                        pageNumbers.forEach(p => p.classList.remove('active'));
+                        this.classList.add('active');
+                        // In a real implementation, this would load different notes
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
