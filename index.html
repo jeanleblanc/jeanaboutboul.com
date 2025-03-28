@@ -1,9 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jean Aboutboul</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">Jean Aboutboul</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cv.html">CV</a></li>
+            <li><a href="notes.html">Notes</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-<h1>Bonjour</h1>
-<p>My first paragraph.</p>
+    <!-- About Me Section -->
+    <section id="about" class="section">
+        <div class="about-container">
+            <div class="about-images">
+                <!-- Placeholder for profile images -->
+                <div class="profile-image">
+                    <img src="https://via.placeholder.com/400x500" alt="Jean Aboutboul">
+                </div>
+            </div>
+            <div class="about-text">
+                <h2>About Me</h2>
+                <p>Hello! I'm Jean Aboutboul, a [your profession] passionate about [your interests]. 
+                   I specialize in [your specialties] and have experience with [your experience].</p>
+                <p>My artistic approach to [your field] allows me to create unique solutions 
+                   that blend creativity with technical expertise.</p>
+                <a href="#cv" class="scroll-btn">Learn more about my experience</a>
+            </div>
+        </div>
+    </section>
 
+    <!-- CV Section -->
+    <section id="cv" class="section">
+        <h2>My Experience</h2>
+        <div class="cv-preview">
+            <div class="cv-column">
+                <h3>Education</h3>
+                <div class="cv-item">
+                    <h4>Degree Name</h4>
+                    <p>University Name, Year</p>
+                    <p>Brief description of your studies and achievements</p>
+                </div>
+                <!-- Add more education items as needed -->
+            </div>
+            <div class="cv-column">
+                <h3>Experience</h3>
+                <div class="cv-item">
+                    <h4>Job Title</h4>
+                    <p>Company Name, Duration</p>
+                    <p>Brief description of your responsibilities and achievements</p>
+                </div>
+                <!-- Add more experience items as needed -->
+            </div>
+            <div class="cv-column">
+                <h3>Skills</h3>
+                <div class="skills-container">
+                    <div class="skill">Skill 1</div>
+                    <div class="skill">Skill 2</div>
+                    <div class="skill">Skill 3</div>
+                    <div class="skill">Skill 4</div>
+                    <!-- Add more skills as needed -->
+                </div>
+            </div>
+        </div>
+        <a href="cv.html" class="section-btn">View Full CV</a>
+    </section>
+
+    <!-- Notes Section -->
+    <section id="notes" class="section">
+        <h2>My Notes</h2>
+        <div class="notes-container">
+            <div class="mind-map">
+                <!-- This will be enhanced with JS for a dynamic mind map visualization -->
+                <div class="node central-node">Notes</div>
+                <div class="node">Topic 1</div>
+                <div class="node">Topic 2</div>
+                <div class="node">Topic 3</div>
+                <div class="node">Topic 4</div>
+                <!-- Add more nodes as needed -->
+            </div>
+            <div class="random-note">
+                <h3>Random Note</h3>
+                <div class="note-card">
+                    <h4>Note Title</h4>
+                    <p>Brief preview of a random note from your collection...</p>
+                    <a href="notes.html" class="note-link">Read more</a>
+                </div>
+            </div>
+        </div>
+        <a href="notes.html" class="section-btn">Explore All Notes</a>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <h2>My Projects</h2>
+        <div class="projects-container">
+            <div class="projects-showcase">
+                <!-- This will be enhanced with JS for a dynamic project visualization -->
+                <div class="project-tile featured">
+                    <img src="https://via.placeholder.com/300x200" alt="Featured Project">
+                    <h3>Featured Project</h3>
+                    <p>Brief description of your featured project...</p>
+                </div>
+                <div class="project-tile">
+                    <img src="https://via.placeholder.com/150x100" alt="Project 1">
+                    <h3>Project 1</h3>
+                </div>
+                <div class="project-tile">
+                    <img src="https://via.placeholder.com/150x100" alt="Project 2">
+                    <h3>Project 2</h3>
+                </div>
+                <div class="project-tile">
+                    <img src="https://via.placeholder.com/150x100" alt="Project 3">
+                    <h3>Project 3</h3>
+                </div>
+                <!-- Add more project tiles as needed -->
+            </div>
+            <div class="random-project">
+                <h3>Random Project</h3>
+                <div class="project-card">
+                    <h4>Project Title</h4>
+                    <p>Brief preview of a random project from your collection...</p>
+                    <a href="projects.html" class="project-link">View Project</a>
+                </div>
+            </div>
+        </div>
+        <a href="projects.html" class="section-btn">See All Projects</a>
+    </section>
+
+    <!-- Contact Section (Footer) -->
+    <section id="contact" class="section footer">
+        <h2>Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>your.email@example.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <p>+1 234 567 890</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>City, Country</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <!-- Add more social links as needed -->
+                </div>
+            </div>
+            <div class="download-cv">
+                <a href="resume.pdf" class="download-btn" download>
+                    <i class="fas fa-download"></i> Download CV
+                </a>
+            </div>
+            <div class="qr-code">
+                <img src="https://via.placeholder.com/150" alt="Website QR Code">
+                <p>Scan to visit my website</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Jean Aboutboul. All rights reserved.</p>
+        </div>
+    </section>
+
+    <script src="index.js"></script>
 </body>
-</html> 
+</html>
