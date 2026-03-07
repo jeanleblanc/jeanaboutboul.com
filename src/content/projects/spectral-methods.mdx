@@ -1,0 +1,71 @@
+---
+title: "Spectral Methods for PDEs"
+summary: "Implementing high-order spectral methods for solving partial differential equations on complex geometries."
+date: 2024-06-15
+tags: ["numerical-methods", "python", "spectral-theory"]
+status: "active"
+featured: true
+---
+
+## Overview
+
+This project explores the use of Chebyshev and Fourier spectral methods for solving
+elliptic and parabolic PDEs with high accuracy on non-trivial domains.
+
+## Mathematical Foundation
+
+The core idea is to approximate the solution $u(x)$ using a truncated series of
+orthogonal polynomials:
+
+$$
+u_N(x) = \sum_{k=0}^{N} \hat{u}_k \, T_k(x)
+$$
+
+where $T_k(x)$ are Chebyshev polynomials of the first kind, satisfying the
+recurrence relation $T_{k+1}(x) = 2x \, T_k(x) - T_{k-1}(x)$.
+
+## Differentiation Matrices
+
+The spectral differentiation matrix $D$ maps function values at collocation points
+to derivative values. For Chebyshev-Gauss-Lobatto points $x_j = \cos(\pi j / N)$:
+
+$$
+(D)_{ij} = \begin{cases}
+\frac{c_i}{c_j} \frac{(-1)^{i+j}}{x_i - x_j} & i \neq j \\[6pt]
+-\frac{x_j}{2(1-x_j^2)} & 1 \leq j = i \leq N-1
+\end{cases}
+$$
+
+## Implementation
+
+The solver is written in Python using NumPy and SciPy:
+
+```python
+import numpy as np
+from scipy.linalg import solve
+
+def chebyshev_diff_matrix(N):
+    """Construct the Chebyshev differentiation matrix."""
+    x = np.cos(np.pi * np.arange(N + 1) / N)
+    c = np.ones(N + 1)
+    c[0] = c[N] = 2.0
+
+    X = np.tile(x, (N + 1, 1))
+    dX = X - X.T
+
+    D = np.outer(c, 1.0 / c) / (dX + np.eye(N + 1))
+    D -= np.diag(D.sum(axis=1))
+    return D, x
+```
+
+## Results
+
+The spectral method achieves exponential convergence for smooth solutions,
+reaching machine precision with $N \approx 30$ collocation points — compared
+to $N > 1000$ for second-order finite differences on the same problem.
+
+## Next Steps
+
+- Extend to 2D domains using tensor-product grids
+- Implement domain decomposition for complex geometries
+- Add time-stepping with implicit-explicit (IMEX) schemes

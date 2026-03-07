@@ -1,0 +1,172 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="CV" description="Curriculum Vitae">
+  <div class="relative">
+    <!-- Download button -->
+    <div class="mb-8 flex items-center justify-between">
+      <h1 class="font-sans text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text">
+        Curriculum Vitae
+      </h1>
+      <a
+        href="/cv.pdf"
+        download
+        class="inline-flex items-center gap-2 rounded-lg bg-nord-frost1 px-4 py-2
+               text-sm font-sans font-medium text-white shadow-sm
+               hover:bg-nord-frost2 transition-colors"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+        </svg>
+        Download PDF
+      </a>
+    </div>
+
+    <!-- Decorative line -->
+    <div class="h-px bg-gradient-to-r from-nord-frost1 via-nord-green to-transparent mb-10"></div>
+
+    <!-- ═══ Header ═══ -->
+    <section class="mb-12">
+      <h2 class="font-sans text-2xl font-bold text-gray-900 dark:text-dark-text">
+        Your Name
+      </h2>
+      <p class="mt-1 font-sans text-lg text-nord-frost1 dark:text-nord-frost3">
+        Your Title / Position
+      </p>
+      <p class="mt-2 text-sm text-gray-600 dark:text-dark-muted">
+        your.email@example.com &middot; City, Country
+      </p>
+    </section>
+
+    <!-- ═══ Education ═══ -->
+    <section class="mb-10">
+      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
+        Education
+      </h3>
+      <div class="space-y-6">
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              Ph.D. in Your Field
+            </h4>
+            <p class="text-sm text-gray-600 dark:text-dark-muted">University Name</p>
+            <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
+              Thesis: <em>Your Thesis Title</em>
+            </p>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            2020 — 2024
+          </span>
+        </div>
+
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              M.Sc. in Your Field
+            </h4>
+            <p class="text-sm text-gray-600 dark:text-dark-muted">University Name</p>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            2018 — 2020
+          </span>
+        </div>
+
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              B.Sc. in Your Field
+            </h4>
+            <p class="text-sm text-gray-600 dark:text-dark-muted">University Name</p>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            2015 — 2018
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Experience ═══ -->
+    <section class="mb-10">
+      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
+        Experience
+      </h3>
+      <div class="space-y-6">
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              Research Engineer
+            </h4>
+            <p class="text-sm text-gray-600 dark:text-dark-muted">Company / Lab Name</p>
+            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
+              <li>Describe your responsibilities and achievements</li>
+              <li>Include key technologies used</li>
+            </ul>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            2024 — Present
+          </span>
+        </div>
+
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              Research Intern
+            </h4>
+            <p class="text-sm text-gray-600 dark:text-dark-muted">Company / Lab Name</p>
+            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
+              <li>Describe your contributions</li>
+            </ul>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            Summer 2023
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Publications ═══ -->
+    <section class="mb-10">
+      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
+        Publications
+      </h3>
+      <ol class="space-y-3 list-decimal list-inside">
+        <li class="text-sm text-gray-600 dark:text-dark-muted">
+          <strong class="text-gray-900 dark:text-dark-text">Your Name</strong>, Co-Author.
+          "Paper Title."
+          <em>Journal Name</em>, 2024.
+        </li>
+        <li class="text-sm text-gray-600 dark:text-dark-muted">
+          Co-Author, <strong class="text-gray-900 dark:text-dark-text">Your Name</strong>.
+          "Another Paper Title."
+          <em>Conference Proceedings</em>, 2023.
+        </li>
+      </ol>
+    </section>
+
+    <!-- ═══ Skills ═══ -->
+    <section class="mb-10">
+      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
+        Skills
+      </h3>
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Languages</h4>
+          <p class="text-gray-600 dark:text-dark-muted">Python, C++, Rust, Julia</p>
+        </div>
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Tools</h4>
+          <p class="text-gray-600 dark:text-dark-muted">LaTeX, Git, Linux, Docker</p>
+        </div>
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Frameworks</h4>
+          <p class="text-gray-600 dark:text-dark-muted">PyTorch, NumPy, SciPy</p>
+        </div>
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Languages</h4>
+          <p class="text-gray-600 dark:text-dark-muted">English (native), French (fluent)</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,48 @@
+---
+title: "Topology Optimization with Adjoint Methods"
+summary: "Using adjoint-based gradient computation for efficient structural optimization in finite element analysis."
+date: 2024-03-10
+tags: ["optimization", "FEA", "C++", "adjoint-methods"]
+status: "completed"
+featured: false
+---
+
+## Motivation
+
+Topology optimization seeks to find the optimal material distribution within a
+design domain that minimizes a given objective (e.g., compliance) subject to
+constraints on volume.
+
+## Problem Formulation
+
+We minimize the structural compliance:
+
+$$
+\min_{\rho} \quad C(\rho) = \mathbf{f}^T \mathbf{u}
+$$
+
+subject to the equilibrium equation $\mathbf{K}(\rho)\mathbf{u} = \mathbf{f}$
+and a volume constraint $\int_\Omega \rho \, d\Omega \leq V^*$.
+
+The density field $\rho(x) \in [0, 1]$ is penalized using the SIMP model:
+
+$$
+E(\rho) = E_{\min} + \rho^p (E_0 - E_{\min})
+$$
+
+where $p = 3$ is the penalization exponent.
+
+## Adjoint Sensitivity
+
+The gradient of the objective with respect to the design variables is computed
+efficiently using the adjoint method, avoiding the need for $n$ forward solves:
+
+$$
+\frac{dC}{d\rho_e} = -\mathbf{u}_e^T \frac{\partial \mathbf{K}_e}{\partial \rho_e} \mathbf{u}_e
+$$
+
+## Results
+
+The optimizer converges to a near-optimal truss-like structure in approximately
+100 iterations, with the adjoint method reducing computation time by a factor
+of $\sim 50\times$ compared to finite differences.

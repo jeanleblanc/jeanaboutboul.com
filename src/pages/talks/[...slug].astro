@@ -1,0 +1,103 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const talks = await getCollection("talks");
+  return talks.map((talk) => ({
+    params: { slug: talk.id },
+    props: { talk },
+  }));
+}
+
+const { talk } = Astro.props;
+const { Content, headings } = await render(talk);
+
+// Build table of contents from h2 and h3 headings
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+<Layout title={talk.data.title} description={talk.data.summary}>
+  <article>
+    <!-- Header -->
+    <header class="mb-10">
+      <a
+        href="/talks"
+        class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-nord-frost1
+               dark:text-dark-muted dark:hover:text-nord-frost3 transition-colors font-sans mb-4"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        Back to Talks & Notes
+      </a>
+
+      <h1 class="font-sans text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text">
+        {talk.data.title}
+      </h1>
+
+      <div class="mt-3 flex flex-wrap items-center gap-3">
+        <span class="inline-block rounded-full bg-nord-green/10 px-2.5 py-0.5
+                     text-xs font-sans font-medium text-nord-green">
+          {talk.data.category}
+        </span>
+        <time class="text-sm text-gray-400 dark:text-gray-500 font-sans">
+          {talk.data.date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </time>
+        {talk.data.venue && (
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans">
+            &middot; {talk.data.venue}
+          </span>
+        )}
+      </div>
+
+      <p class="mt-4 text-gray-600 dark:text-dark-muted leading-relaxed">
+        {talk.data.summary}
+      </p>
+
+      <div class="mt-4 flex flex-wrap gap-2">
+        {talk.data.tags.map((tag: string) => (
+          <span class="rounded bg-surface-secondary px-2.5 py-1 text-xs text-gray-500
+                       dark:bg-dark-card dark:text-dark-muted font-sans">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </header>
+
+    {/* Table of Contents */}
+    {toc.length > 0 && (
+      <nav class="mb-10 rounded-lg border border-surface-secondary bg-white/50 p-5
+                  dark:border-dark-card dark:bg-dark-secondary/50">
+        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400
+                   dark:text-gray-500 mb-3">
+          Table of Contents
+        </h2>
+        <ol class="space-y-1.5 list-none">
+          {toc.map((heading) => (
+            <li class:list={[heading.depth === 3 && "ml-4"]}>
+              <a
+                href={`#${heading.slug}`}
+                class="text-sm text-gray-600 hover:text-nord-frost1
+                       dark:text-dark-muted dark:hover:text-nord-frost3 transition-colors font-sans"
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+
+    <div class="h-px bg-gradient-to-r from-nord-frost1 via-nord-green to-transparent mb-10"></div>
+
+    <!-- Content -->
+    <div class="prose prose-lg dark:prose-nord max-w-none">
+      <Content />
+    </div>
+  </article>
+</Layout>

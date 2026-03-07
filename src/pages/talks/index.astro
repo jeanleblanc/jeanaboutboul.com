@@ -1,0 +1,187 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const talks = (await getCollection("talks")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// Extract unique categories for filter
+const categories = [...new Set(talks.map((t) => t.data.category))];
+---
+
+<Layout title="Talks & Notes" description="Lectures, notes, and articles">
+  <h1 class="font-sans text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text mb-2">
+    Talks & Notes
+  </h1>
+  <p class="text-gray-600 dark:text-dark-muted mb-8">
+    Lectures, articles, and technical notes — searchable and filterable.
+  </p>
+
+  <!-- Search & Filter bar -->
+  <div class="mb-8 space-y-4">
+    <!-- Search -->
+    <div class="relative">
+      <svg
+        class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+      </svg>
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Search talks & notes..."
+        class="w-full rounded-lg border border-surface-secondary bg-white py-2.5 pl-10 pr-4
+               text-sm font-sans text-gray-900 placeholder-gray-400
+               focus:border-nord-frost1 focus:outline-none focus:ring-1 focus:ring-nord-frost1
+               dark:border-dark-card dark:bg-dark-secondary dark:text-dark-text
+               dark:placeholder-gray-500 dark:focus:border-nord-frost3 dark:focus:ring-nord-frost3"
+      />
+    </div>
+
+    <!-- Category filters -->
+    <div class="flex flex-wrap gap-2">
+      <button
+        class="filter-btn active rounded-full border border-surface-secondary px-3 py-1
+               text-xs font-sans font-medium text-gray-600 transition-all
+               hover:border-nord-frost1 hover:text-nord-frost1
+               dark:border-dark-card dark:text-dark-muted
+               dark:hover:border-nord-frost3 dark:hover:text-nord-frost3"
+        data-category="all"
+      >
+        All
+      </button>
+      {categories.map((cat) => (
+        <button
+          class="filter-btn rounded-full border border-surface-secondary px-3 py-1
+                 text-xs font-sans font-medium text-gray-600 transition-all
+                 hover:border-nord-frost1 hover:text-nord-frost1
+                 dark:border-dark-card dark:text-dark-muted
+                 dark:hover:border-nord-frost3 dark:hover:text-nord-frost3"
+          data-category={cat}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Talks list -->
+  <div id="talks-list" class="space-y-4">
+    {talks.map((talk) => (
+      <a
+        href={`/talks/${talk.id}`}
+        class="talk-item group block rounded-xl border border-surface-secondary bg-white p-5
+               shadow-sm transition-all hover:shadow-md hover:border-nord-frost1/30
+               dark:border-dark-card dark:bg-dark-secondary dark:hover:border-nord-frost1/30"
+        data-title={talk.data.title.toLowerCase()}
+        data-summary={talk.data.summary.toLowerCase()}
+        data-category={talk.data.category}
+        data-tags={talk.data.tags.join(" ").toLowerCase()}
+      >
+        <div class="flex items-start justify-between">
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-block rounded-full bg-nord-green/10 px-2 py-0.5
+                           text-xs font-sans font-medium text-nord-green">
+                {talk.data.category}
+              </span>
+              {talk.data.venue && (
+                <span class="text-xs text-gray-400 dark:text-gray-500 font-sans">
+                  {talk.data.venue}
+                </span>
+              )}
+            </div>
+            <h2 class="font-sans text-base font-semibold text-gray-900 dark:text-dark-text
+                       group-hover:text-nord-frost1 dark:group-hover:text-nord-frost3 transition-colors">
+              {talk.data.title}
+            </h2>
+            <p class="mt-1 text-sm text-gray-600 dark:text-dark-muted line-clamp-2">
+              {talk.data.summary}
+            </p>
+          </div>
+          <time class="ml-4 flex-shrink-0 text-xs text-gray-400 dark:text-gray-500 font-sans">
+            {talk.data.date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </time>
+        </div>
+        <div class="mt-2 flex flex-wrap gap-1.5">
+          {talk.data.tags.map((tag: string) => (
+            <span class="rounded bg-surface-secondary px-2 py-0.5 text-xs text-gray-500
+                         dark:bg-dark-card dark:text-dark-muted font-sans">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <!-- No results message -->
+  <p
+    id="no-results"
+    class="hidden mt-8 text-center text-sm text-gray-400 dark:text-gray-500 font-sans"
+  >
+    No talks or notes match your search.
+  </p>
+
+  <script>
+    // Client-side search & filter
+    const searchInput = document.getElementById("search-input") as HTMLInputElement;
+    const talkItems = document.querySelectorAll(".talk-item") as NodeListOf<HTMLElement>;
+    const filterBtns = document.querySelectorAll(".filter-btn") as NodeListOf<HTMLButtonElement>;
+    const noResults = document.getElementById("no-results");
+
+    let activeCategory = "all";
+
+    function filterTalks() {
+      const query = searchInput.value.toLowerCase().trim();
+      let visible = 0;
+
+      talkItems.forEach((item) => {
+        const title = item.dataset.title || "";
+        const summary = item.dataset.summary || "";
+        const category = item.dataset.category || "";
+        const tags = item.dataset.tags || "";
+
+        const matchesSearch =
+          !query ||
+          title.includes(query) ||
+          summary.includes(query) ||
+          tags.includes(query);
+
+        const matchesCategory =
+          activeCategory === "all" || category === activeCategory;
+
+        if (matchesSearch && matchesCategory) {
+          item.style.display = "";
+          visible++;
+        } else {
+          item.style.display = "none";
+        }
+      });
+
+      if (noResults) {
+        noResults.classList.toggle("hidden", visible > 0);
+      }
+    }
+
+    searchInput?.addEventListener("input", filterTalks);
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterBtns.forEach((b) => b.classList.remove("active", "!border-nord-frost1", "!text-nord-frost1", "dark:!border-nord-frost3", "dark:!text-nord-frost3"));
+        btn.classList.add("active", "!border-nord-frost1", "!text-nord-frost1", "dark:!border-nord-frost3", "dark:!text-nord-frost3");
+        activeCategory = btn.dataset.category || "all";
+        filterTalks();
+      });
+    });
+
+    // Mark initial "All" button as active
+    filterBtns[0]?.classList.add("!border-nord-frost1", "!text-nord-frost1", "dark:!border-nord-frost3", "dark:!text-nord-frost3");
+  </script>
+</Layout>

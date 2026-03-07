@@ -1,0 +1,69 @@
+---
+title: "Introduction to Fourier Analysis"
+summary: "A self-contained introduction to Fourier series, the Fourier transform, and their applications in signal processing and PDEs."
+date: 2024-09-12
+category: "Lecture Notes"
+tags: ["analysis", "fourier", "signal-processing"]
+venue: "University Seminar"
+---
+
+## Fourier Series
+
+Any periodic function $f(x)$ with period $2\pi$ can be decomposed into a sum
+of sines and cosines:
+
+$$
+f(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty} \left[ a_n \cos(nx) + b_n \sin(nx) \right]
+$$
+
+where the Fourier coefficients are given by:
+
+$$
+a_n = \frac{1}{\pi} \int_{-\pi}^{\pi} f(x) \cos(nx) \, dx, \qquad
+b_n = \frac{1}{\pi} \int_{-\pi}^{\pi} f(x) \sin(nx) \, dx
+$$
+
+## Convergence
+
+### Pointwise Convergence
+
+If $f$ is piecewise smooth, the Fourier series converges pointwise to $f(x)$
+at every point of continuity, and to the average of left and right limits at
+jump discontinuities.
+
+### The Gibbs Phenomenon
+
+Near discontinuities, partial sums overshoot by approximately $9\%$ of the
+jump, regardless of the number of terms. This is the *Gibbs phenomenon*.
+
+## The Fourier Transform
+
+For non-periodic functions, we pass to the Fourier transform:
+
+$$
+\hat{f}(\xi) = \int_{-\infty}^{\infty} f(x) \, e^{-2\pi i \xi x} \, dx
+$$
+
+with the inversion formula:
+
+$$
+f(x) = \int_{-\infty}^{\infty} \hat{f}(\xi) \, e^{2\pi i \xi x} \, d\xi
+$$
+
+## Applications
+
+### Solving the Heat Equation
+
+The heat equation $u_t = \alpha u_{xx}$ on $\mathbb{R}$ with initial condition
+$u(x,0) = f(x)$ has the explicit solution:
+
+$$
+u(x,t) = \frac{1}{\sqrt{4\pi\alpha t}} \int_{-\infty}^{\infty} f(y) \, e^{-\frac{(x-y)^2}{4\alpha t}} \, dy
+$$
+
+This is obtained by taking the Fourier transform in $x$ and solving the resulting ODE.
+
+## References
+
+1. Stein & Shakarchi, *Fourier Analysis: An Introduction*
+2. Folland, *Real Analysis*

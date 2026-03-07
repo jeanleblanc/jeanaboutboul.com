@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Computer Modern font (self-hosted from CDN fallback) ── */
+@font-face {
+  font-family: "Computer Modern Serif";
+  src: url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunrm.woff2") format("woff2"),
+       url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunrm.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Computer Modern Serif";
+  src: url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunbx.woff2") format("woff2"),
+       url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunbx.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Computer Modern Serif";
+  src: url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunti.woff2") format("woff2"),
+       url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunti.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── Base layer ── */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-serif text-gray-800 bg-surface antialiased;
+    @apply transition-colors duration-300;
+  }
+
+  .dark body {
+    @apply bg-dark text-dark-muted;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-surface-secondary;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-nord-frost2 rounded-full;
+  }
+  .dark ::-webkit-scrollbar-track {
+    @apply bg-dark-secondary;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-nord-frost1 rounded-full;
+  }
+
+  /* Selection colors */
+  ::selection {
+    @apply bg-nord-frost3/30;
+  }
+  .dark ::selection {
+    @apply bg-nord-frost1/30;
+  }
+}
+
+/* ── Component layer ── */
+@layer components {
+  /* Code blocks always have a dark background */
+  pre {
+    @apply !bg-dark-secondary rounded-lg border border-gray-200;
+  }
+  .dark pre {
+    @apply !bg-dark-secondary border-dark-card;
+  }
+
+  /* Inline code */
+  :not(pre) > code {
+    @apply text-nord-frost1 bg-surface-secondary px-1.5 py-0.5 rounded text-sm;
+  }
+  .dark :not(pre) > code {
+    @apply text-nord-frost3 bg-dark-secondary;
+  }
+}
+
+/* ── KaTeX overrides ── */
+.katex-display {
+  @apply overflow-x-auto overflow-y-hidden py-2;
+}
+
+.dark .katex {
+  color: #ECEFF4;
+}
