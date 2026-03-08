@@ -88,6 +88,31 @@
   .dark :not(pre) > code {
     @apply text-nord-frost3 bg-dark-secondary;
   }
+
+  /* Long-form note media: keep visuals readable and consistent */
+  .prose img {
+    @apply mx-auto my-8 w-full max-w-3xl rounded-lg border border-surface-secondary shadow-sm;
+    max-height: 34rem;
+    object-fit: contain;
+    background-color: #ffffff;
+  }
+
+  .dark .prose img {
+    @apply border-dark-card;
+    background-color: #2E3440;
+  }
+
+  .prose p:has(> img) {
+    @apply my-8;
+  }
+
+  .prose table {
+    @apply overflow-hidden rounded-lg border border-surface-secondary;
+  }
+
+  .dark .prose table {
+    @apply border-dark-card;
+  }
 }
 
 /* ── KaTeX overrides ── */
