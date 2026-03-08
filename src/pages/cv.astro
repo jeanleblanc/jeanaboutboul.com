@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="CV" description="Curriculum Vitae">
+<Layout title="CV — Jean Aboutboul" description="Curriculum Vitae of Jean Aboutboul">
   <div class="relative">
     <!-- Download button -->
     <div class="mb-8 flex items-center justify-between">
@@ -29,13 +29,14 @@ import Layout from "../layouts/Layout.astro";
     <!-- ═══ Header ═══ -->
     <section class="mb-12">
       <h2 class="font-sans text-2xl font-bold text-gray-900 dark:text-dark-text">
-        Your Name
+        Jean Aboutboul
       </h2>
       <p class="mt-1 font-sans text-lg text-nord-frost1 dark:text-nord-frost3">
-        Your Title / Position
+        BSc Microengineering Student &middot; EPFL
       </p>
       <p class="mt-2 text-sm text-gray-600 dark:text-dark-muted">
-        your.email@example.com &middot; City, Country
+        Lausanne, Switzerland &middot; jeanaboutboul@gmail.com &middot;
+        <a href="https://jeanaboutboul.com" class="text-nord-frost1 hover:underline dark:text-nord-frost3">jeanaboutboul.com</a>
       </p>
     </section>
 
@@ -48,40 +49,154 @@ import Layout from "../layouts/Layout.astro";
         <div class="flex justify-between items-start">
           <div>
             <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              Ph.D. in Your Field
+              BSc in Microengineering
             </h4>
-            <p class="text-sm text-gray-600 dark:text-dark-muted">University Name</p>
+            <p class="text-sm text-gray-600 dark:text-dark-muted">EPFL, Lausanne</p>
             <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
-              Thesis: <em>Your Thesis Title</em>
+              Aspiring MSc in Robotics (2027–2029)
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
+              Coursework: Mechanics, Electrotechnics, Electronics, C++, Microcontrollers,
+              Electromagnetic Systems, Logic Systems, Mechanism Design, MATLAB.
             </p>
           </div>
           <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2020 — 2024
+            Sept. 2023 — 2027
           </span>
         </div>
 
         <div class="flex justify-between items-start">
           <div>
             <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              M.Sc. in Your Field
+              Conservatoire de Lausanne — Independent Student
             </h4>
-            <p class="text-sm text-gray-600 dark:text-dark-muted">University Name</p>
+            <p class="text-sm text-gray-600 dark:text-dark-muted">Classical Piano &middot; 16 years of practice</p>
+            <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
+              Pursuing rigorous conservatoire-level training alongside engineering studies.
+            </p>
           </div>
           <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2018 — 2020
+            2020 — Present
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Projects ═══ -->
+    <section class="mb-10">
+      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
+        Projects
+      </h3>
+      <div class="space-y-6">
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              Personal Astronomical Star Tracker
+            </h4>
+            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
+              <li>Designing a portable motorized telescope/camera mount for automated star tracking</li>
+              <li>Wrote full motor control firmware from scratch in AVR C — no library used</li>
+              <li>Hardware: MKS stepper drivers, custom electronics, 3D-printed &amp; machined enclosure</li>
+              <li>In progress: GoTo interface with Stellarium via computer control</li>
+            </ul>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            2024 — Present
           </span>
         </div>
 
         <div class="flex justify-between items-start">
           <div>
             <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              B.Sc. in Your Field
+              CPU &amp; FPGA Design — From Scratch
             </h4>
-            <p class="text-sm text-gray-600 dark:text-dark-muted">University Name</p>
+            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
+              <li>Designed a complete CPU architecture and alarm clock on FPGA using Logisim</li>
+              <li>Implemented ALU, memory, control unit, and I/O logic — no HDL library used</li>
+            </ul>
           </div>
           <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2015 — 2018
+            2023 — 2024
           </span>
+        </div>
+
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              AI Agents &amp; Low-Level Software
+            </h4>
+            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
+              <li>Reinforcement learning agents from scratch in Python for 2048, Chess, Tic-Tac-Toe</li>
+              <li>Explored compiler design, OS architecture, and custom programming language</li>
+              <li>Developed a complete video game in C++ including game loop, rendering, and input</li>
+            </ul>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            2022 — Present
+          </span>
+        </div>
+
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              StitchMeter — University Engineering Project
+            </h4>
+            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
+              <li>Co-designed a fully mechanical monolithic device to measure forces in surgical suture loops</li>
+              <li>Developed three design concepts with stress calculations and material selection</li>
+            </ul>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            2024
+          </span>
+        </div>
+
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              Squash Ball Launcher — University Design Project
+            </h4>
+            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
+              <li>Co-designed a squash ball launcher mechanism in CATIA and Fusion 360</li>
+              <li>Full CAD modeling and mechanism dimensioning within a group engineering context</li>
+            </ul>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            2024
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Skills ═══ -->
+    <section class="mb-10">
+      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
+        Skills
+      </h3>
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Programming</h4>
+          <p class="text-gray-600 dark:text-dark-muted">C, C++, Python, JavaScript, Assembly (AVR)</p>
+        </div>
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Embedded</h4>
+          <p class="text-gray-600 dark:text-dark-muted">AVR microcontrollers, Arduino, Raspberry Pi, MKS stepper drivers, FPGA (Logisim)</p>
+        </div>
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">CAD</h4>
+          <p class="text-gray-600 dark:text-dark-muted">CATIA, Fusion 360, LTSpice</p>
+        </div>
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Fabrication</h4>
+          <p class="text-gray-600 dark:text-dark-muted">3D printing, machining, soldering, electronics assembly</p>
+        </div>
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Tools</h4>
+          <p class="text-gray-600 dark:text-dark-muted">Linux (advanced), Git, Bash, MATLAB, Web development</p>
+        </div>
+        <div>
+          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Languages</h4>
+          <p class="text-gray-600 dark:text-dark-muted">French (native), English (C1 — Advanced)</p>
         </div>
       </div>
     </section>
@@ -95,78 +210,42 @@ import Layout from "../layouts/Layout.astro";
         <div class="flex justify-between items-start">
           <div>
             <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              Research Engineer
+              Intern — Ajinomatrix
             </h4>
-            <p class="text-sm text-gray-600 dark:text-dark-muted">Company / Lab Name</p>
+            <p class="text-sm text-gray-600 dark:text-dark-muted">AI Sensory Analytics &middot; Collaboration with University of Helsinki</p>
             <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
-              <li>Describe your responsibilities and achievements</li>
-              <li>Include key technologies used</li>
-            </ul>
-          </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2024 — Present
-          </span>
-        </div>
-
-        <div class="flex justify-between items-start">
-          <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              Research Intern
-            </h4>
-            <p class="text-sm text-gray-600 dark:text-dark-muted">Company / Lab Name</p>
-            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
-              <li>Describe your contributions</li>
+              <li>Assisted in data processing and programming for AI-based sensory analysis systems</li>
             </ul>
           </div>
           <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
             Summer 2023
           </span>
         </div>
+
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+              Piano Teaching Assistant — Conservatoire de Lausanne
+            </h4>
+            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
+              <li>Assisted in teaching classical piano within the conservatoire environment</li>
+            </ul>
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+            2022 — Present
+          </span>
+        </div>
       </div>
     </section>
 
-    <!-- ═══ Publications ═══ -->
+    <!-- ═══ Extracurricular ═══ -->
     <section class="mb-10">
       <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
-        Publications
+        Extracurricular
       </h3>
-      <ol class="space-y-3 list-decimal list-inside">
-        <li class="text-sm text-gray-600 dark:text-dark-muted">
-          <strong class="text-gray-900 dark:text-dark-text">Your Name</strong>, Co-Author.
-          "Paper Title."
-          <em>Journal Name</em>, 2024.
-        </li>
-        <li class="text-sm text-gray-600 dark:text-dark-muted">
-          Co-Author, <strong class="text-gray-900 dark:text-dark-text">Your Name</strong>.
-          "Another Paper Title."
-          <em>Conference Proceedings</em>, 2023.
-        </li>
-      </ol>
-    </section>
-
-    <!-- ═══ Skills ═══ -->
-    <section class="mb-10">
-      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
-        Skills
-      </h3>
-      <div class="grid grid-cols-2 gap-4 text-sm">
-        <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Languages</h4>
-          <p class="text-gray-600 dark:text-dark-muted">Python, C++, Rust, Julia</p>
-        </div>
-        <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Tools</h4>
-          <p class="text-gray-600 dark:text-dark-muted">LaTeX, Git, Linux, Docker</p>
-        </div>
-        <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Frameworks</h4>
-          <p class="text-gray-600 dark:text-dark-muted">PyTorch, NumPy, SciPy</p>
-        </div>
-        <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Languages</h4>
-          <p class="text-gray-600 dark:text-dark-muted">English (native), French (fluent)</p>
-        </div>
-      </div>
+      <p class="text-sm text-gray-600 dark:text-dark-muted">
+        EPFL Robotics Association &amp; Space Club &middot; 2024 — Present
+      </p>
     </section>
   </div>
 </Layout>
