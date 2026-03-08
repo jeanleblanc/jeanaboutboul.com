@@ -11,7 +11,26 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { Content } = await render(project);
+const { Content, headings } = await render(project);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const tocSections = toc.reduce(
+  (sections, heading) => {
+    if (heading.depth === 2) {
+      sections.push({ heading, children: [] });
+      return sections;
+    }
+
+    const lastSection = sections[sections.length - 1];
+    if (lastSection) {
+      lastSection.children.push(heading);
+    }
+    return sections;
+  },
+  [] as Array<{
+    heading: (typeof toc)[number];
+    children: Array<(typeof toc)[number]>;
+  }>
+);
 ---
 
 <Layout title={project.data.title} description={project.data.summary}>
@@ -66,9 +85,92 @@ const { Content } = await render(project);
       <div class="mt-6 h-px bg-gradient-to-r from-nord-frost1 via-nord-green to-transparent"></div>
     </header>
 
+    {/* Table of Contents */}
+    {tocSections.length > 0 && (
+      <nav
+        class="mb-10 rounded-xl border border-surface-secondary/80 bg-white/70 p-5
+               shadow-sm backdrop-blur-sm dark:border-dark-card dark:bg-dark-secondary/60"
+        aria-label="Table of contents"
+      >
+        <details class="group" open>
+          <summary
+            class="flex cursor-pointer list-none items-center justify-between gap-3
+                   rounded-lg px-2 py-1.5 font-sans text-xs font-semibold uppercase
+                   tracking-widest text-gray-500 transition-colors hover:text-nord-frost1
+                   dark:text-gray-400 dark:hover:text-nord-frost3"
+          >
+            <span>Table of Contents</span>
+            <svg
+              class="h-4 w-4 text-gray-400 transition-transform group-open:rotate-180 dark:text-gray-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25L12 15.75 4.5 8.25" />
+            </svg>
+          </summary>
+
+          <ol class="mt-4 space-y-3 list-none">
+            {tocSections.map((section, sectionIndex) => (
+              <li class="rounded-lg border border-surface-secondary/70 bg-white/70 dark:border-dark-card dark:bg-dark-secondary/80">
+                <details class="group" open>
+                  <summary class="flex cursor-pointer list-none items-start justify-between gap-2 px-3 py-2">
+                    <span class="flex items-start gap-2 text-sm font-sans font-medium text-gray-700 dark:text-dark-text">
+                      <span class="mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-nord-frost1/15 px-1.5 text-[11px] font-semibold text-nord-frost1 dark:bg-nord-frost3/20 dark:text-nord-frost3">
+                        {sectionIndex + 1}
+                      </span>
+                      <span>{section.heading.text}</span>
+                    </span>
+                    <svg
+                      class="mt-0.5 h-4 w-4 text-gray-400 transition-transform group-open:rotate-180 dark:text-gray-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25L12 15.75 4.5 8.25" />
+                    </svg>
+                  </summary>
+
+                  <div class="px-3 pb-2">
+                    <a
+                      href={`#${section.heading.slug}`}
+                      class="inline-flex text-xs font-sans font-medium text-nord-frost1 hover:text-nord-frost2 dark:text-nord-frost3 dark:hover:text-nord-frost4"
+                    >
+                      Go to section
+                    </a>
+
+                    {section.children.length > 0 && (
+                      <ol class="mt-2 space-y-1 pl-4 list-none border-l border-surface-secondary dark:border-dark-card">
+                        {section.children.map((child) => (
+                          <li>
+                            <a
+                              href={`#${child.slug}`}
+                              class="text-sm font-sans text-gray-500 transition-colors
+                                     hover:text-nord-frost1 dark:text-dark-muted
+                                     dark:hover:text-nord-frost3"
+                            >
+                              {child.text}
+                            </a>
+                          </li>
+                        ))}
+                      </ol>
+                    )}
+                  </div>
+                </details>
+              </li>
+            ))}
+          </ol>
+        </details>
+      </nav>
+    )}
+
     <!-- Content -->
-    <div class="prose prose-lg dark:prose-nord max-w-none">
-      <Content />
+    <div class="rounded-xl border border-surface-secondary/80 bg-white/70 px-5 py-6 shadow-sm backdrop-blur-sm dark:border-dark-card dark:bg-dark-secondary/40 md:px-8 md:py-8">
+      <div class="prose prose-lg dark:prose-nord max-w-none">
+        <Content />
+      </div>
     </div>
   </article>
 </Layout>

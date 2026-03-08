@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="430" viewBox="0 0 1080 430" role="img" aria-labelledby="title desc">
+  <title id="title">Type Hierarchy</title>
+  <desc id="desc">Safe upward promotion chain nat to comp.</desc>
+  <defs>
+    <style>
+      .title { font: 700 20px 'Helvetica Neue', Arial, sans-serif; fill: #1f2937; }
+      .label { font: 700 18px 'Helvetica Neue', Arial, sans-serif; fill: #111827; }
+      .small { font: 500 13px 'Helvetica Neue', Arial, sans-serif; fill: #374151; }
+      .node { fill: #eef5ff; stroke: #5e81ac; stroke-width: 2; rx: 12; }
+      .special { fill: #f8fafc; stroke: #a3be8c; stroke-width: 1.8; rx: 12; }
+      .link { stroke: #5e81ac; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto">
+      <path d="M0,0 L12,4.5 L0,9 Z" fill="#5e81ac"/>
+    </marker>
+  </defs>
+
+  <rect width="1080" height="430" fill="#ffffff"/>
+  <text x="34" y="42" class="title">Numeric Type Hierarchy (safe upward promotion)</text>
+
+  <rect x="60" y="140" width="150" height="74" class="node"/>
+  <text x="135" y="172" text-anchor="middle" class="label">nat</text>
+  <text x="135" y="196" text-anchor="middle" class="small">N</text>
+
+  <rect x="250" y="140" width="150" height="74" class="node"/>
+  <text x="325" y="172" text-anchor="middle" class="label">int</text>
+  <text x="325" y="196" text-anchor="middle" class="small">Z</text>
+
+  <rect x="440" y="140" width="150" height="74" class="node"/>
+  <text x="515" y="172" text-anchor="middle" class="label">rat</text>
+  <text x="515" y="196" text-anchor="middle" class="small">Q</text>
+
+  <rect x="630" y="140" width="150" height="74" class="node"/>
+  <text x="705" y="172" text-anchor="middle" class="label">reel</text>
+  <text x="705" y="196" text-anchor="middle" class="small">R</text>
+
+  <rect x="820" y="140" width="150" height="74" class="node"/>
+  <text x="895" y="172" text-anchor="middle" class="label">comp</text>
+  <text x="895" y="196" text-anchor="middle" class="small">C</text>
+
+  <path d="M210,177 L250,177" class="link"/>
+  <path d="M400,177 L440,177" class="link"/>
+  <path d="M590,177 L630,177" class="link"/>
+  <path d="M780,177 L820,177" class="link"/>
+
+  <text x="230" y="133" class="small">promotion</text>
+  <text x="420" y="133" class="small">promotion</text>
+  <text x="610" y="133" class="small">promotion</text>
+  <text x="800" y="133" class="small">promotion</text>
+
+  <rect x="250" y="280" width="150" height="54" class="special"/>
+  <text x="325" y="313" text-anchor="middle" class="label">bool</text>
+
+  <rect x="440" y="280" width="150" height="54" class="special"/>
+  <text x="515" y="313" text-anchor="middle" class="label">unknown</text>
+
+  <rect x="630" y="280" width="150" height="54" class="special"/>
+  <text x="705" y="313" text-anchor="middle" class="label">system</text>
+
+  <text x="470" y="366" text-anchor="middle" class="small">bool, unknown and system are outside numeric promotion chain</text>
+</svg>

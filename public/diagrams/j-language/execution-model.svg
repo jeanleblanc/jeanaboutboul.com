@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Execution Model</title>
+  <desc id="desc">Program executes statements sequentially with a repeat-until-end loop.</desc>
+  <defs>
+    <style>
+      .title { font: 700 20px 'Helvetica Neue', Arial, sans-serif; fill: #1f2937; }
+      .label { font: 600 15px 'Helvetica Neue', Arial, sans-serif; fill: #111827; }
+      .node { fill: #f8fafc; stroke: #93a4b8; stroke-width: 1.6; rx: 10; }
+      .decision { fill: #fff7ed; stroke: #d08770; stroke-width: 1.8; }
+      .link { stroke: #6b7f99; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .yesno { font: 600 13px 'Helvetica Neue', Arial, sans-serif; fill: #374151; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#6b7f99"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="560" fill="#ffffff"/>
+  <text x="38" y="42" class="title">Execution Model (v0.1)</text>
+
+  <rect x="360" y="80" width="240" height="56" class="node"/>
+  <text x="480" y="114" text-anchor="middle" class="label">Program Start</text>
+
+  <rect x="330" y="180" width="300" height="56" class="node"/>
+  <text x="480" y="214" text-anchor="middle" class="label">Read next statement</text>
+
+  <rect x="340" y="280" width="280" height="56" class="node"/>
+  <text x="480" y="314" text-anchor="middle" class="label">Execute statement</text>
+
+  <polygon points="480,365 630,430 480,495 330,430" class="decision"/>
+  <text x="480" y="435" text-anchor="middle" class="label">More statements?</text>
+
+  <rect x="360" y="500" width="240" height="44" class="node"/>
+  <text x="480" y="528" text-anchor="middle" class="label">Program End</text>
+
+  <path d="M480,136 L480,180" class="link"/>
+  <path d="M480,236 L480,280" class="link"/>
+  <path d="M480,336 L480,364" class="link"/>
+  <path d="M480,495 L480,500" class="link"/>
+
+  <path d="M630,430 L770,430 L770,208 L630,208" class="link"/>
+  <text x="707" y="418" class="yesno">Yes</text>
+
+  <path d="M480,495 L480,500" class="link"/>
+  <text x="505" y="486" class="yesno">No</text>
+</svg>

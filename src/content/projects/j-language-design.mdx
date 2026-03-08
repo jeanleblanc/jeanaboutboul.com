@@ -1,0 +1,552 @@
+---
+title: "The J Programming Language"
+summary: "A didactic PL project: roadmap and Phase 1 formal specification for a LaTeX-syntax, C-inspired language focused on typed mathematical computation and constrained symbolic solving."
+date: 2026-03-08
+thumbnail: "src/content/images/jpl/thumbnail.png"
+tags: ["programming-languages", "compiler-design", "c", "lexer", "parser", "interpreter", "mathematics"]
+status: "active"
+featured: true
+---
+
+## Project Scope
+
+This project documents the design and implementation path for **J**, a
+math-oriented, LaTeX-syntax, C-inspired programming language.
+
+Current status: **Phase 1 completed**.
+
+## Implementation Roadmap
+
+### Phase 0 - C Foundations (if needed)
+
+1. Learn C basics: pointers, memory allocation (`malloc`/`free`), structs, and file I/O
+2. Understand strings in C (null-terminated char arrays)
+3. Practice with linked lists and trees
+
+### Phase 1 - Design Your Language
+
+1. Define the scope with concrete use-cases
+2. Choose paradigm and execution model
+3. Write representative example programs before implementation
+
+### Phase 2 - Lexer (Tokenizer)
+
+1. Define tokens: numbers, operators, keywords, identifiers, symbols
+2. Implement `lexer.c` to emit token streams
+3. Handle whitespace, comments, string literals, and lexical errors
+
+### Phase 3 - Parser
+
+1. Formalize grammar (BNF/EBNF)
+2. Implement recursive descent parser in C
+3. Build AST with explicit node types
+
+### Phase 4 - Evaluator / Interpreter
+
+1. Implement AST evaluator
+2. Add symbol table and scope model
+3. Add built-ins (`printf`, math operations, conversions, etc.)
+
+### Phase 5 - Language Growth
+
+1. Add control flow (`if/else`, `while`, `for`)
+2. Add user-defined functions and returns
+3. Add richer type system and diagnostics with line numbers
+
+### Phase 6 - Optional Advanced Paths
+
+1. Bytecode compiler + VM
+2. AST-to-C transpilation pipeline
+3. Standard library design
+
+---
+
+## J Language - Design Specification (Phase 1)
+
+**Version:** 0.1
+
+**Vision:** A math-oriented, LaTeX-syntax, C-inspired programming language.
+
+**Purpose:** Didactic exploration of language design, parsing, interpretation,
+and symbolic computation.
+
+### 1. Introduction
+
+J is an imperative, procedural, expression-oriented language for mathematical
+computation and equation solving. The core design choice is replacing
+conventional notation with LaTeX-inspired syntax where practical.
+
+Primary goals:
+
+- Explicitly typed mathematical values
+- Arithmetic expression evaluation
+- Exact rational representation
+- Real and complex number support
+- Unknown variables and equation systems
+- Constrained symbolic-style solving
+
+Version 0.1 prioritizes semantic clarity and implementability in C.
+
+![Language overview diagram for J Language.](/diagrams/j-language/language-overview.svg)
+
+### 2. General Language Model
+
+#### 2.1 Execution Model
+
+A J program is a top-to-bottom sequence of statements.
+
+Statements may:
+
+- Declare variables
+- Assign values
+- Declare equation systems
+- Call built-ins
+- Print values
+- Request input
+
+Out of scope in v0.1:
+
+- User-defined functions
+- Control flow (`if`, `while`, `for`)
+- Arrays or containers
+- User-defined types
+- Modules/imports
+
+![Execution model diagram for J Language.](/diagrams/j-language/execution-model.svg)
+
+### 3. Source Format and Lexical Conventions
+
+#### 3.1 Character Encoding
+
+Source files are UTF-8. Syntax is ASCII-only in v0.1:
+
+- Identifiers: ASCII letters/digits/underscore
+- Keywords: ASCII
+- LaTeX-style commands: ASCII sequences beginning with `\`
+
+#### 3.2 Whitespace
+
+Whitespace characters: space, tab, newline, carriage return.
+Whitespace is insignificant except for token separation.
+
+#### 3.3 Comments
+
+```j
+// single-line comment
+/* multi-line comment */
+```
+
+Multi-line comments do not nest in v0.1.
+
+### 4. Identifiers and Reserved Words
+
+#### 4.1 Identifiers
+
+```ebnf
+identifier ::= [A-Za-z_][A-Za-z0-9_]*
+```
+
+Valid:
+
+```txt
+x
+value
+_result
+bad1
+convert_to_reel
+system_A
+```
+
+Invalid:
+
+```txt
+1x
+my-value
+\alpha
+```
+
+Backslash-prefixed names are commands, not identifiers.
+
+#### 4.2 Reserved Keywords
+
+```txt
+nat int rat reel comp bool unknown system True False
+```
+
+#### 4.3 Reserved Built-in Names (v0.1)
+
+```txt
+printf scan evaluate type is_equal
+to_nat to_int to_rat to_reel to_comp
+to_rect to_polar to_exp rat_to_frac
+```
+
+### 5. Type System
+
+| Keyword | Mathematical Meaning | Description |
+|---|---|---|
+| `nat` | $\mathbb{N}$ | Natural integers, with $0 \in \mathbb{N}$ |
+| `int` | $\mathbb{Z}$ | Signed integers |
+| `rat` | $\mathbb{Q}$ | Rational numbers |
+| `reel` | $\mathbb{R}$ | Real numbers |
+| `comp` | $\mathbb{C}$ | Complex numbers |
+| `bool` | $\mathbb{B}$ | Boolean values |
+| `unknown` | - | Unsolved symbolic variable |
+| `system` | - | Named system of equations |
+
+Numeric hierarchy:
+
+```txt
+nat ⊂ int ⊂ rat ⊂ reel ⊂ comp
+```
+
+![Type hierarchy diagram with safe upward promotion.](/diagrams/j-language/type-hierarchy.svg)
+
+Implicit promotion is upward only.
+
+Examples:
+
+```j
+nat a = 0;            // valid
+nat c = -1;           // error
+int f = 1.5;          // error
+rat g = \frac{2}{3};  // valid
+reel h = \pi;         // valid
+comp z = 4.12;        // valid (promoted to 4.12 + 0\i)
+```
+
+`bool` is separate from numeric types and has only `True`, `False`.
+
+### 6. Literals and Mathematical Constants
+
+#### 6.1 Integer Literals
+
+```ebnf
+int_literal ::= [0-9]+
+```
+
+A sign is not part of the literal; `-4` is unary minus applied to `4`.
+
+#### 6.2 Decimal Literals
+
+```ebnf
+dec_literal ::= [0-9]+\.[0-9]+
+```
+
+Invalid in v0.1: `.5`, `5.`, `1e3`.
+
+#### 6.3 String Literals
+
+Strings are only allowed in eligible built-ins (not assignable variables in v0.1).
+
+Supported escapes: `\\`, `\"`, `\n`.
+
+#### 6.4 Built-in Constants
+
+| Syntax | Meaning |
+|---|---|
+| `\pi` | Constant pi |
+| `\e` | Constant e |
+| `\i` | Imaginary unit |
+
+### 7. Supported LaTeX-Style Commands (v0.1)
+
+| Command | Meaning |
+|---|---|
+| `\frac` | Fraction constructor |
+| `\times` | Multiplication operator |
+| `\pi` | Constant pi |
+| `\e` | Constant e |
+| `\i` | Imaginary unit |
+| `\sin` | Sine |
+| `\cos` | Cosine |
+| `\sqrt` | Square root |
+
+Any unknown backslash command is a lexical error.
+
+### 8. Expressions
+
+#### 8.1 Arithmetic Operators
+
+| Operator | Meaning |
+|---|---|
+| `+` | Addition |
+| `-` | Subtraction / unary negation |
+| `\times` | Multiplication |
+| `^` | Exponentiation |
+
+`*` and `/` are forbidden in J source.
+
+Division is written as:
+
+```j
+\frac{a}{b}
+```
+
+#### 8.2 Implicit Multiplication
+
+Not supported in normal arithmetic expressions in v0.1.
+
+Valid:
+
+```j
+4 + 5 \times \i
+10 \times (\cos(\frac{\pi}{2}) + \i \times \sin(\frac{\pi}{2}))
+2 \times x
+```
+
+Invalid:
+
+```j
+5\i
+10(...)
+2x
+```
+
+#### 8.3 Precedence and Associativity
+
+From highest to lowest:
+
+1. Parenthesized expressions, constants, literals, identifiers, function calls, `\frac{...}{...}`
+2. Exponentiation `^`
+3. Unary minus
+4. Multiplication `\times`
+5. Addition/subtraction `+`, `-`
+6. Equality `=`, only in equation contexts
+
+Rules:
+
+- Exponentiation is right-associative
+- Multiplication is left-associative
+- Addition/subtraction are left-associative
+- Equality is non-associative
+
+### 9. Statements
+
+Every statement ends with `;`.
+
+```j
+int a = 3;
+printf("x = %z\n", a);
+```
+
+Variable declaration:
+
+```j
+type name = value;
+type name1 = value1, name2 = value2;
+```
+
+Assignment:
+
+```j
+a = 4;
+z = 2 + 3 \times \i;
+```
+
+Unknown declaration:
+
+```j
+unknown x;
+evaluate(x + 2 = 5);
+type(x); // int
+```
+
+### 10. System Declarations
+
+```j
+system s : x, y {
+    x = 1;
+    y = x + 2;
+}
+```
+
+Rules (v0.1):
+
+- Names after `:` define unknowns in the system
+- Inside the block, only equation statements are allowed
+- No nested systems
+- Unknown names are local to the system until `evaluate(s)` succeeds
+
+![System semantics diagram for declaration and evaluation flow.](/diagrams/j-language/system-semantics.svg)
+
+### 11. Built-in Functions
+
+#### 11.1 Type Conversion
+
+| Function | Description |
+|---|---|
+| `to_nat(x)` | Convert to natural if possible |
+| `to_int(x)` | Convert to integer by nearest rounding |
+| `to_rat(x)` | Convert to rational form |
+| `to_reel(x)` | Convert to real part (lossy on complex) |
+| `to_comp(x)` | Promote to complex |
+
+Examples:
+
+```j
+int a = to_int(\pi);
+reel b = to_reel(4 + 5 \times \i);
+comp c = to_comp(3);
+rat d = to_rat(0.5);
+```
+
+#### 11.2 Complex Form Conversion
+
+`to_rect(z)`, `to_polar(z)`, `to_exp(z)` return representation forms.
+
+#### 11.3 Rational Representation
+
+```j
+rat_to_frac(2.5); // \frac{5}{2}
+```
+
+#### 11.4 Type Inspection
+
+```j
+type(x)
+```
+
+#### 11.5 Equality Test
+
+```j
+is_equal(a, b)
+```
+
+#### 11.6 Equation Evaluation
+
+`evaluate(...)` solves equations/systems with constrained v0.1 scope:
+
+- Single-variable linear equations
+- Single-variable quadratic equations (within supported numeric domain)
+- Simple linear systems of two variables
+
+Examples:
+
+```j
+unknown x;
+evaluate(x + 2 = 5);
+
+unknown y;
+evaluate(y^2 - 1 = 0);
+
+system s : x, y {
+    x + y = 10;
+    x - y = 4;
+}
+evaluate(s);
+```
+
+### 12. Input and Output
+
+#### 12.1 printf
+
+```j
+printf("format", arg1, arg2, ...);
+```
+
+Type specifiers:
+
+| Specifier | Required Type |
+|---|---|
+| `%b` | `bool` |
+| `%n` | `nat` |
+| `%z` | `int` |
+| `%q` | `rat` |
+| `%r` | `reel` |
+| `%c` | `comp` |
+| `%u` | `unknown` |
+| `%s` | `system` |
+
+#### 12.2 scan
+
+```j
+int a = scan();
+int b = scan("Enter an integer: ");
+```
+
+In v0.1, `scan` appears only in initializing declarations.
+
+### 13. Error Categories
+
+- **Lexical:** unknown command, bad character, unterminated string/comment
+- **Parse:** malformed statement/structure, missing delimiters
+- **Type:** incompatible assignments/calls, unsolved `unknown` misuse
+- **Runtime:** division by zero, unsupported equation form, failed conversion/solve
+
+### 14. Initial Implementation Scope (v0.1)
+
+Supported:
+
+- Declarations and assignments
+- Numeric/symbolic built-in types
+- Arithmetic expressions and listed LaTeX-style commands
+- `unknown`, `system`, built-ins
+- `printf`, `scan`
+- Constrained `evaluate`
+
+Explicitly out of scope:
+
+- User-defined functions
+- Loops/conditionals
+- Arrays/collections
+- String variables as first-class values
+- General implicit multiplication
+- General symbolic algebra beyond constrained `evaluate`
+
+![Initial implementation scope diagram for J v0.1.](/diagrams/j-language/scope-v01.svg)
+
+### 15. Examples
+
+```j
+reel a = 1.25;
+reel b = 2.5;
+printf("a + b = %r\n", a + b);
+```
+
+```j
+nat  a = 2;
+int  b = -4;
+rat  c = \frac{2}{3};
+reel d = \pi;
+comp e = 4 + 5 \times \i;
+bool h = True;
+```
+
+```j
+nat bad1 = -1;      // error
+int bad2 = 1.5;     // error
+comp ok  = 4.12;    // valid
+```
+
+```j
+unknown x;
+evaluate(x + 2 = 5);
+type(x);
+```
+
+```j
+system s : z, y {
+    z = 21 + y;
+    z = 12;
+}
+
+evaluate(s);
+type(z);
+type(y);
+```
+
+### 16. Summary of Design Decisions
+
+| Topic | Decision |
+|---|---|
+| Language style | Imperative, procedural, math-oriented |
+| Semicolons | Mandatory |
+| Character set | UTF-8 source, ASCII syntax in v0.1 |
+| Multiplication | `\times` only |
+| Division | `\frac{...}{...}` only |
+| `*` and `/` | Forbidden |
+| Implicit multiplication | Not supported in normal expressions (v0.1) |
+| Conversions | Pure functions returning converted values |
+| `=` | Assignment in statements, equality in equation contexts |
+| `evaluate` scope | Constrained to simple equations/systems |

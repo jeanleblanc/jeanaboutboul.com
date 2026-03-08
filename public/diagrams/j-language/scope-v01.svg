@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Initial Implementation Scope</title>
+  <desc id="desc">What J v0.1 supports and excludes.</desc>
+  <defs>
+    <style>
+      .title { font: 700 20px 'Helvetica Neue', Arial, sans-serif; fill: #1f2937; }
+      .label { font: 600 15px 'Helvetica Neue', Arial, sans-serif; fill: #111827; }
+      .small { font: 500 13px 'Helvetica Neue', Arial, sans-serif; fill: #374151; }
+      .root { fill: #e8f0fb; stroke: #5e81ac; stroke-width: 2; rx: 12; }
+      .okHead { fill: #f0fdf4; stroke: #7aa05f; stroke-width: 2; rx: 10; }
+      .noHead { fill: #fef2f2; stroke: #bf616a; stroke-width: 2; rx: 10; }
+      .okNode { fill: #f7fdf8; stroke: #a3be8c; stroke-width: 1.4; rx: 9; }
+      .noNode { fill: #fff7f7; stroke: #d6a2a7; stroke-width: 1.4; rx: 9; }
+      .link { stroke: #6b7f99; stroke-width: 1.6; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#6b7f99"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="560" fill="#ffffff"/>
+  <text x="34" y="42" class="title">J v0.1 - Initial Scope</text>
+
+  <rect x="500" y="70" width="200" height="56" class="root"/>
+  <text x="600" y="104" text-anchor="middle" class="label">J v0.1</text>
+
+  <rect x="170" y="170" width="260" height="52" class="okHead"/>
+  <text x="300" y="202" text-anchor="middle" class="label">Supported</text>
+
+  <rect x="770" y="170" width="260" height="52" class="noHead"/>
+  <text x="900" y="202" text-anchor="middle" class="label">Out of scope</text>
+
+  <path d="M570,126 L360,170" class="link"/>
+  <path d="M630,126 L840,170" class="link"/>
+
+  <rect x="90" y="250" width="220" height="42" class="okNode"/>
+  <text x="200" y="277" text-anchor="middle" class="small">Declarations and assignments</text>
+
+  <rect x="320" y="250" width="220" height="42" class="okNode"/>
+  <text x="430" y="277" text-anchor="middle" class="small">Arithmetic expressions</text>
+
+  <rect x="90" y="304" width="220" height="42" class="okNode"/>
+  <text x="200" y="331" text-anchor="middle" class="small">LaTeX command subset</text>
+
+  <rect x="320" y="304" width="220" height="42" class="okNode"/>
+  <text x="430" y="331" text-anchor="middle" class="small">unknown and system</text>
+
+  <rect x="90" y="358" width="220" height="42" class="okNode"/>
+  <text x="200" y="385" text-anchor="middle" class="small">printf and scan</text>
+
+  <rect x="320" y="358" width="220" height="42" class="okNode"/>
+  <text x="430" y="385" text-anchor="middle" class="small">Limited evaluate</text>
+
+  <rect x="670" y="250" width="230" height="42" class="noNode"/>
+  <text x="785" y="277" text-anchor="middle" class="small">User-defined functions</text>
+
+  <rect x="910" y="250" width="230" height="42" class="noNode"/>
+  <text x="1025" y="277" text-anchor="middle" class="small">Loops and conditionals</text>
+
+  <rect x="670" y="304" width="230" height="42" class="noNode"/>
+  <text x="785" y="331" text-anchor="middle" class="small">Arrays and collections</text>
+
+  <rect x="910" y="304" width="230" height="42" class="noNode"/>
+  <text x="1025" y="331" text-anchor="middle" class="small">General symbolic algebra</text>
+
+  <rect x="790" y="358" width="230" height="42" class="noNode"/>
+  <text x="905" y="385" text-anchor="middle" class="small">Implicit multiplication</text>
+</svg>
