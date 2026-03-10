@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
+import RightRailToc from "../../components/RightRailToc.astro";
 
 export async function getStaticPaths() {
   const talks = await getCollection("talks");
@@ -36,6 +37,7 @@ const tocSections = toc.reduce(
 ---
 
 <Layout title={talk.data.title} description={talk.data.summary}>
+  <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-8">
   <article>
     <!-- Header -->
     <header class="mb-10">
@@ -73,7 +75,7 @@ const tocSections = toc.reduce(
         )}
       </div>
 
-      <p class="mt-4 text-gray-600 dark:text-dark-muted leading-relaxed">
+      <p class="mt-4 whitespace-pre-line text-gray-600 dark:text-dark-muted leading-relaxed">
         {talk.data.summary}
       </p>
 
@@ -90,7 +92,7 @@ const tocSections = toc.reduce(
     {/* Table of Contents */}
     {tocSections.length > 0 && (
       <nav
-        class="mb-10 rounded-xl border border-surface-secondary/80 bg-white/70 p-5
+        class="mb-10 rounded-xl border border-surface-secondary/80 bg-white/70 p-5 lg:hidden
                shadow-sm backdrop-blur-sm dark:border-dark-card dark:bg-dark-secondary/60"
         aria-label="Table of contents"
       >
@@ -177,4 +179,6 @@ const tocSections = toc.reduce(
       </div>
     </div>
   </article>
+  {tocSections.length > 0 && <RightRailToc tocSections={tocSections} />}
+  </div>
 </Layout>

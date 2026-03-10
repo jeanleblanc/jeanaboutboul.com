@@ -1,0 +1,132 @@
+---
+import katex from "katex";
+
+interface Option {
+  key: string;
+  text?: string;
+  math?: string;
+  isCorrect?: boolean;
+}
+
+interface Props {
+  id: string;
+  question?: string;
+  options: Option[];
+}
+
+const { id, question = "", options } = Astro.props;
+
+function escapeHtml(input: string) {
+  return input
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function renderQuestionWithMath(input: string) {
+  if (!input.includes("$")) return escapeHtml(input);
+
+  let output = "";
+  let lastIndex = 0;
+  const inlineMath = /\$(.+?)\$/g;
+  let match = inlineMath.exec(input);
+
+  while (match) {
+    output += escapeHtml(input.slice(lastIndex, match.index));
+    output += katex.renderToString(match[1], { throwOnError: false });
+    lastIndex = match.index + match[0].length;
+    match = inlineMath.exec(input);
+  }
+
+  output += escapeHtml(input.slice(lastIndex));
+  return output;
+}
+---
+
+<section class="quiz-question not-prose" id={`quiz-${id}`}>
+  <div class="quiz-question-title">
+    {Astro.slots.has("question") ? <slot name="question" /> : <p set:html={renderQuestionWithMath(question)} />}
+  </div>
+
+  <div class="quiz-options" role="list">
+    {options.map((option) => (
+      <button
+        type="button"
+        class="quiz-option"
+        data-correct={option.isCorrect ? "true" : "false"}
+        role="listitem"
+      >
+        <span class="quiz-option-key">{option.key}</span>
+        {option.math ? (
+          <span set:html={katex.renderToString(option.math, { throwOnError: false })} />
+        ) : (
+          <span>{option.text}</span>
+        )}
+      </button>
+    ))}
+  </div>
+
+  <div class="quiz-feedback" hidden>
+    <p class="quiz-feedback-label"></p>
+    <div class="quiz-feedback-body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ id }}>
+  (() => {
+    const root = document.getElementById(`quiz-${id}`);
+    if (!root || root.dataset.bound === "1") return;
+    root.dataset.bound = "1";
+
+    const optionButtons = Array.from(root.querySelectorAll(".quiz-option"));
+    const feedback = root.querySelector(".quiz-feedback");
+    const feedbackLabel = root.querySelector(".quiz-feedback-label");
+
+    if (!feedback || !feedbackLabel) return;
+
+    optionButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const isAlreadySelected = button.classList.contains("is-selected");
+
+        if (isAlreadySelected) {
+          optionButtons.forEach((otherButton) => {
+            otherButton.classList.remove("is-selected", "is-correct", "is-wrong", "is-correct-hint");
+          });
+          feedback.hidden = true;
+          feedback.classList.remove("is-visible");
+          feedbackLabel.textContent = "";
+          feedbackLabel.classList.remove("is-correct", "is-wrong");
+          return;
+        }
+
+        optionButtons.forEach((otherButton) => {
+          otherButton.classList.remove("is-selected", "is-correct", "is-wrong", "is-correct-hint");
+        });
+
+        const isCorrect = button.dataset.correct === "true";
+        button.classList.add("is-selected", isCorrect ? "is-correct" : "is-wrong");
+
+        if (!isCorrect) {
+          const correctButton = optionButtons.find(
+            (candidate) => candidate.dataset.correct === "true"
+          );
+          correctButton?.classList.add("is-correct-hint");
+          feedbackLabel.textContent = "Incorrect. Vérifiez la logique physique de la relation utilisée.";
+          feedbackLabel.classList.remove("is-correct");
+          feedbackLabel.classList.add("is-wrong");
+        } else {
+          feedbackLabel.textContent = "Correct.";
+          feedbackLabel.classList.remove("is-wrong");
+          feedbackLabel.classList.add("is-correct");
+        }
+
+        feedback.hidden = false;
+        feedback.classList.add("is-visible");
+      });
+    });
+  })();
+</script>

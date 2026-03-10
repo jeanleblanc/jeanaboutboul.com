@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="500" viewBox="0 0 1100 500" role="img" aria-labelledby="title desc">
+  <title id="title">Flux et luminosité</title>
+  <desc id="desc">Illustration de la loi en carré inverse.</desc>
+  <defs>
+    <style>
+      .title { font: 700 20px 'Helvetica Neue', Arial, sans-serif; fill: #1f2937; }
+      .text { font: 500 15px 'Helvetica Neue', Arial, sans-serif; fill: #1f2937; }
+      .small { font: 500 13px 'Helvetica Neue', Arial, sans-serif; fill: #4b5563; }
+      .orb { fill: none; stroke: #a3be8c; stroke-width: 1.6; }
+      .src { fill: #d08770; }
+      .det { fill: #eef5ff; stroke: #5e81ac; stroke-width: 2; }
+      .link { stroke: #6b7f99; stroke-width: 1.7; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#6b7f99"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="500" fill="#fff"/>
+  <text x="34" y="42" class="title">Flux reçu et luminosité intrinsèque</text>
+
+  <circle cx="250" cy="250" r="12" class="src"/>
+  <text x="250" y="285" text-anchor="middle" class="small">Source (luminosité L)</text>
+
+  <circle cx="250" cy="250" r="80" class="orb"/>
+  <circle cx="250" cy="250" r="140" class="orb"/>
+  <circle cx="250" cy="250" r="200" class="orb"/>
+
+  <rect x="760" y="205" width="250" height="90" rx="10" class="det"/>
+  <text x="885" y="238" text-anchor="middle" class="text">Observateur terrestre</text>
+  <text x="885" y="262" text-anchor="middle" class="small">flux mesuré F</text>
+
+  <line x1="262" y1="250" x2="760" y2="250" class="link"/>
+  <text x="510" y="240" text-anchor="middle" class="small">distance d</text>
+
+  <rect x="410" y="110" width="520" height="72" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="670" y="148" text-anchor="middle" class="text">F = L / (4 pi d^2)</text>
+  <text x="670" y="168" text-anchor="middle" class="small">si d triple, le flux est divisé par 9</text>
+
+  <text x="410" y="350" class="small">La puissance est répartie sur une sphère d'aire 4 pi d^2.</text>
+  <text x="410" y="372" class="small">Cette relation est la base des chandelles standards en cosmologie.</text>
+</svg>

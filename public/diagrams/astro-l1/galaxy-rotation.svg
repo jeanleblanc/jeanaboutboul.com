@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520" role="img" aria-labelledby="title desc">
+  <title id="title">Courbes de rotation galactique</title>
+  <desc id="desc">Comparaison entre profil képlérien attendu et profil observé.</desc>
+  <defs>
+    <style>
+      .title { font: 700 20px 'Helvetica Neue', Arial, sans-serif; fill: #1f2937; }
+      .label { font: 600 14px 'Helvetica Neue', Arial, sans-serif; fill: #111827; }
+      .small { font: 500 12px 'Helvetica Neue', Arial, sans-serif; fill: #4b5563; }
+      .axis { stroke: #475569; stroke-width: 2; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; }
+      .obs { fill: none; stroke: #5e81ac; stroke-width: 3; }
+      .kep { fill: none; stroke: #d08770; stroke-width: 3; stroke-dasharray: 8 6; }
+    </style>
+  </defs>
+  <rect width="1100" height="520" fill="#fff"/>
+  <text x="34" y="42" class="title">Paradoxe des courbes de rotation</text>
+
+  <line x1="120" y1="420" x2="980" y2="420" class="axis"/>
+  <line x1="120" y1="420" x2="120" y2="100" class="axis"/>
+
+  <line x1="120" y1="340" x2="980" y2="340" class="grid"/>
+  <line x1="120" y1="260" x2="980" y2="260" class="grid"/>
+  <line x1="120" y1="180" x2="980" y2="180" class="grid"/>
+
+  <path d="M130 170 C 260 180, 420 210, 620 280 S 900 370, 970 400" class="kep"/>
+  <path d="M130 170 C 260 180, 380 190, 520 194 S 800 196, 970 198" class="obs"/>
+
+  <text x="990" y="404" text-anchor="end" class="small">profil attendu (v ~ r^-1/2)</text>
+  <text x="990" y="192" text-anchor="end" class="small">profil observé (v ~ constante)</text>
+
+  <text x="560" y="458" text-anchor="middle" class="label">rayon galactique r</text>
+  <text x="52" y="260" transform="rotate(-90 52 260)" text-anchor="middle" class="label">vitesse orbitale v(r)</text>
+
+  <text x="120" y="486" class="small">Conclusion dynamique : M(r) doit continuer à croître avec r.</text>
+  <text x="120" y="506" class="small">Interprétation physique : halo massif de matière noire.</text>
+</svg>

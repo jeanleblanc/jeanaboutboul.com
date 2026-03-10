@@ -1,0 +1,59 @@
+---
+interface Props {
+  id: string;
+  buttonLabel?: string;
+}
+
+const { id, buttonLabel = "Afficher la solution rapide" } = Astro.props;
+---
+
+<div class="solution-reveal not-prose" id={`solution-${id}`}>
+  <button type="button" class="solution-reveal-btn" aria-expanded="false">
+    {buttonLabel}
+  </button>
+  <div class="solution-reveal-panel" hidden>
+    <div class="solution-reveal-content">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ id }}>
+  (() => {
+    const root = document.getElementById(`solution-${id}`);
+    if (!root || root.dataset.bound === "1") return;
+    root.dataset.bound = "1";
+
+    const button = root.querySelector(".solution-reveal-btn");
+    const panel = root.querySelector(".solution-reveal-panel");
+    if (!button || !panel) return;
+
+    function openPanel() {
+      panel.hidden = false;
+      panel.style.maxHeight = "0px";
+      requestAnimationFrame(() => {
+        panel.style.maxHeight = `${panel.scrollHeight}px`;
+      });
+      button.setAttribute("aria-expanded", "true");
+      button.textContent = "Masquer la solution rapide";
+    }
+
+    function closePanel() {
+      panel.style.maxHeight = `${panel.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        panel.style.maxHeight = "0px";
+      });
+      window.setTimeout(() => {
+        panel.hidden = true;
+      }, 260);
+      button.setAttribute("aria-expanded", "false");
+      button.textContent = "Afficher la solution rapide";
+    }
+
+    button.addEventListener("click", () => {
+      const expanded = button.getAttribute("aria-expanded") === "true";
+      if (expanded) closePanel();
+      else openPanel();
+    });
+  })();
+</script>

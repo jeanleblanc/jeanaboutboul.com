@@ -1,0 +1,52 @@
+---
+interface HeadingItem {
+  slug: string;
+  text: string;
+}
+
+interface TocSection {
+  heading: HeadingItem;
+  children: HeadingItem[];
+}
+
+interface Props {
+  tocSections: TocSection[];
+  title?: string;
+}
+
+const { tocSections, title = "Sur cette page" } = Astro.props;
+---
+
+<aside class="hidden lg:block" aria-label="Navigation latérale de la page">
+  <div class="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto rounded-xl border border-surface-secondary/80 bg-white/75 p-4 shadow-sm backdrop-blur-sm dark:border-dark-card dark:bg-dark-secondary/60">
+    <p class="font-sans text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+      {title}
+    </p>
+    <ol class="mt-3 space-y-3 list-none">
+      {tocSections.map((section, sectionIndex) => (
+        <li>
+          <a
+            href={`#${section.heading.slug}`}
+            class="block text-sm font-sans font-medium text-gray-700 transition-colors hover:text-nord-frost1 dark:text-dark-text dark:hover:text-nord-frost3"
+          >
+            {sectionIndex + 1}. {section.heading.text}
+          </a>
+          {section.children.length > 0 && (
+            <ol class="mt-1 space-y-1 pl-3 list-none border-l border-surface-secondary dark:border-dark-card">
+              {section.children.map((child) => (
+                <li>
+                  <a
+                    href={`#${child.slug}`}
+                    class="text-xs font-sans text-gray-500 transition-colors hover:text-nord-frost1 dark:text-dark-muted dark:hover:text-nord-frost3"
+                  >
+                    {child.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</aside>

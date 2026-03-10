@@ -1,0 +1,480 @@
+---
+title: "Introduction à l'Astronomie"
+summary: |
+  Notes basées sur la structure du cours Crash Course Astronomy (YouTube), avec une lecture plus physique/mathématique (partielle), et des exercices corrigés.
+  Playlist source: Crash Course Astronomy
+date: 2026-03-08
+category: "Lecture Notes"
+tags: ["astrophysique", "astronomie", "cosmologie", "mecanique-celeste", "exercices"]
+venue: "Crash Course Astronomy"
+---
+
+import QuizQuestion from "../../components/notes/QuizQuestion.astro";
+import RevealSolution from "../../components/notes/RevealSolution.astro";
+import CorrectionDropdown from "../../components/notes/CorrectionDropdown.astro";
+import gaiaSat from "../images/intro_to_astro/gaia_sat.jpg";
+import galaxyCurve from "../images/intro_to_astro/courbe_rot_reel.png";
+import keplerSupernova from "../images/intro_to_astro/Keplers_supernova.jpg";
+import cometOrbit from "../images/intro_to_astro/comete_excentrique.png";
+
+## Leçon 1 : Introduction à l'Astrophysique et Échelles de l'Univers
+
+### 1. L'Astronomie comme Science d'Observation
+
+Contrairement à la majorité des sciences (chimie, biologie) qui sont **expérimentales**, l'astronomie est fondamentalement une science d'**observation**. Il est impossible d'isoler une étoile dans un laboratoire pour modifier ses variables.
+
+Pour comprendre l'Univers, les astronomes et astrophysiciens s'appuient presque exclusivement sur l'analyse du rayonnement électromagnétique (et plus récemment, des ondes gravitationnelles et des neutrinos). La lumière est notre seule source d'information directe.
+
+#### 1.1. Le concept de Flux et de Luminosité
+
+Une des notions fondamentales pour appréhender les distances et l'énergie des corps célestes est la relation entre la luminosité intrinsèque d'un objet ($L$, en Watts) et le flux lumineux que nous recevons sur Terre ($F$, en $\text{W/m}^2$). La lumière se propageant de manière sphérique dans le vide, elle obéit à la loi en carré inverse :
+
+<div class="equation-card">
+
+$$
+F = \frac{L}{4\pi d^2}
+$$
+
+</div>
+
+Où $d$ est la distance entre l'observateur et la source. Cette équation est la base de l'astrométrie et de la cosmologie pour déterminer la distance des "chandelles standards" (objets dont on connaît la luminosité $L$).
+
+<figure class="note-figure">
+  <img src="/diagrams/astro-l1/flux-luminosity.svg" alt="Schéma de la relation flux-luminosité avec propagation sphérique et loi en carré inverse." loading="lazy" />
+  <figcaption>Schéma scientifique : relation entre luminosité intrinsèque, flux observé et distance.</figcaption>
+</figure>
+
+<figure class="note-figure">
+  <img src={gaiaSat.src} alt="Satellite Gaia utilisé pour l'astrométrie de haute précision." loading="lazy" />
+  <figcaption>Gaia : mission d'astrométrie de l'ESA pour mesurer positions, mouvements et parallaxes stellaires avec très haute précision.</figcaption>
+</figure>
+
+### 2. L'Échelle Cosmique et la Mesure des Distances
+
+L'astronomie requiert l'utilisation d'unités de mesure adaptées à des échelles extrêmes, le mètre et le kilomètre devenant rapidement obsolètes.
+
+#### 2.1. L'Unité Astronomique (UA)
+
+Utilisée pour les distances au sein du système solaire. Elle correspond à la distance moyenne entre la Terre et le Soleil (l'orbite de la Terre étant légèrement elliptique).
+
+- **1 UA** $\approx 1.496 \times 10^{11} \text{ m}$
+
+#### 2.2. L'Année-Lumière (al)
+
+Distance parcourue par la lumière dans le vide en une année julienne (365,25 jours). Utilisée pour les distances interstellaires et intergalactiques.
+
+- $c \approx 2.9979 \times 10^8 \text{ m/s}$ (vitesse de la lumière)
+- **1 al** $= c \times (365.25 \times 24 \times 3600) \approx 9.461 \times 10^{15} \text{ m}$
+
+#### 2.3. Le Parsec (pc) - L'unité privilégiée des astrophysiciens
+
+Le parsec (contraction de "parallaxe-seconde") est défini géométriquement. C'est la distance à laquelle une Unité Astronomique (1 UA) sous-tend un angle d'une seconde d'arc ($1'' = \frac{1}{3600}^{\circ}$).
+
+Mathématiquement, en utilisant la trigonométrie de base sur un triangle rectangle :
+
+$$
+\tan(p) = \frac{1 \text{ UA}}{d}
+$$
+
+Puisque l'angle $p$ est extrêmement petit, on peut utiliser l'approximation des petits angles ($\tan(p) \approx p$ en radians). Si l'on exprime $p$ en secondes d'arc (arcsec) et $d$ en parsecs, la formule se simplifie en :
+
+<div class="equation-card">
+
+$$
+d = \frac{1}{p}
+$$
+
+</div>
+
+- **1 pc** $\approx 3.26 \text{ al} \approx 3.086 \times 10^{16} \text{ m}$
+
+*Note d'ingénierie : Cette méthode, la parallaxe trigonométrique, est la première étape de "l'échelle des distances cosmiques". La précision de nos capteurs spatiaux (comme le satellite Gaia) détermine la distance maximale mesurable avec cette méthode directe.*
+
+<figure class="note-figure">
+  <img src="/diagrams/astro-l1/distance-scales.svg" alt="Schéma comparatif des unités astronomiques de distance (UA, année-lumière, parsec)." loading="lazy" />
+  <figcaption>Comparaison visuelle des échelles de distance utilisées en astrophysique.</figcaption>
+</figure>
+
+### 3. Évolution de la Mécanique Céleste
+
+L'histoire de l'astronomie est l'histoire de la mécanique classique et de la modélisation mathématique de l'Univers.
+
+#### 3.1. Du Géocentrisme à l'Héliocentrisme
+
+Le modèle géocentrique de Ptolémée (la Terre au centre) n'était pas qu'une simple croyance ; c'était un modèle mathématique complexe utilisant des **épicycles** (des cercles tournant sur d'autres cercles) pour expliquer le mouvement rétrograde des planètes. D'un point de vue de l'ingénierie des signaux, Ptolémée faisait intuitivement une décomposition en séries de Fourier des orbites planétaires.
+
+Le passage au modèle de Copernic (héliocentrique) a simplifié le repère de référence, mais conservait des orbites circulaires imparfaites.
+
+#### 3.2. Les Lois de Kepler et la Synthèse Newtonienne
+
+C'est Johannes Kepler, en analysant les données d'observation extrêmement précises de Tycho Brahe, qui a introduit la géométrie analytique dans les orbites :
+
+1. **Loi des orbites :** Les planètes décrivent des ellipses dont le Soleil occupe l'un des foyers. (L'équation polaire d'une conique est $r = \frac{p}{1 + e \cos \theta}$, où $e$ est l'excentricité).
+2. **Loi des aires :** Le segment reliant le Soleil à la planète balaie des aires égales pendant des durées égales. (Ceci est la première formulation de la **conservation du moment cinétique** : $\frac{dA}{dt} = \text{constante}$).
+3. **Loi des périodes :** Le carré de la période de révolution $T$ est proportionnel au cube du demi-grand axe $a$ de l'ellipse : $T^2 \propto a^3$.
+
+Isaac Newton a ensuite fourni le cadre physique expliquant *pourquoi* les lois de Kepler fonctionnent, grâce à la **Loi de la Gravitation Universelle** :
+
+<div class="equation-card">
+
+$$
+F = G \frac{m_1 m_2}{r^2}
+$$
+
+</div>
+
+En combinant la deuxième loi de Newton ($F = ma$) et la gravitation, on peut déduire la troisième loi de Kepler sous sa forme complète, essentielle pour calculer la masse des astres (planètes, étoiles, trous noirs) si l'on connaît la période et le rayon d'un objet en orbite autour d'eux :
+
+<div class="equation-card">
+
+$$
+T^2 = \frac{4\pi^2}{G(M + m)} a^3
+$$
+
+</div>
+
+*(Pour $M \gg m$, on néglige souvent $m$ au dénominateur).*
+
+### 4. La Composition de l'Univers (Aperçu)
+
+L'astronomie moderne nous enseigne une humilité profonde face à nos modèles. Toute la matière ordinaire que nous connaissons (protons, neutrons, électrons, régie par le Modèle Standard de la physique des particules) ne représente que **~4 %** à **5 %** du contenu de l'Univers.
+
+- **Matière noire (~27 %) :** Déduite par ses effets gravitationnels (notamment la courbe de rotation des galaxies qui contredit les lois de Kepler si l'on ne prend en compte que la matière visible).
+- **Énergie sombre (~68 %) :** Une force de pression négative responsable de l'accélération de l'expansion de l'Univers.
+
+De plus, chaque atome lourd de notre corps (le fer de notre sang, le calcium de nos os) a été forgé dans le cœur d'étoiles massives ou lors de leurs morts explosives (supernovae). C'est le processus de **nucléosynthèse stellaire**.
+
+<figure class="note-figure">
+  <img src="/diagrams/astro-l1/galaxy-rotation.svg" alt="Schéma simplifié d'une courbe de rotation galactique montrant l'écart entre modèle visible et observations." loading="lazy" />
+  <figcaption>Schéma conceptuel : signature dynamique menant à l'hypothèse de matière noire.</figcaption>
+</figure>
+
+<figure class="note-figure">
+  <img src={galaxyCurve.src} alt="Courbe de rotation galactique observée (données réelles)." loading="lazy" />
+  <figcaption>Données observationnelles : la vitesse orbitale reste élevée en périphérie des galaxies.</figcaption>
+</figure>
+
+<figure class="note-figure note-figure--small">
+  <img src={keplerSupernova.src} alt="Kepler's Supernova, vestige de supernova historique." loading="lazy" />
+  <figcaption>Kepler's Supernova (petit visuel) : rappel du rôle des supernovae dans la nucléosynthèse.</figcaption>
+</figure>
+
+### Formulaire de formules essentielles
+
+<div class="formula-sheet-card">
+  <p class="formula-sheet-title">Formules clés à retenir (Leçon 1)</p>
+  <div class="formula-sheet-grid">
+    <div class="formula-sheet-item">
+      <p>Flux-luminosité</p>
+      $$F = \frac{L}{4\pi d^2}$$
+    </div>
+    <div class="formula-sheet-item">
+      <p>Parallaxe (approximation)</p>
+      $$d = \frac{1}{p}$$
+    </div>
+    <div class="formula-sheet-item">
+      <p>Gravitation universelle</p>
+      $$F = G\frac{m_1 m_2}{r^2}$$
+    </div>
+    <div class="formula-sheet-item">
+      <p>3e loi de Kepler (forme newtonienne)</p>
+      $$T^2 = \frac{4\pi^2}{G(M+m)}a^3$$
+    </div>
+    <div class="formula-sheet-item">
+      <p>Vitesse orbitale</p>
+      $$v(r)=\sqrt{\frac{GM(r)}{r}}$$
+    </div>
+    <div class="formula-sheet-item">
+      <p>Loi des aires</p>
+      $$\frac{dA}{dt}=\frac{1}{2}r^2\dot{\theta}=\text{constante}$$
+    </div>
+  </div>
+</div>
+
+### Exercices
+
+#### QCM
+
+Voici le QCM retranscrit au format texte classique, avec les propositions de réponses et les explications détaillées pour chaque question.
+
+#### QCM : Introduction à l'Astrophysique
+
+<div class="qcm-carousel">
+  <QuizQuestion
+    id="intro-astro-q1"
+    question="Question 1 : Si une étoile A est située à une distance $d$ et une étoile B, identique en luminosité intrinsèque ($L_A = L_B$), est située à une distance $3d$, quel est le rapport entre le flux reçu de l'étoile A ($F_A$) et celui de l'étoile B ($F_B$) ?"
+    options={[
+      { key: "A", math: "F_A = 3F_B" },
+      { key: "B", math: "F_A = 9F_B", isCorrect: true },
+      { key: "C", math: "F_A = \\frac{1}{3}F_B" },
+      { key: "D", math: "F_A = \\sqrt{3}F_B" },
+    ]}
+  >
+    <p><strong>Réponse correcte : B.</strong> Le flux suit la loi en carré inverse de la distance ($F = \frac{L}{4\pi d^2}$). Si la distance de l'étoile B est multipliée par 3 par rapport à A, son flux reçu est divisé par $3^2 = 9$. Par conséquent, le flux de l'étoile A est 9 fois plus grand que celui de l'étoile B.</p>
+  </QuizQuestion>
+
+  <QuizQuestion
+    id="intro-astro-q2"
+    question="Question 2 : Un astronome mesure une parallaxe annuelle $p$ de 0,5 seconde d'arc pour une étoile proche. Quelle est la distance de cette étoile ?"
+    options={[
+      { key: "A", text: "0,5 parsec" },
+      { key: "B", text: "1 parsec" },
+      { key: "C", text: "2 parsecs", isCorrect: true },
+      { key: "D", text: "5 parsecs" },
+    ]}
+  >
+    <p><strong>Réponse correcte : C.</strong> En utilisant l'approximation des petits angles, la formule simplifiée donne la distance en parsecs comme l'inverse de la parallaxe en secondes d'arc ($d = \frac{1}{p}$). Le calcul est donc $d = \frac{1}{0,5} = 2$ parsecs.</p>
+  </QuizQuestion>
+
+  <QuizQuestion
+    id="intro-astro-q3"
+    question="Question 3 : La deuxième loi de Kepler (loi des aires) stipule qu'un segment reliant le Soleil à une planète balaie des aires égales en des temps égaux. Quelle grandeur physique est conservée selon cette loi ?"
+    options={[
+      { key: "A", text: "L'énergie cinétique" },
+      { key: "B", text: "La vitesse angulaire" },
+      { key: "C", text: "Le moment cinétique", isCorrect: true },
+      { key: "D", text: "La force gravitationnelle" },
+    ]}
+  >
+    <p><strong>Réponse correcte : C.</strong> La loi des aires n'est rien d'autre que la manifestation géométrique de la conservation du moment cinétique dans un système soumis à une force centrale (ici, la gravité du Soleil).</p>
+  </QuizQuestion>
+
+  <QuizQuestion
+    id="intro-astro-q4"
+    question="Question 4 : En utilisant la forme Newtonienne de la troisième loi de Kepler $T^2 = \\frac{4\\pi^2}{GM} a^3$ (pour $M \\gg m$), si l'on observe une lune orbitant autour d'une planète, que peut-on déterminer prioritairement ?"
+    options={[
+      { key: "A", text: "La masse de la lune" },
+      { key: "B", text: "La masse de la planète", isCorrect: true },
+      { key: "C", text: "La luminosité de la planète" },
+      { key: "D", text: "La composition chimique de la lune" },
+    ]}
+  >
+    <p><strong>Réponse correcte : B.</strong> La masse de l'objet en orbite ($m$) est négligeable face au corps central et n'influence pas significativement la cinématique. En connaissant la période orbitale $T$ et le demi-grand axe $a$ de l'orbite de la lune, on peut isoler et calculer $M$, la masse de la planète.</p>
+  </QuizQuestion>
+
+  <QuizQuestion
+    id="intro-astro-q5"
+    question={"Question 5 : Selon les modèles cosmologiques actuels, quelle fraction approximative de l'Univers est constituée de matière \"ordinaire\" (atomes du Modèle Standard) ?"}
+    options={[
+      { key: "A", text: "Environ 5 %", isCorrect: true },
+      { key: "B", text: "Environ 27 %" },
+      { key: "C", text: "Environ 68 %" },
+      { key: "D", text: "Environ 95 %" },
+    ]}
+  >
+    <p><strong>Réponse correcte : A.</strong> La matière baryonique (qui compose les planètes, les étoiles et nous-mêmes) ne représente qu'une infime fraction du cosmos, environ 5 %. Le reste est composé d'éléments encore inexpliqués par le Modèle Standard : la matière noire (~27 %) et l'énergie sombre (~68 %).</p>
+  </QuizQuestion>
+</div>
+
+<details class="exercise-block">
+  <summary>Exercice 1 : Propagation des erreurs et limites de l'Astrométrie</summary>
+  <div class="exercise-block-content">
+
+En astrophysique d'observation, la précision de nos instruments dicte la validité de nos modèles. Le satellite européen Gaia mesure la parallaxe $p$ des étoiles avec une précision extrême.
+
+1. En utilisant l'approximation des petits angles pour la définition de la parallaxe ($d = \frac{1}{p}$ avec $p$ en radians et $d$ en UA), exprimez la luminosité intrinsèque $L$ d'une étoile uniquement en fonction de son flux observé $F$, de sa parallaxe mesurée $p$, et de l'Unité Astronomique ($\text{UA}$).
+2. Supposons que notre instrument mesure le flux avec une incertitude $\Delta F$ et la parallaxe avec une incertitude $\Delta p$. En utilisant le calcul différentiel intégral (la différentielle logarithmique ou la formule de propagation des incertitudes relatives), démontrez analytiquement l'expression de l'incertitude relative sur la luminosité $\frac{\Delta L}{L}$.
+3. **Analyse critique :** Sachant qu'un instrument a une erreur de mesure limite absolue et constante $\Delta p = \epsilon$ (où $\epsilon$ est la plus petite variation d'angle détectable par les pixels du capteur), que se passe-t-il mathématiquement pour l'incertitude $\frac{\Delta L}{L}$ lorsque l'on tente d'observer des étoiles de plus en plus lointaines (donc lorsque $p \to 0$) ? Expliquez pourquoi la méthode de la parallaxe est fondamentalement inexploitable pour les galaxies lointaines.
+
+#### Correction
+
+##### 1.
+<RevealSolution id="intro-astro-ex1-1">
+  <p><strong>Solution :</strong> $L = \frac{4\pi F\cdot UA^2}{p^2}$</p>
+</RevealSolution>
+<CorrectionDropdown>
+  <p><strong>Solution</strong> : $L = \frac{4\pi F\cdot UA^2}{p^2}$</p>
+  <p><strong>Détail</strong> :</p>
+  $$
+  \begin{aligned}
+  F &= \frac{L}{4\pi d^2} \\
+  d &= \frac{UA}{p} \\
+  \implies L &= \frac{4\pi F UA^2}{p^2}
+  \end{aligned}
+  $$
+</CorrectionDropdown>
+
+##### 2.
+<RevealSolution id="intro-astro-ex1-2">
+  <p><strong>Solution :</strong> $\frac{\Delta L}{L} = \frac{\Delta F}{F} + 2 \frac{\Delta p}{p}$</p>
+</RevealSolution>
+<CorrectionDropdown>
+  <p><strong>Solution</strong> : $\frac{\Delta L}{L} = \frac{\Delta F}{F} + 2 \frac{\Delta p}{p}$</p>
+  <p><strong>Détail</strong></p>
+  <p>1. On applique le logarithme népérien à notre équation :</p>
+  $$\ln(L) = \ln\left(\frac{4\pi \text{UA}^2 \cdot F}{p^2}\right)$$
+  $$\ln(L) = \ln(4\pi \text{UA}^2) + \ln(F) - 2\ln(p)$$
+  <p>2. On différencie cette expression :</p>
+  $$\frac{dL}{L} = 0 + \frac{dF}{F} - 2\frac{dp}{p}$$
+  <p>3. Pour passer aux incertitudes maximales (les erreurs s'ajoutent toujours dans le pire des cas en métrologie), on passe aux valeurs absolues :</p>
+  $$\frac{\Delta L}{L} = \frac{\Delta F}{F} + 2\frac{\Delta p}{p}$$
+  <p>note : montre que l'erreur relative sur la parallaxe pèse <strong>deux fois plus lourd</strong> sur le résultat final que l'erreur sur le flux, à cause du carré dans la loi initiale.</p>
+</CorrectionDropdown>
+
+##### 3.
+<RevealSolution id="intro-astro-ex1-3">
+  <p><strong>Solution :</strong> $\lim_{p \to 0} \left( \frac{\Delta F}{F} + 2\frac{\epsilon}{p} \right) = +\infty$</p>
+</RevealSolution>
+<CorrectionDropdown>
+  <p><strong>Solution</strong> : $\lim_{p \to 0} \left( \frac{\Delta F}{F} + 2\frac{\epsilon}{p} \right) = +\infty$</p>
+  <p><strong>Détail</strong></p>
+  <p>L'incertitude devient proportionellement beaucoup trop importante par rapport à la mesure, si p = 0, n'importe quel $\Delta p > 0$ et infiniment plus grand que p et donc on a une incertitude infini.</p>
+
+  <p>Pour : $\Delta p = \epsilon$.</p>
+  $$\frac{\Delta L}{L} = \frac{\Delta F}{F} + 2\frac{\epsilon}{p}$$
+
+  <p>Donc, quand $d \to \infty \implies p \to 0$. Comme $\epsilon$ est une constante stricte et non nulle, le terme $\frac{\epsilon}{p}$ diverge vers l'infini :</p>
+  $$\lim_{p \to 0} \left( \frac{\Delta F}{F} + 2\frac{\epsilon}{p} \right) = +\infty$$
+</CorrectionDropdown>
+
+  </div>
+</details>
+
+<details class="exercise-block">
+  <summary>Exercice 2 : Preuve mathématique de l'existence de la Matière Noire</summary>
+  <div class="exercise-block-content">
+
+L'existence de la matière noire (qui compose environ 27 % de l'Univers) a été déduite parce que les observations contredisaient les lois de Kepler. Démontrons-le.
+
+Imaginons une étoile de masse $m$ en orbite circulaire de rayon $r$ autour du centre d'une galaxie spirale. On suppose que la masse de la galaxie contenue dans la sphère de rayon $r$ est $M(r)$.
+
+1. En utilisant la Loi de la Gravitation Universelle de Newton et le principe fondamental de la dynamique (sachant que l'accélération centripète est $a_c = \frac{v^2}{r}$), dérivez l'expression de la vitesse orbitale $v(r)$ de l'étoile.
+2. Si la galaxie était constituée uniquement de la matière visible (étoiles, gaz), la quasi-totalité de sa masse serait concentrée dans son bulbe central. Dans ce scénario, pour une étoile située en périphérie de la galaxie, on peut approximer $M(r) \approx M_{\text{totale}} = \text{constante}$. Démontrez qu'alors, la vitesse $v(r)$ devrait décroître de manière képlérienne selon la proportionnalité $v \propto r^{-1/2}$.
+3. **Le paradoxe :** Les observations spectrométriques montrent que dans la réalité, pour les étoiles situées en périphérie des galaxies, la vitesse orbitale ne diminue pas, mais reste constante ($v(r) = v_0$). En utilisant votre équation dérivée à la question 1, déterminez quelle doit être l'expression mathématique de la masse $M(r)$ pour que $v(r)$ soit une constante $v_0$.
+4. Concluez : Si la masse visible d'une galaxie plafonne passé un certain rayon, mais que vos calculs montrent que $M(r)$ doit continuer à augmenter avec $r$, qu'est-ce que cela implique physiquement sur la géométrie et la nature de cette "matière noire" ?
+
+#### Correction
+
+##### 1.
+<RevealSolution id="intro-astro-ex2-1">
+  <p><strong>Solution :</strong> $v(r) = \sqrt{\frac{G M(r)}{r}}$</p>
+</RevealSolution>
+<CorrectionDropdown>
+  <p><strong>Solution :</strong> $v(r) = \sqrt{\frac{G M(r)}{r}}$</p>
+  $$
+  \begin{aligned}
+  F &= ma \\
+  F &= \frac{Gm_1m_2}{r^2} \\
+  \implies G \frac{m M(r)}{r^2} &= m \frac{v^2}{r} \\
+  v^2 &= \frac{G M(r)}{r} \\
+  v(r) &= \sqrt{\frac{G M(r)}{r}}
+  \end{aligned}
+  $$
+</CorrectionDropdown>
+
+##### 2.
+<RevealSolution id="intro-astro-ex2-2">
+  <p><strong>Solution :</strong> $v(r) \propto r^{-1/2}$</p>
+</RevealSolution>
+<CorrectionDropdown>
+  <p>On a $M(r) = M_{\text{totale}} = \text{constante}$</p>
+  $$v(r) = \sqrt{\frac{G M_{\text{totale}}}{r}}$$
+  <p>Puisque $G$ et $M_{\text{totale}}$ sont des constantes, on retrouve bien la relation de proportionnalité :</p>
+  $$v(r) \propto r^{-1/2} \quad \text{ou} \quad v(r) \propto \frac{1}{\sqrt{r}}$$
+
+  <p>C'est ce qu'on appelle un profil de vitesse képlérien. Plus on s'éloigne du centre, plus la vitesse orbitale devrait chuter de manière prévisible (exactement comme Pluton tourne beaucoup plus lentement que la Terre autour du Soleil).</p>
+</CorrectionDropdown>
+
+##### 3.
+<RevealSolution id="intro-astro-ex2-3">
+  <p><strong>Solution :</strong> $M(r) \propto r$</p>
+</RevealSolution>
+<CorrectionDropdown>
+  <p><strong>solution</strong> : $M(r) \propto r$</p>
+  <p>La vitesse reste constante : $v(r) = v_0$.</p>
+  $$
+  v_0 = \sqrt{\frac{G M(r)}{r}}
+  $$
+  $$
+  v_0^2 = \frac{G M(r)}{r}
+  $$
+  $$
+  M(r) = \frac{v_0^2}{G} r
+  $$
+  <p>Puisque $\frac{v_0^2}{G}$ est une constante, cela signifie que mathématiquement :</p>
+  $$M(r) \propto r$$
+  <p><strong>La masse contenue dans la sphère de rayon $r$ doit augmenter linéairement avec la distance $r$.</strong></p>
+</CorrectionDropdown>
+
+##### 4.
+<RevealSolution id="intro-astro-ex2-4">
+  <p><strong>Solution :</strong> Cela implique un halo de matière noire étendu, invisible, dont la masse continue d'augmenter avec $r$.</p>
+</RevealSolution>
+<CorrectionDropdown>
+  <p>Nos télescopes nous disent que la masse <em>visible</em> s'arrête net aux bords du disque galactique. Pourtant, nos équations (basées sur le maintien d'une vitesse constante $v_0$) exigent que la masse totale $M(r)$ continue de croître avec $r$, bien au-delà de la limite des étoiles visibles.</p>
+
+  <p>On en conclu qu'il doit exister une quantité colossale de matière invisible (qui n'émet et n'absorbe aucune lumière) formant un immense "halo" sphérique englobant la galaxie entière, dont la masse augmente avec le rayon. C'est la preuve dynamique de l'existence de la <strong>matière noire</strong>. Sans elle, les étoiles en périphérie, filant à la vitesse $v_0$, seraient éjectées dans l'espace intergalactique car la gravité de la seule matière visible serait insuffisante pour les retenir.</p>
+</CorrectionDropdown>
+
+  </div>
+</details>
+
+<details class="exercise-block">
+  <summary>Exercice 3 : Mécanique orbitale et l'équation polaire de Kepler</summary>
+  <div class="exercise-block-content">
+
+La deuxième loi de Kepler stipule que le rayon vecteur reliant le Soleil à une planète balaie des aires égales en des temps égaux, ce qui traduit la conservation du moment cinétique.
+
+Considérons une planète de masse $m$ sur une orbite elliptique autour d'une étoile de masse $M$, définie par l'équation polaire :
+
+$$
+r(\theta) = \frac{p}{1 + e \cos \theta}
+$$
+
+Où $p$ est le paramètre de l'ellipse, $e$ est l'excentricité ($0 \le e < 1$), et l'étoile est au foyer $\theta = 0$ ou originie du repère.
+
+1. **Démonstration géométrique :** L'aire infinitésimale $dA$ balayée par un rayon vecteur $r$ lors d'un déplacement angulaire $d\theta$ est donnée par l'aire d'un secteur circulaire : $dA = \frac{1}{2} r^2 d\theta$. En utilisant la définition de la dérivée temporelle de l'aire orbitale $\frac{dA}{dt}$, démontrez que la vitesse angulaire de la planète, notée $\dot{\theta}$ (ou $\omega$), est inversement proportionnelle au carré de sa distance à l'étoile ($r^2$).
+2. **Extremums de vitesse :** La planète atteint sa distance minimale à l'étoile (le périapside) en $\theta = 0$ et sa distance maximale (l'apoapside) en $\theta = \pi$. En utilisant le fait que $\frac{dA}{dt}$ est une constante $C$, trouvez les expressions des vitesses angulaires au périapside ($\dot{\theta}_{p}$) et à l'apoapside ($\dot{\theta}_{a}$).
+3. Pour une orbite parfaitement circulaire ($e = 0$), que vaut le ratio $\frac{\dot{\theta}_{p}}{\dot{\theta}_{a}}$ ? Calculez ensuite ce ratio analytiquement en fonction de l'excentricité $e$ pour une orbite elliptique classique. Comment ce modèle mathématique explique-t-il l'accélération d'une comète lorsqu'elle "frôle" le Soleil ?
+
+<figure class="note-figure">
+  <img src={cometOrbit.src} alt="Illustration d'une comète sur orbite fortement excentrique autour du Soleil." loading="lazy" />
+  <figcaption>Excentricité élevée : la vitesse angulaire explose près du périapside.</figcaption>
+</figure>
+
+#### Correction
+
+##### 1.
+<RevealSolution id="intro-astro-ex3-1">
+  <p><strong>solution</strong> $dA / dt = 1/2 r^2 w \Rightarrow w \propto 1/r^2$</p>
+</RevealSolution>
+<CorrectionDropdown>
+  $$C = \frac{1}{2} r^2 \dot{\theta} \Rightarrow \dot{\theta} = \frac{2C}{r^2}$$
+</CorrectionDropdown>
+
+##### 2.
+<RevealSolution id="intro-astro-ex3-2">
+  <p><strong>Solution :</strong> $\dot{\theta}_p = \frac{2C (1+e)^2}{p^2}$ et $\dot{\theta}_a = \frac{2C (1-e)^2}{p^2}$</p>
+</RevealSolution>
+<CorrectionDropdown>
+  <p>1. <strong>Au périapside (le plus proche) :</strong> $\theta = 0$.</p>
+  $$\dot{\theta}_p = \frac{2C}{\left( \frac{p}{1+e} \right)^2} = \frac{2C (1+e)^2}{p^2}$$
+
+  <p>2. <strong>À l'apoapside (le plus éloigné) :</strong> $\theta = \pi$.</p>
+  <p>Puisque $\cos(\pi) = -1$, le rayon est $r_a = \frac{p}{1 - e}$.</p>
+  <p>En injectant ce $r_a$, on obtient :</p>
+  $$\dot{\theta}_a = \frac{2C}{\left( \frac{p}{1-e} \right)^2} = \frac{2C (1-e)^2}{p^2}$$
+</CorrectionDropdown>
+
+##### 3.
+<RevealSolution id="intro-astro-ex3-3">
+  <p><strong>Solution :</strong> pour $e=0$, ratio = 1. En général, $\left(\frac{1+e}{1-e}\right)^2$.</p>
+</RevealSolution>
+<CorrectionDropdown>
+  <p>Pour le cercle ($e=0$) : le ratio est de 1, la vitesse angulaire est parfaitement constante.</p>
+
+  $$\text{Ratio} = \frac{\dot{\theta}_p}{\dot{\theta}_a} = \frac{\frac{2C (1+e)^2}{p^2}}{\frac{2C (1-e)^2}{p^2}} = \left( \frac{1+e}{1-e} \right)^2$$
+
+  <p><strong>L'explication physique (le moment "Eurêka") :</strong><br />
+  C'est ce carré et ce dénominateur qui changent tout. Prenons l'exemple d'une comète, dont l'orbite est extrêmement excentrique (très allongée). Disons que $e = 0.99$.</p>
+
+  <p>Calculons le ratio de ses vitesses angulaires :</p>
+  $$\text{Ratio} = \left( \frac{1 + 0.99}{1 - 0.99} \right)^2 = \left( \frac{1.99}{0.01} \right)^2 = (199)^2 \approx 39601$$
+
+  <p><strong>Conclusion :</strong> Lorsqu'elle frôle le Soleil au périapside, la comète a une vitesse angulaire <strong>près de 40 000 fois supérieure</strong> à celle qu'elle a lorsqu'elle est au fin fond du système solaire.</p>
+
+  <p>Voilà pourquoi, d'un point de vue mathématique et cinématique, une comète passe des dizaines d'années à se traîner lentement loin de nous (où $r$ est grand), mais lorsqu'elle "tombe" vers le Soleil, elle le contourne à une vitesse fulgurante en quelques semaines seulement pour conserver son moment cinétique. La variation n'est pas linéaire, elle explose à cause du carré de l'excentricité.</p>
+</CorrectionDropdown>
+
+  </div>
+</details>

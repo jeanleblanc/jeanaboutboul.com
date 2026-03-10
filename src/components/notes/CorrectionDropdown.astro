@@ -1,0 +1,14 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = "Correction détaillée" } = Astro.props;
+---
+
+<details class="correction-dropdown not-prose">
+  <summary>{title}</summary>
+  <div class="correction-dropdown-content">
+    <slot />
+  </div>
+</details>
