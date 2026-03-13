@@ -10,11 +10,11 @@ const { title, description = "Personal website" } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 const navItems = [
-  { href: "/", label: "Home", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" },
-  { href: "/cv", label: "CV", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
-  { href: "/projects", label: "Projects", icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" },
-  { href: "/talks", label: "Talks & Notes", icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" },
-  { href: "/contact", label: "Contact", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  { href: "/talks", label: "Talks" },
+  { href: "/cv", label: "CV" },
+  { href: "/contact", label: "Contact" },
 ];
 ---
 
@@ -25,197 +25,146 @@ const navItems = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
-      crossorigin="anonymous"
-    />
-    <link rel="icon" type="image/svg+xml" href="/favicon-j.svg?v=3" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3" />
-    <link rel="shortcut icon" href="/favicon.ico?v=3" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
-    <link rel="mask-icon" href="/favicon-j.svg?v=3" color="#5E81AC" />
-    <link rel="manifest" href="/site.webmanifest?v=3" />
-  </head>
-  <body>
-    <div class="flex min-h-screen">
-      <!-- ═══ Sidebar ═══ -->
-      <aside
-        id="sidebar"
-        class="fixed left-0 top-0 z-40 h-screen w-56 -translate-x-full border-r
-               border-surface-secondary bg-white/80 backdrop-blur-sm
-               transition-transform duration-300 lg:translate-x-0
-               dark:border-dark-card dark:bg-dark/90"
-      >
-        <div class="flex h-full flex-col justify-between px-5 py-8">
-          <!-- Logo / Name -->
-          <div>
-            <a href="/" class="group block mb-10">
-              <span
-                class="text-xl font-sans font-bold tracking-tight text-gray-900
-                       dark:text-dark-text group-hover:text-nord-frost1
-                       dark:group-hover:text-nord-frost3 transition-colors"
-              >
-                Jean Aboutboul
-              </span>
-              <span class="block text-xs text-gray-500 dark:text-dark-muted mt-0.5 font-sans">
-                Student at EPFL
-              </span>
-            </a>
-
-            <!-- Navigation -->
-            <nav class="space-y-1">
-              {navItems.map((item) => {
-                const isActive =
-                  item.href === "/"
-                    ? currentPath === "/"
-                    : currentPath.startsWith(item.href);
-                return (
-                  <a
-                    href={item.href}
-                    class:list={[
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-sans transition-all",
-                      isActive
-                        ? "bg-nord-frost1/10 text-nord-frost1 font-medium dark:bg-nord-frost1/20 dark:text-nord-frost3"
-                        : "text-gray-600 hover:bg-surface-secondary hover:text-gray-900 dark:text-dark-muted dark:hover:bg-dark-secondary dark:hover:text-dark-text",
-                    ]}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-4 w-4 flex-shrink-0"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d={item.icon}
-                      />
-                    </svg>
-                    {item.label}
-                  </a>
-                );
-              })}
-            </nav>
-          </div>
-
-          <!-- Bottom: theme toggle -->
-          <div class="space-y-4">
-            <button
-              id="theme-toggle"
-              class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm
-                     font-sans text-gray-600 hover:bg-surface-secondary
-                     dark:text-dark-muted dark:hover:bg-dark-secondary transition-all"
-              aria-label="Toggle dark mode"
-            >
-              <!-- Sun icon (shown in dark mode) -->
-              <svg
-                id="sun-icon"
-                class="hidden h-4 w-4 dark:block"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                />
-              </svg>
-              <!-- Moon icon (shown in light mode) -->
-              <svg
-                id="moon-icon"
-                class="block h-4 w-4 dark:hidden"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-                />
-              </svg>
-              <span class="dark:hidden">Dark mode</span>
-              <span class="hidden dark:inline">Light mode</span>
-            </button>
-
-          </div>
-        </div>
-      </aside>
-
-      <!-- ═══ Mobile header ═══ -->
-      <header
-        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between
-               border-b border-surface-secondary bg-white/80 px-4 py-3
-               backdrop-blur-sm lg:hidden
-               dark:border-dark-card dark:bg-dark/90"
-      >
-        <a href="/" class="font-sans font-bold text-gray-900 dark:text-dark-text">
-          Jean Aboutboul
-        </a>
-        <button
-          id="mobile-menu-btn"
-          class="text-gray-600 dark:text-dark-muted"
-          aria-label="Open menu"
-        >
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        </button>
-      </header>
-
-      <!-- ═══ Mobile overlay ═══ -->
-      <div
-        id="mobile-overlay"
-        class="fixed inset-0 z-30 hidden bg-black/50 lg:hidden"
-      ></div>
-
-      <!-- ═══ Main Content ═══ -->
-      <main class="min-w-0 flex-1 lg:ml-56">
-        <div class="mx-auto max-w-6xl px-6 py-12 pt-20 lg:pt-12">
-          <slot />
-        </div>
-      </main>
-    </div>
-
-    <!-- ═══ Scripts ═══ -->
     <script is:inline>
-      // ── Dark mode ──
-      (function () {
+      (() => {
         const theme = localStorage.getItem("theme");
         if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
           document.documentElement.classList.add("dark");
         }
       })();
     </script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon-j.svg?v=4" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3" />
+    <link rel="shortcut icon" href="/favicon.ico?v=3" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+    <link rel="mask-icon" href="/favicon-j.svg?v=4" color="#D52B1E" />
+    <link rel="manifest" href="/site.webmanifest?v=4" />
+  </head>
+  <body>
+    <header
+      class="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-line bg-paper/95 px-4 py-3 backdrop-blur lg:hidden"
+    >
+      <a href="/" class="font-sans text-sm font-semibold uppercase tracking-[0.18em] text-ink">
+        Jean Aboutboul
+      </a>
+      <div class="flex items-center gap-2">
+        <button
+          id="theme-toggle-mobile"
+          class="border border-line bg-paper-raised px-3 py-1.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-soft"
+          aria-label="Toggle dark mode"
+        >
+          Theme
+        </button>
+        <button
+          id="mobile-menu-btn"
+          class="border border-line bg-paper-raised px-3 py-1.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-soft"
+          aria-label="Open menu"
+        >
+          Menu
+        </button>
+      </div>
+    </header>
+
+    <div id="mobile-overlay" class="fixed inset-0 z-30 hidden bg-black/25 lg:hidden"></div>
+
+    <aside
+      id="sidebar"
+      class="fixed left-0 top-0 z-40 flex h-screen w-56 -translate-x-full border-r border-line bg-paper px-6 py-8 transition-transform duration-300 lg:translate-x-0"
+    >
+      <div class="flex h-full w-full flex-col justify-between">
+        <div>
+          <a href="/" class="font-sans text-xl font-semibold tracking-[0.08em] text-ink">
+            Jean Aboutboul
+          </a>
+
+          <nav class="mt-10 space-y-2" aria-label="Main navigation">
+            {navItems.map((item) => {
+              const isActive =
+                item.href === "/"
+                  ? currentPath === "/"
+                  : currentPath.startsWith(item.href);
+
+              return (
+                <a
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                  class:list={[
+                    "flex items-center gap-3 py-1 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition-colors",
+                    isActive ? "text-accent" : "text-ink-faint hover:text-ink",
+                  ]}
+                >
+                  <span class:list={["h-1.5 w-1.5", isActive ? "bg-accent" : "bg-line"]}></span>
+                  {item.label}
+                </a>
+              );
+            })}
+          </nav>
+        </div>
+
+        <button
+          id="theme-toggle-desktop"
+          class="self-start border border-line bg-paper-raised px-3 py-1.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-soft transition-colors hover:border-line-strong hover:text-ink"
+          aria-label="Toggle dark mode"
+        >
+          Theme
+        </button>
+      </div>
+    </aside>
+
+    <main class="min-w-0 px-6 py-12 pt-24 lg:ml-56 lg:px-10 lg:py-12">
+      <div class="mx-auto max-w-6xl">
+        <slot />
+      </div>
+    </main>
 
     <script>
-      // Theme toggle
-      document.getElementById("theme-toggle")?.addEventListener("click", () => {
+      const themeButtons = [
+        document.getElementById("theme-toggle-desktop"),
+        document.getElementById("theme-toggle-mobile"),
+      ].filter(Boolean) as HTMLElement[];
+
+      function updateThemeLabels() {
+        const label = document.documentElement.classList.contains("dark")
+          ? "Light mode"
+          : "Dark mode";
+
+        themeButtons.forEach((button) => {
+          button.textContent = label;
+        });
+      }
+
+      function toggleTheme() {
         const isDark = document.documentElement.classList.toggle("dark");
         localStorage.setItem("theme", isDark ? "dark" : "light");
-      });
+        updateThemeLabels();
+      }
 
-      // Mobile menu
+      updateThemeLabels();
+      themeButtons.forEach((button) => button.addEventListener("click", toggleTheme));
+
       const sidebar = document.getElementById("sidebar");
       const mobileBtn = document.getElementById("mobile-menu-btn");
       const overlay = document.getElementById("mobile-overlay");
+      const sidebarLinks = sidebar?.querySelectorAll("a");
 
-      function toggleMobile() {
+      function toggleMobileMenu() {
         sidebar?.classList.toggle("-translate-x-full");
         overlay?.classList.toggle("hidden");
       }
 
-      mobileBtn?.addEventListener("click", toggleMobile);
-      overlay?.addEventListener("click", toggleMobile);
+      mobileBtn?.addEventListener("click", toggleMobileMenu);
+      overlay?.addEventListener("click", toggleMobileMenu);
+      sidebarLinks?.forEach((link) => link.addEventListener("click", () => {
+        if (window.innerWidth < 1024 && !overlay?.classList.contains("hidden")) {
+          toggleMobileMenu();
+        }
+      }));
     </script>
   </body>
 </html>

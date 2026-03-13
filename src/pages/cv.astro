@@ -1,250 +1,237 @@
 ---
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import Layout from "../layouts/Layout.astro";
+
+const hasCvPdf = existsSync(fileURLToPath(new URL("../../public/cv.pdf", import.meta.url)));
 ---
 
 <Layout title="CV — Jean Aboutboul" description="Curriculum Vitae of Jean Aboutboul">
-  <div class="relative">
-    <!-- Download button -->
-    <div class="mb-8 flex items-center justify-between">
-      <h1 class="font-sans text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text">
-        Curriculum Vitae
-      </h1>
-      <a
-        href="/cv.pdf"
-        download
-        class="inline-flex items-center gap-2 rounded-lg bg-nord-frost1 px-4 py-2
-               text-sm font-sans font-medium text-white shadow-sm
-               hover:bg-nord-frost2 transition-colors"
-      >
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-        </svg>
-        Download PDF
-      </a>
+  <div class="max-w-5xl">
+    <div class="flex flex-col gap-6 pb-2 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p class="kicker">Curriculum Vitae</p>
+        <h1 class="page-title mt-4">Jean Aboutboul</h1>
+        <p class="mt-3 text-lg text-ink-soft">BSc Microengineering student at EPFL.</p>
+        <p class="mt-4 font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
+          Lausanne, Switzerland · jeanaboutboul@gmail.com ·
+          <a href="https://jeanaboutboul.com" class="hover:text-accent">
+            jeanaboutboul.com
+          </a>
+        </p>
+      </div>
+
+      {hasCvPdf && (
+        <a href="/cv.pdf" download class="button-primary">
+          Download PDF
+        </a>
+      )}
     </div>
 
-    <!-- Decorative line -->
-    <div class="h-px bg-gradient-to-r from-nord-frost1 via-nord-green to-transparent mb-10"></div>
-
-    <!-- ═══ Header ═══ -->
-    <section class="mb-12">
-      <h2 class="font-sans text-2xl font-bold text-gray-900 dark:text-dark-text">
-        Jean Aboutboul
-      </h2>
-      <p class="mt-1 font-sans text-lg text-nord-frost1 dark:text-nord-frost3">
-        BSc Microengineering Student &middot; EPFL
-      </p>
-      <p class="mt-2 text-sm text-gray-600 dark:text-dark-muted">
-        Lausanne, Switzerland &middot; jeanaboutboul@gmail.com &middot;
-        <a href="https://jeanaboutboul.com" class="text-nord-frost1 hover:underline dark:text-nord-frost3">jeanaboutboul.com</a>
-      </p>
-    </section>
-
-    <!-- ═══ Education ═══ -->
-    <section class="mb-10">
-      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
-        Education
-      </h3>
-      <div class="space-y-6">
-        <div class="flex justify-between items-start">
+    <section class="mt-12">
+      <h2 class="kicker">Education</h2>
+      <div class="mt-6 space-y-8">
+        <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-6">
           <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              BSc in Microengineering
-            </h4>
-            <p class="text-sm text-gray-600 dark:text-dark-muted">EPFL, Lausanne</p>
-            <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
-              Aspiring MSc in Robotics (2027–2029)
+            <h3 class="text-2xl font-bold tracking-tight text-ink">BSc in Microengineering</h3>
+            <p class="mt-2 text-base text-ink-soft">EPFL, Lausanne</p>
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft">
+              Aspiring MSc in Robotics (2027-2029)
             </p>
-            <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft">
               Coursework: Mechanics, Electrotechnics, Electronics, C++, Microcontrollers,
               Electromagnetic Systems, Logic Systems, Mechanism Design, MATLAB.
             </p>
           </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            Sept. 2023 — 2027
-          </span>
+          <p class="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
+            Sept. 2023 - 2027
+          </p>
         </div>
 
-        <div class="flex justify-between items-start">
+        <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-6">
           <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              Conservatoire de Lausanne — Independent Student
-            </h4>
-            <p class="text-sm text-gray-600 dark:text-dark-muted">Classical Piano &middot; 16 years of practice</p>
-            <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
+            <h3 class="text-2xl font-bold tracking-tight text-ink">
+              Conservatoire de Lausanne - Independent Student
+            </h3>
+            <p class="mt-2 text-base text-ink-soft">Classical Piano · 16 years of practice</p>
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft">
               Pursuing rigorous conservatoire-level training alongside engineering studies.
             </p>
           </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2020 — Present
-          </span>
+          <p class="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
+            2020 - Present
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- ═══ Projects ═══ -->
-    <section class="mb-10">
-      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
-        Projects
-      </h3>
-      <div class="space-y-6">
-        <div class="flex justify-between items-start">
+    <section class="mt-12">
+      <h2 class="kicker">Projects</h2>
+      <div class="mt-6 space-y-8">
+        <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-6">
           <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
+            <h3 class="text-2xl font-bold tracking-tight text-ink">
               Personal Astronomical Star Tracker
-            </h4>
-            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
-              <li>Designing a portable motorized telescope/camera mount for automated star tracking</li>
-              <li>Wrote full motor control firmware from scratch in AVR C — no library used</li>
-              <li>Hardware: MKS stepper drivers, custom electronics, 3D-printed &amp; machined enclosure</li>
-              <li>In progress: GoTo interface with Stellarium via computer control</li>
+            </h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
+              <li>Designing a portable motorized telescope or camera mount for automated star tracking.</li>
+              <li>Wrote full motor control firmware from scratch in AVR C with no library use.</li>
+              <li>Hardware: MKS stepper drivers, custom electronics, and a 3D-printed and machined enclosure.</li>
+              <li>In progress: GoTo interface with Stellarium via computer control.</li>
             </ul>
           </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2024 — Present
-          </span>
+          <p class="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
+            2024 - Present
+          </p>
         </div>
 
-        <div class="flex justify-between items-start">
+        <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-6">
           <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              CPU &amp; FPGA Design — From Scratch
-            </h4>
-            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
-              <li>Designed a complete CPU architecture and alarm clock on FPGA using Logisim</li>
-              <li>Implemented ALU, memory, control unit, and I/O logic — no HDL library used</li>
+            <h3 class="text-2xl font-bold tracking-tight text-ink">CPU & FPGA Design - From Scratch</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
+              <li>Designed a complete CPU architecture and alarm clock on FPGA using Logisim.</li>
+              <li>Implemented ALU, memory, control unit, and I/O logic with no HDL library use.</li>
             </ul>
           </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2023 — 2024
-          </span>
+          <p class="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
+            2023 - 2024
+          </p>
         </div>
 
-        <div class="flex justify-between items-start">
+        <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-6">
           <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              AI Agents &amp; Low-Level Software
-            </h4>
-            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
-              <li>Reinforcement learning agents from scratch in Python for 2048, Chess, Tic-Tac-Toe</li>
-              <li>Explored compiler design, OS architecture, and custom programming language</li>
-              <li>Developed a complete video game in C++ including game loop, rendering, and input</li>
+            <h3 class="text-2xl font-bold tracking-tight text-ink">
+              AI Agents & Low-Level Software
+            </h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
+              <li>Reinforcement learning agents from scratch in Python for 2048, Chess, and Tic-Tac-Toe.</li>
+              <li>Explored compiler design, OS architecture, and custom programming language design.</li>
+              <li>Developed a complete video game in C++ including game loop, rendering, and input.</li>
             </ul>
           </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2022 — Present
-          </span>
+          <p class="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
+            2022 - Present
+          </p>
         </div>
 
-        <div class="flex justify-between items-start">
+        <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-6">
           <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              StitchMeter — University Engineering Project
-            </h4>
-            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
-              <li>Co-designed a fully mechanical monolithic device to measure forces in surgical suture loops</li>
-              <li>Developed three design concepts with stress calculations and material selection</li>
+            <h3 class="text-2xl font-bold tracking-tight text-ink">
+              StitchMeter - University Engineering Project
+            </h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
+              <li>Co-designed a fully mechanical monolithic device to measure forces in surgical suture loops.</li>
+              <li>Developed three design concepts with stress calculations and material selection.</li>
             </ul>
           </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2024
-          </span>
+          <p class="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">2024</p>
         </div>
 
-        <div class="flex justify-between items-start">
+        <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-6">
           <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              Squash Ball Launcher — University Design Project
-            </h4>
-            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
-              <li>Co-designed a squash ball launcher mechanism in CATIA and Fusion 360</li>
-              <li>Full CAD modeling and mechanism dimensioning within a group engineering context</li>
+            <h3 class="text-2xl font-bold tracking-tight text-ink">
+              Squash Ball Launcher - University Design Project
+            </h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
+              <li>Co-designed a squash ball launcher mechanism in CATIA and Fusion 360.</li>
+              <li>Full CAD modeling and mechanism dimensioning within a group engineering context.</li>
             </ul>
           </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2024
-          </span>
+          <p class="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">2024</p>
         </div>
       </div>
     </section>
 
-    <!-- ═══ Skills ═══ -->
-    <section class="mb-10">
-      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
-        Skills
-      </h3>
-      <div class="grid grid-cols-2 gap-4 text-sm">
+    <section class="mt-12">
+      <h2 class="kicker">Skills</h2>
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
         <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Programming</h4>
-          <p class="text-gray-600 dark:text-dark-muted">C, C++, Python, JavaScript, Assembly (AVR)</p>
+          <h3 class="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-faint">
+            Programming
+          </h3>
+          <p class="mt-2 text-base leading-relaxed text-ink-soft">
+            C, C++, Python, JavaScript, Assembly (AVR)
+          </p>
         </div>
         <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Embedded</h4>
-          <p class="text-gray-600 dark:text-dark-muted">AVR microcontrollers, Arduino, Raspberry Pi, MKS stepper drivers, FPGA (Logisim)</p>
+          <h3 class="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-faint">
+            Embedded
+          </h3>
+          <p class="mt-2 text-base leading-relaxed text-ink-soft">
+            AVR microcontrollers, Arduino, Raspberry Pi, MKS stepper drivers, FPGA (Logisim)
+          </p>
         </div>
         <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">CAD</h4>
-          <p class="text-gray-600 dark:text-dark-muted">CATIA, Fusion 360, LTSpice</p>
+          <h3 class="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-faint">
+            CAD
+          </h3>
+          <p class="mt-2 text-base leading-relaxed text-ink-soft">CATIA, Fusion 360, LTSpice</p>
         </div>
         <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Fabrication</h4>
-          <p class="text-gray-600 dark:text-dark-muted">3D printing, machining, soldering, electronics assembly</p>
+          <h3 class="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-faint">
+            Fabrication
+          </h3>
+          <p class="mt-2 text-base leading-relaxed text-ink-soft">
+            3D printing, machining, soldering, electronics assembly
+          </p>
         </div>
         <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Tools</h4>
-          <p class="text-gray-600 dark:text-dark-muted">Linux (advanced), Git, Bash, MATLAB, Web development</p>
+          <h3 class="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-faint">
+            Tools
+          </h3>
+          <p class="mt-2 text-base leading-relaxed text-ink-soft">
+            Linux (advanced), Git, Bash, MATLAB, Web development
+          </p>
         </div>
         <div>
-          <h4 class="font-sans font-medium text-gray-900 dark:text-dark-text mb-1">Languages</h4>
-          <p class="text-gray-600 dark:text-dark-muted">French (native), English (C1 — Advanced)</p>
+          <h3 class="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-faint">
+            Languages
+          </h3>
+          <p class="mt-2 text-base leading-relaxed text-ink-soft">
+            French (native), English (C1 - Advanced)
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- ═══ Experience ═══ -->
-    <section class="mb-10">
-      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
-        Experience
-      </h3>
-      <div class="space-y-6">
-        <div class="flex justify-between items-start">
+    <section class="mt-12">
+      <h2 class="kicker">Experience</h2>
+      <div class="mt-6 space-y-8">
+        <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-6">
           <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              Intern — Ajinomatrix
-            </h4>
-            <p class="text-sm text-gray-600 dark:text-dark-muted">AI Sensory Analytics &middot; Collaboration with University of Helsinki</p>
-            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
-              <li>Assisted in data processing and programming for AI-based sensory analysis systems</li>
+            <h3 class="text-2xl font-bold tracking-tight text-ink">Intern - Ajinomatrix</h3>
+            <p class="mt-2 text-base text-ink-soft">
+              AI Sensory Analytics · Collaboration with University of Helsinki
+            </p>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
+              <li>Assisted in data processing and programming for AI-based sensory analysis systems.</li>
             </ul>
           </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
+          <p class="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
             Summer 2023
-          </span>
+          </p>
         </div>
 
-        <div class="flex justify-between items-start">
+        <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-6">
           <div>
-            <h4 class="font-sans font-semibold text-gray-900 dark:text-dark-text">
-              Piano Teaching Assistant — Conservatoire de Lausanne
-            </h4>
-            <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-dark-muted list-disc list-inside">
-              <li>Assisted in teaching classical piano within the conservatoire environment</li>
+            <h3 class="text-2xl font-bold tracking-tight text-ink">
+              Piano Teaching Assistant - Conservatoire de Lausanne
+            </h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
+              <li>Assisted in teaching classical piano within the conservatoire environment.</li>
             </ul>
           </div>
-          <span class="text-sm text-gray-400 dark:text-gray-500 font-sans whitespace-nowrap ml-4">
-            2022 — Present
-          </span>
+          <p class="font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
+            2022 - Present
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- ═══ Extracurricular ═══ -->
-    <section class="mb-10">
-      <h3 class="font-sans text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 border-b border-surface-secondary dark:border-dark-card pb-2">
-        Extracurricular
-      </h3>
-      <p class="text-sm text-gray-600 dark:text-dark-muted">
-        EPFL Robotics Association &amp; Space Club &middot; 2024 — Present
+    <section class="mt-12">
+      <h2 class="kicker">Extracurricular</h2>
+      <p class="mt-4 text-base leading-relaxed text-ink-soft">
+        EPFL Robotics Association & Space Club · 2024 - Present
       </p>
     </section>
   </div>

@@ -2,11 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Computer Modern font (self-hosted from CDN fallback) ── */
 @font-face {
   font-family: "Computer Modern Serif";
-  src: url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunrm.woff2") format("woff2"),
-       url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunrm.woff") format("woff");
+  src:
+    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunrm.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunrm.woff")
+      format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -14,8 +16,11 @@
 
 @font-face {
   font-family: "Computer Modern Serif";
-  src: url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunbx.woff2") format("woff2"),
-       url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunbx.woff") format("woff");
+  src:
+    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunbx.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunbx.woff")
+      format("woff");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -23,83 +28,140 @@
 
 @font-face {
   font-family: "Computer Modern Serif";
-  src: url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunti.woff2") format("woff2"),
-       url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunti.woff") format("woff");
+  src:
+    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunti.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunti.woff")
+      format("woff");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 
-/* ── Base layer ── */
 @layer base {
+  :root {
+    color-scheme: light;
+    --color-paper: 255 255 255;
+    --color-paper-raised: 255 255 255;
+    --color-paper-subtle: 248 248 249;
+    --color-ink: 19 19 20;
+    --color-ink-soft: 82 82 86;
+    --color-ink-faint: 125 125 132;
+    --color-line: 232 232 236;
+    --color-line-strong: 211 211 218;
+    --color-accent: 213 43 30;
+    --color-accent-soft: 244 228 225;
+    --color-accent-deep: 157 29 21;
+    --color-success: 71 106 83;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --color-paper: 18 18 20;
+    --color-paper-raised: 25 25 28;
+    --color-paper-subtle: 31 31 35;
+    --color-ink: 244 244 245;
+    --color-ink-soft: 214 214 219;
+    --color-ink-faint: 161 161 170;
+    --color-line: 56 56 63;
+    --color-line-strong: 83 83 92;
+    --color-accent: 224 72 60;
+    --color-accent-soft: 68 24 22;
+    --color-accent-deep: 247 128 116;
+    --color-success: 117 171 129;
+  }
+
   html {
-    @apply scroll-smooth;
+    @apply scroll-smooth bg-paper;
   }
 
   body {
-    @apply font-serif text-gray-800 bg-surface antialiased;
-    @apply transition-colors duration-300;
+    @apply bg-paper font-serif text-ink antialiased transition-colors duration-300;
   }
 
-  .dark body {
-    @apply bg-dark text-dark-muted;
+  a {
+    @apply transition-colors duration-150;
   }
 
-  /* Scrollbar styling */
+  strong {
+    @apply font-semibold text-ink;
+  }
+
+  hr {
+    @apply border-line;
+  }
+
+  ::selection {
+    background-color: rgba(213, 43, 30, 0.18);
+    color: rgb(19 19 20);
+  }
+
   ::-webkit-scrollbar {
     @apply w-2;
   }
+
   ::-webkit-scrollbar-track {
-    @apply bg-surface-secondary;
-  }
-  ::-webkit-scrollbar-thumb {
-    @apply bg-nord-frost2 rounded-full;
-  }
-  .dark ::-webkit-scrollbar-track {
-    @apply bg-dark-secondary;
-  }
-  .dark ::-webkit-scrollbar-thumb {
-    @apply bg-nord-frost1 rounded-full;
+    @apply bg-paper-subtle;
   }
 
-  /* Selection colors */
-  ::selection {
-    @apply bg-nord-frost3/30;
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-line-strong;
   }
-  .dark ::selection {
-    @apply bg-nord-frost1/30;
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent/60;
   }
 }
 
-/* ── Component layer ── */
 @layer components {
-  /* Code blocks always have a dark background */
+  .kicker {
+    @apply font-sans text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-ink-faint;
+  }
+
+  .page-title {
+    @apply font-serif text-4xl font-bold tracking-tight text-ink sm:text-5xl;
+  }
+
+  .page-intro {
+    @apply max-w-3xl text-lg leading-relaxed text-ink-soft;
+  }
+
+  .button-primary {
+    @apply inline-flex items-center gap-2 border border-accent bg-accent px-4 py-2 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:border-accent-deep hover:bg-accent-deep;
+  }
+
+  .button-secondary {
+    @apply inline-flex items-center gap-2 border border-line bg-paper-raised px-4 py-2 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-soft transition-colors hover:border-line-strong hover:text-ink dark:bg-paper-subtle;
+  }
+
+  .surface-card {
+    @apply border border-line bg-paper-raised;
+  }
+
+  .reading-panel {
+    @apply border border-line bg-paper-raised px-5 py-6 md:px-8 md:py-8;
+  }
+
+  .tag-list {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .tag-chip {
+    @apply inline-flex items-center bg-paper-subtle px-2 py-1 font-sans text-[0.68rem] uppercase tracking-[0.16em] text-ink-faint;
+  }
+
   pre {
-    @apply !bg-dark-secondary rounded-lg border border-gray-200;
-  }
-  .dark pre {
-    @apply !bg-dark-secondary border-dark-card;
+    @apply overflow-x-auto border border-[#1f1f1f] bg-[#111111] px-4 py-4 text-[0.92rem] text-[#f7f7f5];
   }
 
-  /* Inline code */
   :not(pre) > code {
-    @apply text-nord-frost1 bg-surface-secondary px-1.5 py-0.5 rounded text-sm;
-  }
-  .dark :not(pre) > code {
-    @apply text-nord-frost3 bg-dark-secondary;
+    @apply rounded-sm bg-paper-subtle px-1.5 py-0.5 text-[0.9em] text-accent-deep;
   }
 
-  /* Long-form note media: keep visuals readable and consistent */
   .prose img {
-    @apply mx-auto my-8 w-full max-w-3xl rounded-lg border border-surface-secondary shadow-sm;
-    max-height: 34rem;
+    @apply mx-auto my-8 w-full max-w-3xl border border-line bg-white p-2 dark:bg-paper-raised;
+    max-height: 36rem;
     object-fit: contain;
-    background-color: #ffffff;
-  }
-
-  .dark .prose img {
-    @apply border-dark-card;
-    background-color: #2E3440;
   }
 
   .prose p:has(> img) {
@@ -107,23 +169,19 @@
   }
 
   .prose table {
-    @apply overflow-hidden rounded-lg border border-surface-secondary;
+    @apply block overflow-x-auto border-y border-line;
   }
 
-  .dark .prose table {
-    @apply border-dark-card;
+  .prose thead th {
+    @apply font-sans text-[0.72rem] uppercase tracking-[0.16em] text-ink-faint;
   }
 
   .note-figure {
-    @apply my-6;
+    @apply my-8;
   }
 
   .note-figure figcaption {
-    @apply mt-2 text-center font-sans text-xs text-gray-500;
-  }
-
-  .dark .note-figure figcaption {
-    @apply text-dark-muted;
+    @apply mt-3 text-center font-sans text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint;
   }
 
   .note-figure--small {
@@ -131,91 +189,76 @@
   }
 
   .quiz-question {
-    @apply my-4 rounded-xl border border-surface-secondary bg-white p-4 shadow-sm;
-  }
-  .dark .quiz-question {
-    @apply border-dark-card bg-dark-secondary;
+    @apply my-6 border border-line bg-paper-raised p-5;
   }
 
   .quiz-question-title {
-    @apply font-sans text-base font-semibold text-gray-900;
+    @apply font-sans text-[0.76rem] font-semibold uppercase tracking-[0.16em] text-ink;
   }
-  .dark .quiz-question-title {
-    @apply text-dark-text;
-  }
+
   .quiz-question-title p {
     @apply m-0;
   }
 
   .quiz-options {
-    @apply mt-3 grid gap-2;
+    @apply mt-4 grid gap-2;
   }
 
   .quiz-option {
-    @apply flex w-full items-start gap-3 rounded-lg border border-surface-secondary bg-surface-card px-3 py-2 text-left text-sm text-gray-700 transition-all hover:border-nord-frost1/60 hover:bg-nord-frost1/5;
-  }
-  .dark .quiz-option {
-    @apply border-dark-card bg-dark text-dark-muted hover:border-nord-frost3/70 hover:bg-dark-card;
+    @apply flex w-full items-start gap-3 border border-line bg-paper px-3 py-2.5 text-left text-sm text-ink-soft transition-colors hover:border-line-strong hover:text-ink;
   }
 
   .quiz-option-key {
-    @apply inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-surface-secondary px-2 text-xs font-semibold text-gray-600;
-  }
-  .dark .quiz-option-key {
-    @apply bg-dark-card text-dark-text;
+    @apply inline-flex h-6 min-w-6 items-center justify-center bg-paper-subtle px-2 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-ink-faint;
   }
 
   .quiz-option.is-correct {
-    @apply border-nord-green/70 bg-nord-green/10;
+    @apply border-success/60 bg-success/10 text-ink;
   }
+
   .quiz-option.is-wrong {
-    @apply border-nord-red/60 bg-nord-red/10;
+    @apply border-accent/60 bg-accent/10 text-ink;
   }
+
   .quiz-option.is-correct-hint {
-    @apply border-nord-green/40;
+    @apply border-success/50;
   }
 
   .quiz-feedback {
-    @apply mt-4 rounded-lg border border-surface-secondary bg-surface px-4 py-3 opacity-0 transition-opacity duration-300;
+    @apply mt-4 border-t border-line px-0 pt-4 text-sm text-ink-soft opacity-0 transition-opacity duration-200;
   }
+
   .quiz-feedback.is-visible {
     @apply opacity-100;
   }
-  .dark .quiz-feedback {
-    @apply border-dark-card bg-dark;
-  }
 
   .quiz-feedback-label {
-    @apply mb-2 font-sans text-sm font-semibold;
+    @apply mb-2 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.16em];
   }
+
   .quiz-feedback-label.is-correct {
-    @apply text-nord-green;
+    @apply text-success;
   }
+
   .quiz-feedback-label.is-wrong {
-    @apply text-nord-red;
+    @apply text-accent;
   }
 
   .solution-reveal {
-    @apply my-3;
+    @apply my-4;
   }
 
   .solution-reveal-btn {
-    @apply rounded-md border border-nord-frost1/40 bg-nord-frost1/10 px-3 py-1.5 font-sans text-sm font-medium text-nord-frost1 transition-all hover:border-nord-frost1/60 hover:bg-nord-frost1/20;
-  }
-  .dark .solution-reveal-btn {
-    @apply border-nord-frost3/40 bg-nord-frost3/10 text-nord-frost3 hover:bg-nord-frost3/20;
+    @apply border border-line bg-paper-raised px-3 py-1.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-ink-soft transition-colors hover:border-line-strong hover:text-ink;
   }
 
   .solution-reveal-panel {
-    @apply mt-2 overflow-hidden rounded-lg border border-surface-secondary bg-surface-card transition-all duration-300 ease-out;
+    @apply mt-2 overflow-hidden border-l-2 border-accent transition-all duration-300 ease-out;
     max-height: 0;
-  }
-  .dark .solution-reveal-panel {
-    @apply border-dark-card bg-dark;
   }
 
   .solution-reveal-content {
-    @apply px-4 py-3 text-sm leading-relaxed;
+    @apply px-4 py-3 text-sm leading-relaxed text-ink-soft;
   }
 
   .solution-reveal-content p {
@@ -223,17 +266,11 @@
   }
 
   .correction-dropdown {
-    @apply my-3 overflow-hidden rounded-lg border border-surface-secondary bg-white shadow-sm;
-  }
-  .dark .correction-dropdown {
-    @apply border-dark-card bg-dark-secondary;
+    @apply my-4 overflow-hidden border border-line bg-paper-raised;
   }
 
   .correction-dropdown summary {
-    @apply flex cursor-pointer list-none items-center justify-between px-4 py-2.5 font-sans text-sm font-semibold text-gray-700;
-  }
-  .dark .correction-dropdown summary {
-    @apply text-dark-text;
+    @apply flex cursor-pointer list-none items-center justify-between px-4 py-3 font-sans text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-ink;
   }
 
   .correction-dropdown summary::-webkit-details-marker {
@@ -242,7 +279,7 @@
 
   .correction-dropdown summary::after {
     content: "+";
-    @apply text-base font-semibold text-gray-400;
+    @apply text-base font-semibold text-ink-faint;
   }
 
   .correction-dropdown[open] summary::after {
@@ -250,10 +287,7 @@
   }
 
   .correction-dropdown-content {
-    @apply border-t border-surface-secondary px-4 py-3 text-sm leading-relaxed;
-  }
-  .dark .correction-dropdown-content {
-    @apply border-dark-card;
+    @apply border-t border-line px-4 py-3 text-sm leading-relaxed text-ink-soft;
   }
 
   .correction-dropdown-content p {
@@ -275,17 +309,11 @@
   }
 
   .exercise-block {
-    @apply my-3 overflow-hidden rounded-xl border border-surface-secondary bg-white shadow-sm;
-  }
-  .dark .exercise-block {
-    @apply border-dark-card bg-dark-secondary;
+    @apply my-4 overflow-hidden border border-line bg-paper-raised;
   }
 
   .exercise-block summary {
-    @apply flex cursor-pointer list-none items-center justify-between px-4 py-2.5 font-sans text-sm font-semibold text-gray-700;
-  }
-  .dark .exercise-block summary {
-    @apply text-dark-text;
+    @apply flex cursor-pointer list-none items-center justify-between px-4 py-3 font-sans text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-ink;
   }
 
   .exercise-block summary::-webkit-details-marker {
@@ -294,7 +322,7 @@
 
   .exercise-block summary::after {
     content: "+";
-    @apply text-base font-semibold text-gray-400;
+    @apply text-base font-semibold text-ink-faint;
   }
 
   .exercise-block[open] summary::after {
@@ -302,26 +330,12 @@
   }
 
   .exercise-block-content {
-    @apply border-t border-surface-secondary px-4 py-3;
-  }
-  .dark .exercise-block-content {
-    @apply border-dark-card;
+    @apply border-t border-line px-4 py-3 text-sm leading-relaxed text-ink-soft;
   }
 
-  .exercise-block-content h4 {
-    @apply mt-4 font-sans text-sm font-semibold text-gray-700;
-  }
-
-  .dark .exercise-block-content h4 {
-    @apply text-dark-text;
-  }
-
+  .exercise-block-content h4,
   .exercise-block-content h5 {
-    @apply mt-4 mb-1 font-sans text-sm font-semibold text-gray-700;
-  }
-
-  .dark .exercise-block-content h5 {
-    @apply text-dark-text;
+    @apply mt-4 font-sans text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-ink;
   }
 
   .exercise-block-content > p:first-child {
@@ -333,28 +347,15 @@
   }
 
   .equation-card {
-    @apply my-5 rounded-lg border border-nord-frost1/30 bg-nord-frost1/5 px-4 py-3;
-  }
-  .dark .equation-card {
-    @apply border-nord-frost3/40 bg-dark;
+    @apply my-6 border-l-2 border-accent bg-accent/5 px-4 py-3;
   }
 
   .formula-sheet-card {
-    @apply my-7 rounded-xl border border-surface-secondary bg-white p-5 shadow-sm transition-all duration-300;
-  }
-  .formula-sheet-card:hover {
-    @apply -translate-y-0.5 shadow-md;
-  }
-  .dark .formula-sheet-card {
-    @apply border-dark-card bg-dark-secondary;
+    @apply my-8 border border-line bg-paper-raised p-5;
   }
 
   .formula-sheet-title {
-    @apply m-0 font-sans text-sm font-semibold uppercase tracking-wide text-gray-700;
-  }
-
-  .dark .formula-sheet-title {
-    @apply text-dark-text;
+    @apply m-0 font-sans text-[0.74rem] font-semibold uppercase tracking-[0.18em] text-ink;
   }
 
   .formula-sheet-grid {
@@ -362,32 +363,28 @@
   }
 
   .formula-sheet-item {
-    @apply rounded-lg border border-surface-secondary bg-surface-card px-3 py-2;
-  }
-
-  .dark .formula-sheet-item {
-    @apply border-dark-card bg-dark;
+    @apply border border-line bg-paper px-3 py-2;
   }
 
   .formula-sheet-item > p {
-    @apply m-0 font-sans text-xs font-medium uppercase tracking-wide text-gray-500;
-  }
-
-  .dark .formula-sheet-item > p {
-    @apply text-dark-muted;
+    @apply m-0 font-sans text-[0.68rem] font-medium uppercase tracking-[0.16em] text-ink-faint;
   }
 
   .formula-sheet-item .katex-display {
     @apply my-2;
   }
 
+  .business-card-copy {
+    font-family: "Garamond Classico", "Adobe Garamond Pro", "EB Garamond", "Garamond", serif;
+    font-variant-caps: all-small-caps;
+    font-feature-settings: "smcp" 1, "c2sc" 1;
+  }
 }
 
-/* ── KaTeX overrides ── */
 .katex-display {
   @apply overflow-x-auto overflow-y-hidden py-2;
 }
 
-.dark .katex {
-  color: #ECEFF4;
+.katex {
+  color: rgb(var(--color-ink));
 }
