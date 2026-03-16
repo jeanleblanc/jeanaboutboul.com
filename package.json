@@ -1,14 +1,25 @@
 {
-  "name": "personal-website",
+  "name": "jeanaboutboul.com",
+  "description": "Personal website for Jean Aboutboul built with Astro and MDX.",
+  "private": true,
   "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "postbuild": "pagefind --site dist"
+  },
+  "homepage": "https://jeanaboutboul.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AboutJean/jeanaboutboul.com.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AboutJean/jeanaboutboul.com/issues"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",

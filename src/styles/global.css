@@ -138,6 +138,26 @@
     @apply border border-line bg-paper-raised;
   }
 
+  .interactive-card {
+    @apply surface-card block transition-colors hover:border-line-strong;
+  }
+
+  .card-padding {
+    padding: 1.35rem;
+  }
+
+  .card-padding-lg {
+    padding: 1.6rem;
+  }
+
+  .filter-chip {
+    @apply border border-line bg-paper-raised px-3 py-1.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-soft transition-colors hover:border-line-strong hover:text-ink;
+  }
+
+  .filter-chip.is-active {
+    @apply border-accent text-accent;
+  }
+
   .reading-panel {
     @apply border border-line bg-paper-raised px-5 py-6 md:px-8 md:py-8;
   }
@@ -378,6 +398,14 @@
     font-family: "Garamond Classico", "Adobe Garamond Pro", "EB Garamond", "Garamond", serif;
     font-variant-caps: all-small-caps;
     font-feature-settings: "smcp" 1, "c2sc" 1;
+  }
+
+  .contact-business-card {
+    @apply transition-transform duration-200 ease-out;
+  }
+
+  .contact-business-card:hover {
+    transform: scale(1.02);
   }
 }
 

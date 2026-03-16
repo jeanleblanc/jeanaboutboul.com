@@ -1,13 +1,5 @@
 ---
-interface HeadingItem {
-  slug: string;
-  text: string;
-}
-
-interface TocSection {
-  heading: HeadingItem;
-  children: HeadingItem[];
-}
+import type { TocSection } from "../utils/toc";
 
 interface Props {
   tocSections: TocSection[];

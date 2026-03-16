@@ -2,6 +2,8 @@
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 import RightRailToc from "../../components/RightRailToc.astro";
+import { formatMonthYear } from "../../utils/content";
+import { buildTocSections } from "../../utils/toc";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -13,25 +15,7 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content, headings } = await render(project);
-const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
-const tocSections = toc.reduce(
-  (sections, heading) => {
-    if (heading.depth === 2) {
-      sections.push({ heading, children: [] });
-      return sections;
-    }
-
-    const lastSection = sections[sections.length - 1];
-    if (lastSection) {
-      lastSection.children.push(heading);
-    }
-    return sections;
-  },
-  [] as Array<{
-    heading: (typeof toc)[number];
-    children: Array<(typeof toc)[number]>;
-  }>
-);
+const tocSections = buildTocSections(headings);
 ---
 
 <Layout title={project.data.title} description={project.data.summary}>
@@ -46,10 +30,7 @@ const tocSections = toc.reduce(
         </a>
 
         <time class="mt-6 block font-sans text-[0.68rem] uppercase tracking-[0.18em] text-ink-faint">
-          {project.data.date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-          })}
+          {formatMonthYear(project.data.date)}
         </time>
 
         <h1 class="mt-4 max-w-4xl text-4xl font-bold tracking-tight text-ink sm:text-5xl">

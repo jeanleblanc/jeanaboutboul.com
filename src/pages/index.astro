@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
+import { formatSemesterOrMonth, getTalkCategoryLabel, isEpflTalk } from "../utils/content";
 
 const allProjects = (await getCollection("projects")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -16,8 +17,9 @@ const recentTalks = allTalks.slice(0, 2);
 <Layout title="Jean Aboutboul">
   <section class="grid gap-12 lg:grid-cols-[minmax(0,1.7fr)_15rem] lg:items-start">
     <div>
-      <h1 class="max-w-4xl text-5xl font-bold tracking-tight text-ink sm:text-6xl">
-        Building careful machines, notes, and software.
+      <h1 class="max-w-4xl text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+        &ldquo;The Analytical Engine weaves algebraic patterns just as the Jacquard loom
+        weaves flowers and leaves. - Ada Lovelace&rdquo; - Jean Aboutboul
       </h1>
 
       <p class="mt-6 max-w-3xl text-xl leading-relaxed text-ink-soft">
@@ -45,6 +47,11 @@ const recentTalks = allTalks.slice(0, 2);
       </div>
 
       <div class="space-y-2">
+        <dt class="text-[0.68rem] uppercase tracking-[0.22em] text-ink-faint">Interests</dt>
+        <dd class="text-sm leading-relaxed text-ink-soft">Music, philosophy.</dd>
+      </div>
+
+      <div class="space-y-2">
         <dt class="text-[0.68rem] uppercase tracking-[0.22em] text-ink-faint">Studying</dt>
         <dd class="text-sm leading-relaxed text-ink-soft">BSc Microengineering, EPFL.</dd>
       </div>
@@ -63,9 +70,9 @@ const recentTalks = allTalks.slice(0, 2);
             </a>
           </p>
           <p>
-            <a href="https://github.com/jeanleblanc" class="hover:text-accent">GitHub</a>
+            <a href="https://github.com/AboutJean" class="hover:text-accent">GitHub</a>
             {" / "}
-            <a href="https://www.linkedin.com/in/jean-a-724358231/" class="hover:text-accent">
+            <a href="https://www.linkedin.com/in/jean-aboutboul" class="hover:text-accent">
               LinkedIn
             </a>
           </p>
@@ -74,12 +81,12 @@ const recentTalks = allTalks.slice(0, 2);
     </dl>
   </section>
 
-  <section class="mt-16 grid gap-8 border-t border-line pt-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.9fr)]">
+  <section class="mt-16 grid gap-8 pt-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.9fr)]">
     <div>
       <p class="kicker">Recent project</p>
       <div class="mt-4 border-y border-line py-4">
         {recentProject.map((project) => (
-          <a href={`/projects/${project.id}`} class="surface-card block p-6 transition-colors hover:border-line-strong">
+          <a href={`/projects/${project.id}`} class="interactive-card card-padding-lg">
             <h2 class="text-3xl font-bold tracking-tight text-ink">{project.data.title}</h2>
             <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-soft">
               {project.data.summary}
@@ -110,20 +117,16 @@ const recentTalks = allTalks.slice(0, 2);
       <div class="mt-4 border-y border-line py-4">
         <div class="grid gap-4">
           {recentTalks.map((talk) => (
-            <a href={`/talks/${talk.id}`} class="surface-card block p-5 transition-colors hover:border-line-strong">
+            <a href={`/talks/${talk.id}`} class="interactive-card card-padding">
               <p class="font-sans text-[0.68rem] uppercase tracking-[0.18em] text-accent">
-                {talk.data.category}
+                {getTalkCategoryLabel(talk)}
               </p>
               <h3 class="mt-3 text-2xl font-bold tracking-tight text-ink">{talk.data.title}</h3>
               <p class="mt-3 text-sm leading-relaxed text-ink-soft">
                 {talk.data.summary}
               </p>
               <time class="mt-4 block font-sans text-[0.68rem] uppercase tracking-[0.18em] text-ink-faint">
-                {talk.data.date.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                {formatSemesterOrMonth(talk.data.date, isEpflTalk(talk))}
               </time>
             </a>
           ))}

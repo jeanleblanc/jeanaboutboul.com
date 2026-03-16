@@ -1,12 +1,18 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
+import {
+  formatSemesterOrMonth,
+  getTalkCategoryLabel,
+  getTalkVenueLabel,
+  isEpflTalk,
+} from "../../utils/content";
 
 const talks = (await getCollection("talks")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
-const categories = [...new Set(talks.map((t) => t.data.category))];
+const categories = [...new Set(talks.map((talk) => getTalkCategoryLabel(talk)))];
 ---
 
 <Layout title="Talks & Notes" description="Lectures, notes, and articles">
@@ -31,14 +37,14 @@ const categories = [...new Set(talks.map((t) => t.data.category))];
 
       <div class="flex flex-wrap gap-2">
         <button
-          class="filter-btn border border-line bg-paper-raised px-3 py-1.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-soft transition-colors hover:border-line-strong hover:text-ink"
+          class="filter-btn filter-chip"
           data-category="all"
         >
           All
         </button>
         {categories.map((cat) => (
           <button
-            class="filter-btn border border-line bg-paper-raised px-3 py-1.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-soft transition-colors hover:border-line-strong hover:text-ink"
+            class="filter-btn filter-chip"
             data-category={cat}
           >
             {cat}
@@ -51,20 +57,16 @@ const categories = [...new Set(talks.map((t) => t.data.category))];
       {talks.map((talk) => (
         <a
           href={`/talks/${talk.id}`}
-          class="talk-item surface-card block p-5 transition-colors hover:border-line-strong"
+          class="talk-item interactive-card card-padding"
           data-title={talk.data.title.toLowerCase()}
           data-summary={talk.data.summary.toLowerCase()}
-          data-category={talk.data.category}
+          data-category={getTalkCategoryLabel(talk)}
           data-tags={talk.data.tags.join(" ").toLowerCase()}
         >
           <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-sans text-[0.68rem] uppercase tracking-[0.18em] text-ink-faint">
-            <span class="text-accent">{talk.data.category}</span>
+            <span class="text-accent">{getTalkCategoryLabel(talk)}</span>
             <time>
-              {talk.data.date.toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
+              {formatSemesterOrMonth(talk.data.date, isEpflTalk(talk))}
             </time>
           </div>
 
@@ -72,9 +74,9 @@ const categories = [...new Set(talks.map((t) => t.data.category))];
             {talk.data.title}
           </h2>
 
-          {talk.data.venue && (
+          {getTalkVenueLabel(talk) && (
             <p class="mt-3 text-sm leading-relaxed text-ink-soft">
-              {talk.data.venue}
+              {getTalkVenueLabel(talk)}
             </p>
           )}
 
@@ -137,13 +139,13 @@ const categories = [...new Set(talks.map((t) => t.data.category))];
 
     filterBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
-        filterBtns.forEach((b) => b.classList.remove("active", "!border-accent", "!text-accent"));
-        btn.classList.add("active", "!border-accent", "!text-accent");
+        filterBtns.forEach((filterBtn) => filterBtn.classList.remove("is-active"));
+        btn.classList.add("is-active");
         activeCategory = btn.dataset.category || "all";
         filterTalks();
       });
     });
 
-    filterBtns[0]?.classList.add("!border-accent", "!text-accent");
+    filterBtns[0]?.classList.add("is-active");
   </script>
 </Layout>
