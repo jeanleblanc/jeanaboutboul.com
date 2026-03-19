@@ -1,6 +1,7 @@
 ## Notes
 - Astronomy
 - Comp Sci
+- Linux et sécurité informatique
 
 - Analyse II
 - Analyse III

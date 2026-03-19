@@ -1,0 +1,1075 @@
+---
+interface Props {
+  defaultDepth?: "auto" | 2 | 3;
+}
+
+const { defaultDepth = "auto" } = Astro.props;
+---
+
+<div
+  class="not-prose project-lab surface-card"
+  data-project-2048-lab
+  data-default-depth={String(defaultDepth)}
+>
+  <div class="project-lab__header">
+    <div class="project-lab__copy">
+      <p class="kicker">Interactive Lab</p>
+      <h3 class="project-lab__title">IA 2048 directement dans la page</h3>
+      <p class="project-lab__lede">
+        Ce laboratoire embarque un moteur 2048 en JavaScript, une évaluation
+        heuristique pondérée, et une recherche Expectimax compacte pour pouvoir
+        tester l’agent directement sur le site.
+      </p>
+    </div>
+
+    <dl class="project-lab__overview" aria-label="Lab overview">
+      <div>
+        <dt>Plateau</dt>
+        <dd>4 x 4</dd>
+      </div>
+      <div>
+        <dt>Recherche</dt>
+        <dd>Expectimax</dd>
+      </div>
+      <div>
+        <dt>Cache de lignes</dt>
+        <dd data-cache-size>20,736 états</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="project-lab__body">
+    <section class="project-lab__board-panel">
+      <div class="project-lab__score-strip" aria-label="Current run statistics">
+        <div class="project-lab__stat">
+          <span>Score</span>
+          <strong data-score>0</strong>
+        </div>
+        <div class="project-lab__stat">
+          <span>Meilleure tuile</span>
+          <strong data-best-tile>2</strong>
+        </div>
+        <div class="project-lab__stat">
+          <span>Cases vides</span>
+          <strong data-empty-cells>14</strong>
+        </div>
+        <div class="project-lab__stat">
+          <span>Profondeur</span>
+          <strong data-depth>2</strong>
+        </div>
+      </div>
+
+      <div class="project-lab__board-frame">
+        <div
+          class="project-lab__board"
+          tabindex="0"
+          role="application"
+          aria-label="2048 board. Click to focus, then use arrow keys or WASD."
+          data-board
+        >
+          {Array.from({ length: 16 }).map(() => (
+            <div class="project-lab__tile" data-rank="0" data-digits="1" aria-label="Case vide">
+              <span></span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p class="project-lab__status" data-status>
+        Clique sur le plateau puis utilise les flèches ou WASD. Tu peux aussi
+        laisser l’IA avancer coup par coup ou en autoplay.
+      </p>
+    </section>
+
+    <aside class="project-lab__side-panel">
+      <section class="project-lab__controls" aria-label="Controls">
+        <div class="project-lab__button-row">
+          <button type="button" class="button-primary" data-action="toggle-autoplay">
+            Lancer l’IA
+          </button>
+          <button type="button" class="button-secondary" data-action="step-ai">
+            Un coup IA
+          </button>
+          <button type="button" class="button-secondary" data-action="reset">
+            Réinitialiser
+          </button>
+        </div>
+
+        <div class="project-lab__control-block">
+          <span class="project-lab__control-label">Profondeur de recherche</span>
+          <div class="project-lab__button-row project-lab__button-row--compact">
+            <button type="button" class="project-lab__toggle is-active" data-depth-mode="auto">
+              Auto
+            </button>
+            <button type="button" class="project-lab__toggle" data-depth-mode="2">
+              Depth 2
+            </button>
+            <button type="button" class="project-lab__toggle" data-depth-mode="3">
+              Depth 3
+            </button>
+          </div>
+        </div>
+
+        <div class="project-lab__control-block">
+          <label class="project-lab__control-label" for="project-2048-speed">
+            Cadence autoplay
+          </label>
+          <div class="project-lab__range-row">
+            <input
+              id="project-2048-speed"
+              type="range"
+              min="90"
+              max="520"
+              step="10"
+              value="180"
+              data-speed
+            />
+            <span data-speed-value>180 ms</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="project-lab__analysis surface-card" aria-label="Search recommendation">
+        <div class="project-lab__analysis-header">
+          <div>
+            <p class="project-lab__mini-kicker">Recommandation</p>
+            <p class="project-lab__analysis-move" data-best-move>Analyse en attente</p>
+          </div>
+          <div class="project-lab__analysis-meta">
+            <span>Valeur estimée</span>
+            <strong data-best-value>0</strong>
+          </div>
+        </div>
+
+        <dl class="project-lab__analysis-stats">
+          <div>
+            <dt>Nœuds visités</dt>
+            <dd data-nodes>0</dd>
+          </div>
+          <div>
+            <dt>Cache hits</dt>
+            <dd data-cache-hits>0</dd>
+          </div>
+          <div>
+            <dt>Feuilles évaluées</dt>
+            <dd data-leaf-evals>0</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="project-lab__move-table-wrap surface-card" aria-label="Candidate moves">
+        <p class="project-lab__mini-kicker">Table des coups</p>
+        <table class="project-lab__move-table">
+          <thead>
+            <tr>
+              <th scope="col">Coup</th>
+              <th scope="col">Valeur Expectimax</th>
+            </tr>
+          </thead>
+          <tbody data-move-table></tbody>
+        </table>
+      </section>
+
+      <section class="project-lab__heuristics surface-card" aria-label="Heuristic breakdown">
+        <p class="project-lab__mini-kicker">Décomposition heuristique</p>
+        <div class="project-lab__heuristics-list" data-heuristics></div>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script>
+  import {
+    MOVE_CACHE_SIZE,
+    DIRECTION_SYMBOLS,
+    analyzePosition,
+    createInitialState,
+    playMove,
+    stepExpectimax,
+  } from "../../lib/ai2048-browser.js";
+
+  const numberFormat = new Intl.NumberFormat("fr-FR", {
+    maximumFractionDigits: 0,
+  });
+
+  const heuristicLabels = {
+    emptySpace: "Espace libre",
+    mergePotential: "Fusions potentielles",
+    monotonicity: "Monotonicité",
+    loadPenalty: "Charge du plateau",
+    cornerAnchor: "Ancrage dans un coin",
+    maxTile: "Grande tuile",
+  };
+
+  function formatDirection(direction) {
+    if (!direction) {
+      return "Aucun coup légal";
+    }
+
+    return `${DIRECTION_SYMBOLS[direction]} ${direction}`;
+  }
+
+  function clampPercentage(value) {
+    return `${Math.max(8, Math.min(100, value))}%`;
+  }
+
+  function initProject2048Lab(root) {
+    if (!root || root.dataset.ready === "true") {
+      return;
+    }
+
+    root.dataset.ready = "true";
+
+    let depthMode = root.dataset.defaultDepth === "2"
+      ? 2
+      : root.dataset.defaultDepth === "3"
+        ? 3
+        : "auto";
+    let autoplayDelay = 180;
+    let autoplayTimer = null;
+    let isAutoplaying = false;
+    let previousGrid = null;
+    let state = createInitialState();
+    let analysis = analyzePosition(state, depthMode);
+
+    const boardElement = root.querySelector("[data-board]");
+    const statusElement = root.querySelector("[data-status]");
+    const scoreElement = root.querySelector("[data-score]");
+    const bestTileElement = root.querySelector("[data-best-tile]");
+    const emptyCellsElement = root.querySelector("[data-empty-cells]");
+    const depthElement = root.querySelector("[data-depth]");
+    const bestMoveElement = root.querySelector("[data-best-move]");
+    const bestValueElement = root.querySelector("[data-best-value]");
+    const nodesElement = root.querySelector("[data-nodes]");
+    const cacheHitsElement = root.querySelector("[data-cache-hits]");
+    const leafEvaluationsElement = root.querySelector("[data-leaf-evals]");
+    const moveTableElement = root.querySelector("[data-move-table]");
+    const heuristicsElement = root.querySelector("[data-heuristics]");
+    const speedInput = root.querySelector("[data-speed]");
+    const speedValueElement = root.querySelector("[data-speed-value]");
+    const depthButtons = [...root.querySelectorAll("[data-depth-mode]")];
+    const autoplayButton = root.querySelector('[data-action="toggle-autoplay"]');
+    const stepButton = root.querySelector('[data-action="step-ai"]');
+    const resetButton = root.querySelector('[data-action="reset"]');
+    const cacheSizeElement = root.querySelector("[data-cache-size]");
+
+    if (cacheSizeElement) {
+      cacheSizeElement.textContent = `${numberFormat.format(MOVE_CACHE_SIZE)} états`;
+    }
+
+    function recomputeAnalysis() {
+      analysis = analyzePosition(state, depthMode);
+    }
+
+    function renderStatus(overrideMessage) {
+      if (!statusElement) {
+        return;
+      }
+
+      if (overrideMessage) {
+        statusElement.textContent = overrideMessage;
+        return;
+      }
+
+      if (state.over) {
+        statusElement.textContent =
+          "Partie terminée. Réinitialise le plateau ou relance l’IA depuis une nouvelle position.";
+        return;
+      }
+
+      if (isAutoplaying && analysis.bestMove) {
+        statusElement.textContent =
+          `Autoplay actif. Recommandation actuelle: ${formatDirection(analysis.bestMove)}.`;
+        return;
+      }
+
+      if (analysis.bestMove) {
+        statusElement.textContent =
+          `Mode manuel. Recommandation actuelle: ${formatDirection(analysis.bestMove)}.`;
+        return;
+      }
+
+      statusElement.textContent =
+        "Clique sur le plateau puis utilise les flèches ou WASD. Tu peux aussi laisser l’IA avancer coup par coup ou en autoplay.";
+    }
+
+    function updateAutoplayButton() {
+      if (autoplayButton) {
+        autoplayButton.textContent = isAutoplaying ? "Pause IA" : "Lancer l’IA";
+      }
+    }
+
+    function updateDepthButtons() {
+      depthButtons.forEach((button) => {
+        button.classList.toggle(
+          "is-active",
+          button.getAttribute("data-depth-mode") === String(depthMode)
+        );
+      });
+    }
+
+    function renderBoard() {
+      if (!boardElement) {
+        return;
+      }
+
+      boardElement.innerHTML = state.grid
+        .flatMap((row, rowIndex) =>
+          row.map((value, columnIndex) => {
+            const previousValue = previousGrid?.[rowIndex]?.[columnIndex] ?? null;
+            const changed = previousValue !== null && previousValue !== value;
+            const rank = value === 0 ? 0 : Math.min(13, Math.floor(Math.log2(value)));
+            const digits = value === 0 ? 1 : String(value).length;
+
+            return `
+              <div
+                class="project-lab__tile${changed ? " is-updated" : ""}"
+                data-rank="${rank}"
+                data-digits="${digits}"
+                aria-label="${value === 0 ? "Case vide" : `Tuile ${value}`}"
+              >
+                <span>${value === 0 ? "" : value}</span>
+              </div>
+            `;
+          })
+        )
+        .join("");
+    }
+
+    function renderMoveTable() {
+      if (!moveTableElement) {
+        return;
+      }
+
+      moveTableElement.innerHTML = analysis.moveTable
+        .map((entry) => {
+          const valueLabel = entry.legal
+            ? numberFormat.format(Math.round(entry.value))
+            : "illégal";
+
+          return `
+            <tr class="${entry.isBest ? "is-best" : ""}">
+              <td>${entry.symbol} ${entry.direction}</td>
+              <td>${valueLabel}</td>
+            </tr>
+          `;
+        })
+        .join("");
+    }
+
+    function renderHeuristics() {
+      if (!heuristicsElement) {
+        return;
+      }
+
+      const contributions = Object.entries(analysis.heuristics.contributions);
+      const maxContribution = Math.max(
+        ...contributions.map(([, value]) => Math.abs(value)),
+        1
+      );
+
+      heuristicsElement.innerHTML = contributions
+        .map(([key, value]) => {
+          const width = clampPercentage((Math.abs(value) / maxContribution) * 100);
+          const sign = value >= 0 ? "+" : "\u2212";
+
+          return `
+            <div class="project-lab__heuristic-row ${value >= 0 ? "is-positive" : "is-negative"}">
+              <div class="project-lab__heuristic-meta">
+                <span>${heuristicLabels[key]}</span>
+                <strong>${sign}${numberFormat.format(Math.round(Math.abs(value)))}</strong>
+              </div>
+              <div class="project-lab__heuristic-bar">
+                <span style="width:${width}"></span>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    function renderSummary() {
+      if (scoreElement) {
+        scoreElement.textContent = numberFormat.format(state.score);
+      }
+
+      if (bestTileElement) {
+        bestTileElement.textContent = numberFormat.format(analysis.summary.bestTile);
+      }
+
+      if (emptyCellsElement) {
+        emptyCellsElement.textContent = numberFormat.format(analysis.summary.emptyCells);
+      }
+
+      if (depthElement) {
+        depthElement.textContent = String(analysis.depth);
+      }
+
+      if (bestMoveElement) {
+        bestMoveElement.textContent = formatDirection(analysis.bestMove);
+      }
+
+      if (bestValueElement) {
+        bestValueElement.textContent =
+          analysis.bestValue === null
+            ? "N/A"
+            : numberFormat.format(Math.round(analysis.bestValue));
+      }
+
+      if (nodesElement) {
+        nodesElement.textContent = numberFormat.format(analysis.stats.nodesVisited);
+      }
+
+      if (cacheHitsElement) {
+        cacheHitsElement.textContent = numberFormat.format(analysis.stats.cacheHits);
+      }
+
+      if (leafEvaluationsElement) {
+        leafEvaluationsElement.textContent = numberFormat.format(
+          analysis.stats.leafEvaluations
+        );
+      }
+    }
+
+    function render() {
+      updateDepthButtons();
+      updateAutoplayButton();
+      renderBoard();
+      renderSummary();
+      renderMoveTable();
+      renderHeuristics();
+      renderStatus();
+    }
+
+    function pauseAutoplay() {
+      isAutoplaying = false;
+      window.clearTimeout(autoplayTimer);
+      updateAutoplayButton();
+      renderStatus();
+    }
+
+    function scheduleNextStep() {
+      window.clearTimeout(autoplayTimer);
+
+      if (!isAutoplaying) {
+        return;
+      }
+
+      autoplayTimer = window.setTimeout(() => {
+        performAiStep();
+
+        if (isAutoplaying && !state.over) {
+          scheduleNextStep();
+        }
+      }, autoplayDelay);
+    }
+
+    function startAutoplay() {
+      if (state.over) {
+        previousGrid = null;
+        state = createInitialState();
+        recomputeAnalysis();
+      }
+
+      isAutoplaying = true;
+      updateAutoplayButton();
+      renderStatus();
+      scheduleNextStep();
+    }
+
+    function performManualMove(direction) {
+      const result = playMove(state, direction);
+
+      if (!result.changed) {
+        renderStatus(`Le coup ${formatDirection(direction)} ne change pas le plateau.`);
+        return;
+      }
+
+      previousGrid = state.grid;
+      state = result.state;
+      recomputeAnalysis();
+      render();
+    }
+
+    function performAiStep() {
+      const result = stepExpectimax(state, depthMode);
+      previousGrid = state.grid;
+      state = result.state;
+
+      if (result.changed) {
+        recomputeAnalysis();
+      } else {
+        analysis = result.analysis;
+      }
+
+      render();
+
+      if (!result.changed) {
+        pauseAutoplay();
+      }
+    }
+
+    autoplayButton?.addEventListener("click", () => {
+      if (isAutoplaying) {
+        pauseAutoplay();
+      } else {
+        startAutoplay();
+      }
+    });
+
+    stepButton?.addEventListener("click", () => {
+      pauseAutoplay();
+      performAiStep();
+    });
+
+    resetButton?.addEventListener("click", () => {
+      pauseAutoplay();
+      previousGrid = null;
+      state = createInitialState();
+      recomputeAnalysis();
+      render();
+    });
+
+    depthButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const depthValue = button.getAttribute("data-depth-mode");
+        depthMode = depthValue === "2" ? 2 : depthValue === "3" ? 3 : "auto";
+        recomputeAnalysis();
+        render();
+      });
+    });
+
+    speedInput?.addEventListener("input", () => {
+      autoplayDelay = Number(speedInput.value);
+
+      if (speedValueElement) {
+        speedValueElement.textContent = `${autoplayDelay} ms`;
+      }
+
+      if (isAutoplaying) {
+        scheduleNextStep();
+      }
+    });
+
+    boardElement?.addEventListener("click", () => {
+      boardElement.focus();
+    });
+
+    boardElement?.addEventListener("keydown", (event) => {
+      const directionMap = {
+        ArrowUp: "up",
+        ArrowRight: "right",
+        ArrowDown: "down",
+        ArrowLeft: "left",
+        w: "up",
+        d: "right",
+        s: "down",
+        a: "left",
+        W: "up",
+        D: "right",
+        S: "down",
+        A: "left",
+      };
+
+      const direction = directionMap[event.key];
+      if (!direction) {
+        return;
+      }
+
+      event.preventDefault();
+      pauseAutoplay();
+      performManualMove(direction);
+    });
+
+    root.classList.add("is-visible");
+    render();
+  }
+
+  function bootProject2048Labs() {
+    document.querySelectorAll("[data-project-2048-lab]").forEach(initProject2048Lab);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootProject2048Labs, { once: true });
+  } else {
+    bootProject2048Labs();
+  }
+</script>
+
+<style>
+  .project-lab {
+    display: block;
+    opacity: 1;
+    transform: none;
+    transition: border-color 220ms ease;
+  }
+
+  .project-lab.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .project-lab__header,
+  .project-lab__body {
+    padding: 1.5rem;
+  }
+
+  .project-lab__header {
+    display: grid;
+    gap: 1.25rem;
+    border-bottom: 1px solid rgb(var(--color-line));
+  }
+
+  .project-lab__copy {
+    max-width: 42rem;
+  }
+
+  .project-lab__title {
+    margin: 0.5rem 0 0;
+    font-size: clamp(1.55rem, 2.4vw, 2rem);
+    line-height: 1.15;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-lab__lede {
+    margin: 0.9rem 0 0;
+    max-width: 44rem;
+    line-height: 1.7;
+    color: rgb(var(--color-ink-soft));
+  }
+
+  .project-lab__overview {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .project-lab__overview div,
+  .project-lab__analysis-stats div {
+    border: 1px solid rgb(var(--color-line));
+    background: rgb(var(--color-paper-subtle));
+    padding: 0.85rem 0.9rem;
+  }
+
+  .project-lab__overview dt,
+  .project-lab__analysis-stats dt {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--color-ink-faint));
+  }
+
+  .project-lab__overview dd,
+  .project-lab__analysis-stats dd {
+    margin: 0.45rem 0 0;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.95rem;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-lab__body {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .project-lab__board-panel {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .project-lab__score-strip {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project-lab__stat {
+    border: 1px solid rgb(var(--color-line));
+    background:
+      linear-gradient(
+        180deg,
+        rgba(var(--color-accent), 0.08),
+        rgba(var(--color-accent), 0.02)
+      ),
+      rgb(var(--color-paper-subtle));
+    padding: 0.85rem 0.95rem;
+  }
+
+  .project-lab__stat span,
+  .project-lab__mini-kicker,
+  .project-lab__control-label {
+    display: block;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgb(var(--color-ink-faint));
+  }
+
+  .project-lab__stat strong {
+    display: block;
+    margin-top: 0.45rem;
+    font-size: 1.15rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .project-lab__board-frame {
+    border: 1px solid rgb(var(--color-line));
+    background:
+      radial-gradient(circle at top right, rgba(var(--color-accent), 0.08), transparent 45%),
+      rgb(var(--color-paper-subtle));
+    padding: 1rem;
+  }
+
+  .project-lab__board {
+    display: grid;
+    gap: 0.55rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    outline: none;
+  }
+
+  .project-lab__board:focus-visible {
+    box-shadow: 0 0 0 2px rgba(var(--color-accent), 0.3);
+  }
+
+  .project-lab__tile {
+    display: flex;
+    aspect-ratio: 1;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(var(--color-line));
+    background: rgb(var(--color-paper));
+    color: rgb(var(--color-ink));
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(1rem, 2.8vw, 1.5rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .project-lab__tile.is-updated {
+    animation: tile-pop 260ms ease;
+  }
+
+  .project-lab__tile[data-digits="4"] {
+    font-size: clamp(0.9rem, 2.3vw, 1.2rem);
+  }
+
+  .project-lab__tile[data-rank="0"] {
+    background: rgb(var(--color-paper));
+    color: rgb(var(--color-ink-faint));
+  }
+
+  .project-lab__tile[data-rank="1"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 87%, rgb(var(--color-accent)) 13%);
+  }
+
+  .project-lab__tile[data-rank="2"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 82%, rgb(var(--color-accent)) 18%);
+  }
+
+  .project-lab__tile[data-rank="3"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 77%, rgb(var(--color-accent)) 23%);
+  }
+
+  .project-lab__tile[data-rank="4"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 72%, rgb(var(--color-accent)) 28%);
+  }
+
+  .project-lab__tile[data-rank="5"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 67%, rgb(var(--color-accent)) 33%);
+  }
+
+  .project-lab__tile[data-rank="6"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 61%, rgb(var(--color-accent)) 39%);
+  }
+
+  .project-lab__tile[data-rank="7"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 54%, rgb(var(--color-accent)) 46%);
+  }
+
+  .project-lab__tile[data-rank="8"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 46%, rgb(var(--color-accent)) 54%);
+  }
+
+  .project-lab__tile[data-rank="9"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 37%, rgb(var(--color-accent)) 63%);
+    color: white;
+  }
+
+  .project-lab__tile[data-rank="10"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 28%, rgb(var(--color-accent)) 72%);
+    color: white;
+  }
+
+  .project-lab__tile[data-rank="11"] {
+    background: color-mix(in srgb, rgb(var(--color-paper)) 20%, rgb(var(--color-accent)) 80%);
+    color: white;
+  }
+
+  .project-lab__tile[data-rank="12"],
+  .project-lab__tile[data-rank="13"] {
+    background: rgb(var(--color-accent));
+    border-color: rgb(var(--color-accent-deep));
+    color: white;
+  }
+
+  .project-lab__status {
+    margin: 0;
+    line-height: 1.6;
+    color: rgb(var(--color-ink-soft));
+  }
+
+  .project-lab__side-panel {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .project-lab__controls,
+  .project-lab__analysis,
+  .project-lab__move-table-wrap,
+  .project-lab__heuristics {
+    padding: 1rem;
+  }
+
+  .project-lab__button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .project-lab__button-row--compact button {
+    flex: 1;
+  }
+
+  .project-lab__toggle {
+    border: 1px solid rgb(var(--color-line));
+    background: rgb(var(--color-paper));
+    padding: 0.7rem 0.8rem;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--color-ink-soft));
+    transition:
+      border-color 160ms ease,
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .project-lab__toggle:hover,
+  .project-lab__toggle.is-active {
+    border-color: rgb(var(--color-accent));
+    color: rgb(var(--color-accent));
+  }
+
+  .project-lab__toggle.is-active {
+    background: rgba(var(--color-accent), 0.06);
+  }
+
+  .project-lab__control-block + .project-lab__control-block {
+    margin-top: 1rem;
+  }
+
+  .project-lab__range-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 0.65rem;
+  }
+
+  .project-lab__range-row input {
+    width: 100%;
+  }
+
+  .project-lab__range-row span,
+  .project-lab__analysis-meta strong,
+  .project-lab__analysis-move {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .project-lab__range-row span {
+    min-width: 4.8rem;
+    text-align: right;
+    color: rgb(var(--color-ink-soft));
+  }
+
+  .project-lab__analysis-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .project-lab__analysis-move {
+    margin: 0.45rem 0 0;
+    font-size: 1.3rem;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-lab__analysis-meta {
+    text-align: right;
+  }
+
+  .project-lab__analysis-meta span {
+    display: block;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--color-ink-faint));
+  }
+
+  .project-lab__analysis-meta strong {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 1.05rem;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-lab__analysis-stats {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .project-lab__move-table {
+    width: 100%;
+    margin-top: 0.75rem;
+    border-collapse: collapse;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.83rem;
+  }
+
+  .project-lab__move-table th,
+  .project-lab__move-table td {
+    border-top: 1px solid rgb(var(--color-line));
+    padding: 0.75rem 0;
+    text-align: left;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .project-lab__move-table thead th {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--color-ink-faint));
+  }
+
+  .project-lab__move-table tr.is-best td {
+    color: rgb(var(--color-accent));
+    font-weight: 700;
+  }
+
+  .project-lab__heuristics-list {
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 0.75rem;
+  }
+
+  .project-lab__heuristic-row {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .project-lab__heuristic-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.78rem;
+    color: rgb(var(--color-ink-soft));
+  }
+
+  .project-lab__heuristic-meta strong {
+    font-size: 0.82rem;
+  }
+
+  .project-lab__heuristic-row.is-positive strong {
+    color: rgb(var(--color-success));
+  }
+
+  .project-lab__heuristic-row.is-negative strong {
+    color: rgb(var(--color-accent));
+  }
+
+  .project-lab__heuristic-bar {
+    height: 0.48rem;
+    overflow: hidden;
+    background: rgb(var(--color-paper-subtle));
+  }
+
+  .project-lab__heuristic-bar span {
+    display: block;
+    height: 100%;
+    transition: width 260ms ease;
+  }
+
+  .project-lab__heuristic-row.is-positive .project-lab__heuristic-bar span {
+    background: rgb(var(--color-success));
+  }
+
+  .project-lab__heuristic-row.is-negative .project-lab__heuristic-bar span {
+    background: rgb(var(--color-accent));
+  }
+
+  @keyframes tile-pop {
+    0% {
+      transform: scale(0.9);
+      border-color: rgba(var(--color-accent), 0.6);
+    }
+    65% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+      border-color: rgb(var(--color-line));
+    }
+  }
+
+  @media (min-width: 960px) {
+    .project-lab__header {
+      grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.9fr);
+      align-items: start;
+    }
+
+    .project-lab__body {
+      grid-template-columns: minmax(0, 1fr) minmax(22rem, 25rem);
+      align-items: start;
+    }
+
+    .project-lab__score-strip {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .project-lab__header,
+    .project-lab__body {
+      padding: 1.1rem;
+    }
+
+    .project-lab__overview,
+    .project-lab__analysis-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .project-lab__analysis-header {
+      align-items: start;
+      flex-direction: column;
+    }
+
+    .project-lab__analysis-meta {
+      text-align: left;
+    }
+  }
+</style>

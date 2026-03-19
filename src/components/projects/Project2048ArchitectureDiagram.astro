@@ -1,0 +1,231 @@
+<figure class="not-prose project-2048-diagram surface-card" aria-labelledby="project-2048-architecture-title">
+  <figcaption class="project-2048-diagram__header">
+    <p class="kicker">Diagram</p>
+    <h3 id="project-2048-architecture-title">Architecture du projet</h3>
+    <p>
+      Une vue d’ensemble des blocs principaux du dépôt et des flux d’information
+      entre moteur, interface, heuristique et recherche.
+    </p>
+  </figcaption>
+
+  <div class="project-2048-diagram__grid project-2048-diagram__grid--architecture">
+    <section class="project-2048-diagram__card" data-area="engine">
+      <h4>Game engine</h4>
+      <ul>
+        <li>grille 4x4</li>
+        <li>déplacements et fusions</li>
+        <li>ajout aléatoire de tuiles</li>
+      </ul>
+    </section>
+
+    <div class="project-2048-diagram__link project-2048-diagram__link--h" data-area="engine-ui">
+      <span>état du jeu</span>
+    </div>
+
+    <section class="project-2048-diagram__card" data-area="ui">
+      <h4>UI / orchestration</h4>
+      <ul>
+        <li>mode joueur</li>
+        <li>mode IA</li>
+        <li>boucle de sauvegarde</li>
+      </ul>
+    </section>
+
+    <div class="project-2048-diagram__link project-2048-diagram__link--h" data-area="ui-persist">
+      <span>sauvegarde / lecture</span>
+    </div>
+
+    <section class="project-2048-diagram__card" data-area="persist">
+      <h4>Persistance</h4>
+      <ul>
+        <li>partie en cours</li>
+        <li>meilleur score</li>
+        <li>artefacts expérimentaux</li>
+      </ul>
+    </section>
+
+    <section class="project-2048-diagram__card is-accent" data-area="eval">
+      <h4>Évaluation heuristique</h4>
+      <ul>
+        <li>cases vides</li>
+        <li>fusions potentielles</li>
+        <li>monotonicité + coin cible</li>
+      </ul>
+    </section>
+
+    <div class="project-2048-diagram__link project-2048-diagram__link--h is-accent" data-area="eval-search">
+      <span>score d’état</span>
+    </div>
+
+    <section class="project-2048-diagram__card is-accent" data-area="search">
+      <h4>Recherche Expectimax</h4>
+      <ul>
+        <li>nœuds MAX</li>
+        <li>nœuds CHANCE</li>
+        <li>mémoïsation + symétries</li>
+      </ul>
+    </section>
+
+    <div class="project-2048-diagram__link project-2048-diagram__link--v" data-area="ui-search">
+      <span>simulation de coups</span>
+    </div>
+
+    <div class="project-2048-diagram__link project-2048-diagram__link--return" data-area="search-ui">
+      <span>meilleur mouvement</span>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .project-2048-diagram {
+    padding: 1.25rem;
+  }
+
+  .project-2048-diagram__header h3 {
+    margin: 0.45rem 0 0;
+    font-size: clamp(1.45rem, 2.3vw, 2rem);
+    line-height: 1.15;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-2048-diagram__header p:last-child {
+    margin: 0.8rem 0 0;
+    max-width: 54rem;
+    line-height: 1.65;
+    color: rgb(var(--color-ink-soft));
+  }
+
+  .project-2048-diagram__grid {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 1.2rem;
+  }
+
+  .project-2048-diagram__card {
+    border: 1px solid rgb(var(--color-line-strong));
+    background: rgb(var(--color-paper));
+    padding: 1rem 1.05rem;
+  }
+
+  .project-2048-diagram__card.is-accent {
+    border-color: rgba(var(--color-accent), 0.7);
+    background: rgba(var(--color-accent), 0.04);
+  }
+
+  .project-2048-diagram__card h4 {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.2;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-2048-diagram__card ul {
+    margin: 0.8rem 0 0;
+    padding-left: 1.1rem;
+    color: rgb(var(--color-ink-soft));
+    line-height: 1.65;
+  }
+
+  .project-2048-diagram__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-align: center;
+    text-transform: uppercase;
+    color: rgb(var(--color-ink-faint));
+  }
+
+  .project-2048-diagram__link span {
+    background: rgb(var(--color-paper-raised));
+    padding: 0.1rem 0.45rem;
+  }
+
+  .project-2048-diagram__link.is-accent span {
+    color: rgb(var(--color-accent));
+  }
+
+  .project-2048-diagram__link--h::before,
+  .project-2048-diagram__link--h::after,
+  .project-2048-diagram__link--v::before,
+  .project-2048-diagram__link--v::after,
+  .project-2048-diagram__link--return::before,
+  .project-2048-diagram__link--return::after {
+    content: "";
+    display: block;
+    background: rgb(var(--color-line-strong));
+  }
+
+  .project-2048-diagram__link--h::before,
+  .project-2048-diagram__link--h::after {
+    flex: 1;
+    height: 1px;
+  }
+
+  .project-2048-diagram__link--h span {
+    margin: 0 0.5rem;
+  }
+
+  .project-2048-diagram__link--v {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .project-2048-diagram__link--v::before,
+  .project-2048-diagram__link--v::after {
+    width: 1px;
+    height: 2rem;
+  }
+
+  .project-2048-diagram__link--return {
+    flex-direction: column;
+    gap: 0.35rem;
+    color: rgb(var(--color-accent));
+  }
+
+  .project-2048-diagram__link--return::before,
+  .project-2048-diagram__link--return::after {
+    width: 1px;
+    height: 1.35rem;
+    background: rgba(var(--color-accent), 0.7);
+  }
+
+  @media (min-width: 960px) {
+    .project-2048-diagram__grid--architecture {
+      grid-template-columns: minmax(0, 1fr) minmax(6rem, 7rem) minmax(0, 1fr) minmax(6rem, 7rem) minmax(0, 1fr);
+      grid-template-areas:
+        "engine engine-ui ui ui-persist persist"
+        ". . ui-search . ."
+        "eval eval-search search search-ui .";
+      align-items: center;
+    }
+
+    [data-area="engine"] { grid-area: engine; }
+    [data-area="engine-ui"] { grid-area: engine-ui; }
+    [data-area="ui"] { grid-area: ui; }
+    [data-area="ui-persist"] { grid-area: ui-persist; }
+    [data-area="persist"] { grid-area: persist; }
+    [data-area="eval"] { grid-area: eval; }
+    [data-area="eval-search"] { grid-area: eval-search; }
+    [data-area="search"] { grid-area: search; }
+    [data-area="ui-search"] { grid-area: ui-search; }
+    [data-area="search-ui"] { grid-area: search-ui; }
+  }
+
+  @media (max-width: 959px) {
+    .project-2048-diagram__grid--architecture {
+      grid-template-columns: 1fr;
+    }
+
+    .project-2048-diagram__link--v::before,
+    .project-2048-diagram__link--v::after,
+    .project-2048-diagram__link--return::before,
+    .project-2048-diagram__link--return::after {
+      height: 1rem;
+    }
+  }
+</style>

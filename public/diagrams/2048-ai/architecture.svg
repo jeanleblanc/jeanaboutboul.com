@@ -1,0 +1,51 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="700" fill="white"/>
+  <g fill="#131314" font-family="Georgia, serif">
+    <text x="82" y="88" font-size="42" font-weight="700">2048 AI architecture</text>
+    <text x="82" y="126" font-size="24" fill="#525256">A deterministic engine, a UI layer, and a search loop connected by explicit state evaluation.</text>
+  </g>
+  <g stroke="#131314" stroke-width="3">
+    <rect x="82" y="196" width="266" height="164" rx="16" fill="#F8F8F9"/>
+    <rect x="466" y="196" width="266" height="164" rx="16" fill="#F8F8F9"/>
+    <rect x="850" y="196" width="266" height="164" rx="16" fill="#F8F8F9"/>
+    <rect x="274" y="446" width="266" height="164" rx="16" fill="#FFF6F4" stroke="#D5431E"/>
+    <rect x="658" y="446" width="266" height="164" rx="16" fill="#FFF6F4" stroke="#D5431E"/>
+    <path d="M348 278H466"/>
+    <path d="M732 278H850"/>
+    <path d="M599 360V446"/>
+    <path d="M599 446H658"/>
+    <path d="M466 528H540"/>
+  </g>
+  <g fill="#131314" font-family="Arial, sans-serif">
+    <text x="116" y="244" font-size="26" font-weight="700">Game engine</text>
+    <text x="116" y="282" font-size="20" fill="#525256">4 x 4 grid state</text>
+    <text x="116" y="312" font-size="20" fill="#525256">movement + merges</text>
+    <text x="116" y="342" font-size="20" fill="#525256">random tile insertion</text>
+
+    <text x="504" y="244" font-size="26" font-weight="700">UI / orchestration</text>
+    <text x="504" y="282" font-size="20" fill="#525256">player mode</text>
+    <text x="504" y="312" font-size="20" fill="#525256">AI mode</text>
+    <text x="504" y="342" font-size="20" fill="#525256">save + refresh cycle</text>
+
+    <text x="888" y="244" font-size="26" font-weight="700">Persistence</text>
+    <text x="888" y="282" font-size="20" fill="#525256">current board snapshot</text>
+    <text x="888" y="312" font-size="20" fill="#525256">best score</text>
+    <text x="888" y="342" font-size="20" fill="#525256">tuning artifacts</text>
+
+    <text x="310" y="494" font-size="26" font-weight="700">Heuristic evaluation</text>
+    <text x="310" y="532" font-size="20" fill="#525256">empty cells</text>
+    <text x="310" y="562" font-size="20" fill="#525256">merge potential</text>
+    <text x="310" y="592" font-size="20" fill="#525256">monotonicity + corner anchor</text>
+
+    <text x="694" y="494" font-size="26" font-weight="700">Expectimax search</text>
+    <text x="694" y="532" font-size="20" fill="#525256">MAX nodes: choose move</text>
+    <text x="694" y="562" font-size="20" fill="#525256">CHANCE nodes: 2 / 4 spawns</text>
+    <text x="694" y="592" font-size="20" fill="#525256">memoized expected value</text>
+  </g>
+  <g fill="#D5431E" font-family="Arial, sans-serif" font-size="20" font-weight="700">
+    <text x="372" y="266">game state</text>
+    <text x="757" y="266">save / restore</text>
+    <text x="617" y="414">score(state)</text>
+    <text x="552" y="512">best move</text>
+  </g>
+</svg>

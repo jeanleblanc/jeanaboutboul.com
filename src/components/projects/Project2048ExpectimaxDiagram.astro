@@ -1,0 +1,204 @@
+<figure class="not-prose project-2048-flow surface-card" aria-labelledby="project-2048-flow-title">
+  <figcaption class="project-2048-flow__header">
+    <p class="kicker">Diagram</p>
+    <h3 id="project-2048-flow-title">Flux de décision Expectimax</h3>
+    <p>
+      Une représentation lisible des nœuds MAX, des nœuds CHANCE et du calcul
+      d’espérance qui permet de choisir le meilleur coup.
+    </p>
+  </figcaption>
+
+  <div class="project-2048-flow__grid">
+    <section class="project-2048-flow__card" data-area="root">
+      <h4>État courant</h4>
+      <p>énumération des coups légaux</p>
+    </section>
+
+    <div class="project-2048-flow__link" data-area="root-link">
+      <span>coups simulés</span>
+    </div>
+
+    <section class="project-2048-flow__card is-accent" data-area="max-up">
+      <h4>Move up</h4>
+      <p>MAX node</p>
+    </section>
+
+    <section class="project-2048-flow__card is-accent" data-area="max-right">
+      <h4>Move right</h4>
+      <p>MAX node</p>
+    </section>
+
+    <section class="project-2048-flow__card is-accent" data-area="max-left">
+      <h4>Move left</h4>
+      <p>MAX node</p>
+    </section>
+
+    <div class="project-2048-flow__link" data-area="up-link">
+      <span>récompense + espérance</span>
+    </div>
+    <div class="project-2048-flow__link" data-area="right-link">
+      <span>récompense + espérance</span>
+    </div>
+    <div class="project-2048-flow__link" data-area="left-link">
+      <span>récompense + espérance</span>
+    </div>
+
+    <section class="project-2048-flow__card" data-area="chance-up">
+      <h4>2 / 4 spawns</h4>
+      <p>CHANCE node</p>
+    </section>
+
+    <section class="project-2048-flow__card" data-area="chance-right">
+      <h4>2 / 4 spawns</h4>
+      <p>CHANCE node</p>
+    </section>
+
+    <section class="project-2048-flow__card" data-area="chance-left">
+      <h4>2 / 4 spawns</h4>
+      <p>CHANCE node</p>
+    </section>
+
+    <div class="project-2048-flow__link project-2048-flow__link--vertical" data-area="select-link">
+      <span>sélection du maximum</span>
+    </div>
+
+    <section class="project-2048-flow__card" data-area="select">
+      <h4>Heuristique</h4>
+      <p>expected value</p>
+    </section>
+  </div>
+</figure>
+
+<style>
+  .project-2048-flow {
+    padding: 1.25rem;
+  }
+
+  .project-2048-flow__header h3 {
+    margin: 0.45rem 0 0;
+    font-size: clamp(1.45rem, 2.3vw, 2rem);
+    line-height: 1.15;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-2048-flow__header p:last-child {
+    margin: 0.8rem 0 0;
+    max-width: 54rem;
+    line-height: 1.65;
+    color: rgb(var(--color-ink-soft));
+  }
+
+  .project-2048-flow__grid {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+    align-items: center;
+  }
+
+  .project-2048-flow__card {
+    border: 1px solid rgb(var(--color-line-strong));
+    background: rgb(var(--color-paper));
+    padding: 1rem;
+  }
+
+  .project-2048-flow__card.is-accent {
+    border-color: rgba(var(--color-accent), 0.7);
+    background: rgba(var(--color-accent), 0.04);
+  }
+
+  .project-2048-flow__card h4 {
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.2;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-2048-flow__card p {
+    margin: 0.65rem 0 0;
+    color: rgb(var(--color-ink-soft));
+  }
+
+  .project-2048-flow__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-align: center;
+    text-transform: uppercase;
+    color: rgb(var(--color-accent));
+  }
+
+  .project-2048-flow__link span {
+    background: rgb(var(--color-paper-raised));
+    padding: 0.1rem 0.4rem;
+  }
+
+  .project-2048-flow__link::before,
+  .project-2048-flow__link::after {
+    content: "";
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: rgb(var(--color-line-strong));
+  }
+
+  .project-2048-flow__link span {
+    margin: 0 0.45rem;
+  }
+
+  .project-2048-flow__link--vertical {
+    flex-direction: column;
+    color: rgb(var(--color-accent));
+  }
+
+  .project-2048-flow__link--vertical::before,
+  .project-2048-flow__link--vertical::after {
+    width: 1px;
+    height: 3rem;
+    flex: none;
+    background: rgb(var(--color-line-strong));
+  }
+
+  .project-2048-flow__link--vertical span {
+    margin: 0.35rem 0;
+  }
+
+  @media (min-width: 1040px) {
+    .project-2048-flow__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(5rem, 6rem) minmax(0, 1.05fr) minmax(7rem, 8rem) minmax(0, 1.05fr) minmax(5rem, 6rem) minmax(0, 0.8fr);
+      grid-template-areas:
+        ". . max-up up-link chance-up select-link select"
+        "root root-link max-right right-link chance-right select-link select"
+        ". . max-left left-link chance-left select-link select";
+    }
+
+    [data-area="root"] { grid-area: root; }
+    [data-area="root-link"] { grid-area: root-link; }
+    [data-area="max-up"] { grid-area: max-up; }
+    [data-area="max-right"] { grid-area: max-right; }
+    [data-area="max-left"] { grid-area: max-left; }
+    [data-area="up-link"] { grid-area: up-link; }
+    [data-area="right-link"] { grid-area: right-link; }
+    [data-area="left-link"] { grid-area: left-link; }
+    [data-area="chance-up"] { grid-area: chance-up; }
+    [data-area="chance-right"] { grid-area: chance-right; }
+    [data-area="chance-left"] { grid-area: chance-left; }
+    [data-area="select-link"] { grid-area: select-link; }
+    [data-area="select"] { grid-area: select; }
+  }
+
+  @media (max-width: 1039px) {
+    .project-2048-flow__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-2048-flow__link--vertical::before,
+    .project-2048-flow__link--vertical::after {
+      height: 1rem;
+    }
+  }
+</style>

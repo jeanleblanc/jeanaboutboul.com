@@ -1,0 +1,68 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" fill="#F8F8F9"/>
+  <rect x="86" y="96" width="440" height="440" rx="18" fill="white" stroke="#E8E8EC" stroke-width="6"/>
+  <g fill="#131314" font-family="Georgia, serif">
+    <text x="86" y="66" font-size="34" font-weight="700">2048 AI</text>
+    <text x="86" y="594" font-size="26" fill="#525256">Engine, Expectimax, heuristics</text>
+  </g>
+  <g stroke="#E8E8EC" stroke-width="4">
+    <rect x="118" y="128" width="86" height="86" fill="#FFFFFF"/>
+    <rect x="212" y="128" width="86" height="86" fill="#F9F0EE"/>
+    <rect x="306" y="128" width="86" height="86" fill="#F5DDDA"/>
+    <rect x="400" y="128" width="86" height="86" fill="#F1CBC5"/>
+    <rect x="118" y="222" width="86" height="86" fill="#FFFFFF"/>
+    <rect x="212" y="222" width="86" height="86" fill="#F7E7E3"/>
+    <rect x="306" y="222" width="86" height="86" fill="#F2D3CE"/>
+    <rect x="400" y="222" width="86" height="86" fill="#EAB6AE"/>
+    <rect x="118" y="316" width="86" height="86" fill="#FFFFFF"/>
+    <rect x="212" y="316" width="86" height="86" fill="#FFFFFF"/>
+    <rect x="306" y="316" width="86" height="86" fill="#F4DDD8"/>
+    <rect x="400" y="316" width="86" height="86" fill="#D5431E"/>
+    <rect x="118" y="410" width="86" height="86" fill="#FFFFFF"/>
+    <rect x="212" y="410" width="86" height="86" fill="#F8ECE8"/>
+    <rect x="306" y="410" width="86" height="86" fill="#F4DDD8"/>
+    <rect x="400" y="410" width="86" height="86" fill="#E08A7A"/>
+  </g>
+  <g fill="#131314" font-family="Arial, sans-serif" font-size="30" font-weight="700">
+    <text x="238" y="181">2</text>
+    <text x="330" y="181">4</text>
+    <text x="419" y="181">8</text>
+    <text x="236" y="275">2</text>
+    <text x="321" y="275">16</text>
+    <text x="412" y="275">32</text>
+    <text x="329" y="369">4</text>
+    <text x="404" y="369" fill="white">512</text>
+    <text x="237" y="463">2</text>
+    <text x="321" y="463">8</text>
+    <text x="410" y="463">64</text>
+  </g>
+  <path d="M582 312H686" stroke="#D5431E" stroke-width="5" stroke-linecap="round"/>
+  <path d="M664 286L692 312L664 338" stroke="#D5431E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#131314" font-family="Arial, sans-serif">
+    <text x="596" y="274" font-size="24" font-weight="700">EXPECTIMAX</text>
+    <text x="582" y="360" font-size="21" fill="#525256">chance nodes + heuristic value</text>
+  </g>
+  <g stroke="#131314" stroke-width="4">
+    <rect x="726" y="172" width="184" height="96" rx="14" fill="white"/>
+    <rect x="966" y="108" width="148" height="82" rx="12" fill="white"/>
+    <rect x="966" y="250" width="148" height="82" rx="12" fill="white"/>
+    <rect x="966" y="392" width="148" height="82" rx="12" fill="white"/>
+    <path d="M910 220H966"/>
+    <path d="M910 220L966 149"/>
+    <path d="M910 220L966 433"/>
+  </g>
+  <g fill="#131314" font-family="Arial, sans-serif">
+    <text x="772" y="214" font-size="26" font-weight="700">Current state</text>
+    <text x="770" y="246" font-size="21" fill="#525256">ordered legal moves</text>
+    <text x="999" y="158" font-size="22" font-weight="700">Move A</text>
+    <text x="987" y="286" font-size="22" font-weight="700">Move B</text>
+    <text x="999" y="428" font-size="22" font-weight="700">Move C</text>
+    <text x="992" y="182" font-size="18" fill="#525256">E[value]</text>
+    <text x="992" y="310" font-size="18" fill="#525256">E[value]</text>
+    <text x="992" y="452" font-size="18" fill="#525256">E[value]</text>
+  </g>
+  <g fill="#D5431E" font-family="Arial, sans-serif" font-size="20" font-weight="700">
+    <text x="86" y="734">Precomputed left-move cache: 20,736 line states</text>
+    <text x="86" y="774">Browser lab: manual play, step-by-step AI, and autoplay</text>
+  </g>
+</svg>

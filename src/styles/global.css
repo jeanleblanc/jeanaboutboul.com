@@ -5,9 +5,7 @@
 @font-face {
   font-family: "Computer Modern Serif";
   src:
-    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunrm.woff2")
-      format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunrm.woff")
+    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/font/Serif/cmunrm.woff")
       format("woff");
   font-weight: 400;
   font-style: normal;
@@ -17,9 +15,7 @@
 @font-face {
   font-family: "Computer Modern Serif";
   src:
-    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunbx.woff2")
-      format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunbx.woff")
+    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/font/Serif/cmunbx.woff")
       format("woff");
   font-weight: 700;
   font-style: normal;
@@ -29,9 +25,7 @@
 @font-face {
   font-family: "Computer Modern Serif";
   src:
-    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunti.woff2")
-      format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts/cmunti.woff")
+    url("https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/font/Serif/cmunti.woff")
       format("woff");
   font-weight: 400;
   font-style: italic;

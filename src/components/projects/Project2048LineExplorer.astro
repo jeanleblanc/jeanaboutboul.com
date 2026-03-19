@@ -1,0 +1,230 @@
+<div class="not-prose project-2048-line-explorer surface-card" data-line-explorer>
+  <div class="project-2048-line-explorer__header">
+    <p class="kicker">Interactive Element</p>
+    <h3>Explorateur de ligne pré-calculée</h3>
+    <p>
+      Cette petite interface reprend la logique de déplacement vers la gauche
+      utilisée dans le moteur. Elle montre le résultat d’une ligne, le score de
+      fusion obtenu, et si le cas est couvert par le cache pré-calculé.
+    </p>
+  </div>
+
+  <div class="project-2048-line-explorer__body">
+    <div class="project-2048-line-explorer__presets">
+      <button type="button" data-line="2,0,2,4">2, 0, 2, 4</button>
+      <button type="button" data-line="4,4,8,0">4, 4, 8, 0</button>
+      <button type="button" data-line="2,2,2,2">2, 2, 2, 2</button>
+      <button type="button" data-line="1024,1024,0,2">1024, 1024, 0, 2</button>
+    </div>
+
+    <div class="project-2048-line-explorer__grid">
+      <section>
+        <p>Entrée</p>
+        <div class="project-2048-line-explorer__cells" data-input-line></div>
+      </section>
+
+      <section>
+        <p>Sortie après déplacement gauche</p>
+        <div class="project-2048-line-explorer__cells" data-output-line></div>
+      </section>
+    </div>
+
+    <dl class="project-2048-line-explorer__stats">
+      <div>
+        <dt>Score gagné</dt>
+        <dd data-merge-score>0</dd>
+      </div>
+      <div>
+        <dt>Ligne modifiée</dt>
+        <dd data-changed>Non</dd>
+      </div>
+      <div>
+        <dt>Cache utilisé</dt>
+        <dd data-from-cache>Oui</dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+<script>
+  import { simulateLeftLine } from "../../lib/ai2048-browser.js";
+
+  function renderCells(container, values) {
+    container.innerHTML = values
+      .map((value) => `<span>${value === 0 ? "·" : value}</span>`)
+      .join("");
+  }
+
+  function initLineExplorer(root) {
+    if (!root || root.dataset.ready === "true") {
+      return;
+    }
+
+    root.dataset.ready = "true";
+
+    const inputLineElement = root.querySelector("[data-input-line]");
+    const outputLineElement = root.querySelector("[data-output-line]");
+    const mergeScoreElement = root.querySelector("[data-merge-score]");
+    const changedElement = root.querySelector("[data-changed]");
+    const fromCacheElement = root.querySelector("[data-from-cache]");
+    const presetButtons = [...root.querySelectorAll("[data-line]")];
+
+    function update(line) {
+      const result = simulateLeftLine(line);
+      renderCells(inputLineElement, line);
+      renderCells(outputLineElement, result.line);
+      mergeScoreElement.textContent = String(result.mergedScore);
+      changedElement.textContent = result.changed ? "Oui" : "Non";
+      fromCacheElement.textContent = result.fromCache ? "Oui" : "Non";
+
+      presetButtons.forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.line === line.join(","));
+      });
+    }
+
+    presetButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        update(button.dataset.line.split(",").map((value) => Number(value)));
+      });
+    });
+
+    update([2, 0, 2, 4]);
+  }
+
+  function bootLineExplorers() {
+    document.querySelectorAll("[data-line-explorer]").forEach(initLineExplorer);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootLineExplorers, { once: true });
+  } else {
+    bootLineExplorers();
+  }
+</script>
+
+<style>
+  .project-2048-line-explorer {
+    padding: 1.25rem;
+  }
+
+  .project-2048-line-explorer__header h3 {
+    margin: 0.45rem 0 0;
+    font-size: clamp(1.35rem, 2.1vw, 1.8rem);
+    line-height: 1.15;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-2048-line-explorer__header p:last-child {
+    margin: 0.8rem 0 0;
+    max-width: 48rem;
+    line-height: 1.65;
+    color: rgb(var(--color-ink-soft));
+  }
+
+  .project-2048-line-explorer__body {
+    margin-top: 1rem;
+  }
+
+  .project-2048-line-explorer__presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .project-2048-line-explorer__presets button {
+    border: 1px solid rgb(var(--color-line));
+    background: rgb(var(--color-paper));
+    padding: 0.7rem 0.9rem;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--color-ink-soft));
+    transition:
+      border-color 180ms ease,
+      color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .project-2048-line-explorer__presets button:hover,
+  .project-2048-line-explorer__presets button.is-active {
+    border-color: rgb(var(--color-accent));
+    color: rgb(var(--color-accent));
+    background: rgba(var(--color-accent), 0.05);
+  }
+
+  .project-2048-line-explorer__grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .project-2048-line-explorer__grid section > p {
+    margin: 0 0 0.55rem;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--color-ink-faint));
+  }
+
+  .project-2048-line-explorer__cells {
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .project-2048-line-explorer__cells span {
+    display: flex;
+    min-height: 4rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(var(--color-line));
+    background: rgb(var(--color-paper-subtle));
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: rgb(var(--color-ink));
+  }
+
+  .project-2048-line-explorer__stats {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .project-2048-line-explorer__stats div {
+    border: 1px solid rgb(var(--color-line));
+    background: rgb(var(--color-paper-subtle));
+    padding: 0.85rem 0.95rem;
+  }
+
+  .project-2048-line-explorer__stats dt {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--color-ink-faint));
+  }
+
+  .project-2048-line-explorer__stats dd {
+    margin: 0.45rem 0 0;
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums;
+    color: rgb(var(--color-ink));
+  }
+
+  @media (min-width: 900px) {
+    .project-2048-line-explorer__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-2048-line-explorer__stats {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>
