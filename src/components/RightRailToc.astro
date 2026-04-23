@@ -21,7 +21,10 @@ const { tocSections, title = "On this page" } = Astro.props;
             href={`#${section.heading.slug}`}
             class="block text-sm font-sans font-medium text-ink transition-colors hover:text-accent"
           >
-            {sectionIndex + 1}. {section.heading.text}
+            <span aria-hidden="true">{sectionIndex + 1}. </span>
+            <span class="toc-heading-label" data-toc-heading-slug={section.heading.slug}>
+              {section.heading.text}
+            </span>
           </a>
           {section.children.length > 0 && (
             <ol class="mt-2 space-y-1 pl-3 list-none">
@@ -31,7 +34,9 @@ const { tocSections, title = "On this page" } = Astro.props;
                     href={`#${child.slug}`}
                     class="text-xs font-sans uppercase tracking-[0.14em] text-ink-faint transition-colors hover:text-accent"
                   >
-                    {child.text}
+                    <span class="toc-heading-label" data-toc-heading-slug={child.slug}>
+                      {child.text}
+                    </span>
                   </a>
                 </li>
               ))}

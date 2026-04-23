@@ -83,7 +83,10 @@ const tocSections = buildTocSections(headings);
                     href={`#${section.heading.slug}`}
                     class="block text-sm font-sans font-medium text-ink transition-colors hover:text-accent"
                   >
-                    {sectionIndex + 1}. {section.heading.text}
+                    <span aria-hidden="true">{sectionIndex + 1}. </span>
+                    <span class="toc-heading-label" data-toc-heading-slug={section.heading.slug}>
+                      {section.heading.text}
+                    </span>
                   </a>
 
                   {section.children.length > 0 && (
@@ -94,7 +97,9 @@ const tocSections = buildTocSections(headings);
                             href={`#${child.slug}`}
                             class="text-xs font-sans uppercase tracking-[0.14em] text-ink-faint transition-colors hover:text-accent"
                           >
-                            {child.text}
+                            <span class="toc-heading-label" data-toc-heading-slug={child.slug}>
+                              {child.text}
+                            </span>
                           </a>
                         </li>
                       ))}
@@ -115,4 +120,28 @@ const tocSections = buildTocSections(headings);
     </article>
     {tocSections.length > 0 && <RightRailToc tocSections={tocSections} />}
   </div>
+
+  {tocSections.length > 0 && (
+    <script is:inline>
+      (() => {
+        const syncTocLabels = () => {
+          document.querySelectorAll("[data-toc-heading-slug]").forEach((label) => {
+            const slug = label.getAttribute("data-toc-heading-slug");
+            if (!slug) return;
+
+            const heading = document.getElementById(slug);
+            if (!heading) return;
+
+            label.innerHTML = heading.innerHTML;
+          });
+        };
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", syncTocLabels, { once: true });
+        } else {
+          syncTocLabels();
+        }
+      })();
+    </script>
+  )}
 </Layout>

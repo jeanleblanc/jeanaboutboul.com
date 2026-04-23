@@ -360,6 +360,84 @@
     @apply my-2;
   }
 
+  .sources-block {
+    @apply my-6 overflow-hidden border border-line bg-paper-raised;
+  }
+
+  .sources-block summary {
+    @apply flex cursor-pointer list-none items-center justify-between px-4 py-3 font-sans text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-ink;
+  }
+
+  .sources-block summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .sources-block summary::after {
+    content: "+";
+    @apply text-base font-semibold text-ink-faint;
+  }
+
+  .sources-block[open] summary::after {
+    content: "−";
+  }
+
+  .sources-block-content {
+    @apply border-t border-line px-4 py-3 text-sm leading-relaxed text-ink-soft;
+  }
+
+  .sources-block-content ul {
+    @apply my-0 pl-5;
+  }
+
+  .sources-block-content li {
+    @apply my-2;
+  }
+
+  .sources-block-content li:first-child {
+    @apply mt-0;
+  }
+
+  .sources-block-content li:last-child {
+    @apply mb-0;
+  }
+
+  .sources-block-content a {
+    @apply text-accent underline decoration-accent/40 underline-offset-4;
+  }
+
+  .pdf-viewer {
+    @apply my-8 border border-line bg-paper-raised;
+  }
+
+  .pdf-viewer-header {
+    @apply flex flex-col gap-4 border-b border-line px-4 py-4 sm:flex-row sm:items-center sm:justify-between;
+  }
+
+  .pdf-viewer-kicker {
+    @apply m-0 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-accent;
+  }
+
+  .pdf-viewer-title {
+    @apply mt-2 mb-0 text-base font-semibold leading-relaxed text-ink;
+  }
+
+  .pdf-viewer-link {
+    @apply inline-flex items-center justify-center border border-line bg-paper px-3 py-2 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-soft transition-colors hover:border-line-strong hover:text-ink;
+  }
+
+  .pdf-viewer-caption {
+    @apply m-0 border-b border-line px-4 py-3 text-sm leading-relaxed text-ink-soft;
+  }
+
+  .pdf-viewer-shell {
+    @apply bg-paper-subtle p-3 sm:p-4;
+  }
+
+  .pdf-viewer-frame {
+    @apply block w-full border border-line bg-white;
+    height: clamp(34rem, 82vh, 72rem);
+  }
+
   .equation-card {
     @apply my-6 border-l-2 border-accent bg-accent/5 px-4 py-3;
   }

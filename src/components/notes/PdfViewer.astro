@@ -1,0 +1,39 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  caption?: string;
+}
+
+const { src, title, caption } = Astro.props;
+const viewerSrc = `${src}#view=FitH`;
+---
+
+<div class="pdf-viewer not-prose">
+  <div class="pdf-viewer-header">
+    <div>
+      <p class="pdf-viewer-kicker">Embedded PDF</p>
+      <p class="pdf-viewer-title">{title}</p>
+    </div>
+
+    <a
+      href={src}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="pdf-viewer-link"
+    >
+      Open full PDF
+    </a>
+  </div>
+
+  {caption && <p class="pdf-viewer-caption">{caption}</p>}
+
+  <div class="pdf-viewer-shell">
+    <iframe
+      src={viewerSrc}
+      title={title}
+      class="pdf-viewer-frame"
+      loading="lazy"
+    ></iframe>
+  </div>
+</div>

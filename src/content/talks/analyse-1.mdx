@@ -1,0 +1,576 @@
+---
+title: "Analysis I"
+summary: "Notes de cours EPFL couvrant les reels, les nombres complexes, les suites, les series, les fonctions, les limites et la continuite."
+date: 2024-09-01
+category: "Lecture Notes"
+tags: ["analysis", "calculus", "real-analysis", "complex-numbers", "EPFL"]
+venue: "EPFL — Analysis I"
+---
+
+import PdfViewer from "../../components/notes/PdfViewer.astro";
+
+<details class="sources-block">
+  <summary>Sources</summary>
+  <div class="sources-block-content">
+    <ul>
+      <li><em>Calcul différentiel et intégral</em>, Jacques Douchet.</li>
+    </ul>
+  </div>
+</details>
+
+Synthese des notes du cours Analysis I donne a l'EPFL pendant l'automne 2024.
+
+## Chap I — $\mathbb{R}$
+
+### Sup / Inf
+
+- **Max** : le + grand, $\exists x$ d'office
+- **Min** : le + petit, $\exists$ min
+- **Majorant** : + grand que tout l'ensemble
+- **Minorant** : + petit
+- **borne** : les deux
+
+- **Sup** : + petit majorant
+- **Inf** : + grand minorant
+- si $\exists$ Max $\Rightarrow$ Sup = Max ; si $\exists$ Min $\Rightarrow$ Inf = Min
+- $\nexists$ Maj $\Rightarrow$ Sup $A := +\infty$ ; $\nexists$ Min $\Rightarrow$ Inf $A := -\infty$
+
+**Axiome** : $\forall A \neq \emptyset$, majore $\Rightarrow \exists$ Sup $A$ ; minore $\Rightarrow \exists$ Inf $A$
+
+### Symboles
+
+- $\mathbb{R}^+$, $\mathbb{R}^-$, $\mathbb{R}^*$, $[0;+\infty[$, $]-\infty;0[$
+- intervalles : $[\;]$, $]\;[$, $[\;[$, $]\;]$
+- $\lfloor x \rfloor$ = le + grand $n \in \mathbb{Z}$ t.q. $n \leq x$
+
+### $\sqrt{2}$
+
+$\exists x$ t.q. $x^2 = 2$, $\forall n \in \mathbb{N}^*$, $x^n = y$, $\forall n \in \mathbb{N}^*$ : $\exists$ une seule $\sqrt[n]{y} = x$, i.e. $\sqrt{y} \geq 0$
+
+### Densite
+
+"dense dans $\mathbb{R}$" : $\forall x > y$, $y \in \mathbb{R}$, $\exists z \in \mathbb{R}$ t.q. $x > z > y$
+
+- $\mathbb{Q}$ est dense dans $\mathbb{R}$
+- $\mathbb{R}$ est dense dans $\mathbb{R}$
+- $\mathbb{R} \setminus \mathbb{Q}$ est dense dans $\mathbb{R}$
+
+### Valeur absolue et distance
+
+$$|x|, \quad |x_1 - x_2| = \text{dist}(x_1, x_2)$$
+
+**Prop — inegalite triangulaire :** $|x + y| \leq |x| + |y|$
+
+### Ensemble ouvert / ferme
+
+- **ouvert** : $\exists$ toujours un nombre avant et apres chaque nombre — $\forall x \in A$, $\exists \varepsilon > 0$ t.q. $]x-\varepsilon, x+\varepsilon[ \;\subset A$
+- **ferme** : complementaire ouvert — $G^c := \mathbb{R} \setminus G$
+- $G : A + B \Rightarrow$ ouvert ; ferme $\Leftrightarrow$ ferme $\uparrow$
+
+---
+
+## Chap II — Nombres complexes $\mathbb{C}$
+
+### Definitions
+
+$$z = a + bi = (a;\, b), \quad a, b \in \mathbb{R}$$
+
+- $\bar{z} := a - bi$
+- $|z| := \sqrt{a^2 + b^2}$
+- $\text{Re}(z) := a = \dfrac{z + \bar{z}}{2}$
+- $\text{Im}(z) := b = \dfrac{z - \bar{z}}{2i}$
+
+### Operations
+
+$$z + z' = (a+a';\; b+b')$$
+$$z \cdot z' = (aa' - bb';\; ab' + a'b)$$
+
+### Forme polaire
+
+$$z = r(\cos\theta + i\sin\theta), \quad a = r\cos\theta, \quad b = r\sin\theta$$
+
+- $\text{Arg}(z) = \theta$
+- $\text{Arg}(\bar{z}) = -\text{Arg}(z)$
+- $\text{Arg}(z \cdot z') = \text{Arg}(z) + \text{Arg}(z')$
+- $\text{Arg}(z^n) = n\,\text{Arg}(z)$
+- $\tan\theta = b/a$, $\forall a \neq 0$
+
+### Forme exponentielle
+
+$$e^z = e^{\text{Re}(z)}\bigl(\cos(\text{Im}(z)) + i\sin(\text{Im}(z))\bigr)$$
+
+- $|e^z| = e^{\text{Re}(z)}$, $\;\text{Arg}(e^z) = \text{Im}(z)$
+- forme exp/polaire : $r e^{i\theta}$
+- nombres purement imaginaires : $e^{iy} = \cos y + i\sin y$
+
+**Formule de Moivre :** $z^n = r^n(\cos(n\theta) + i\sin(n\theta)) = r^n e^{in\theta}$, $\forall n \geq 2$
+
+**Identites :**
+
+- $e^{i\pi} + 1 = 0$
+- $e^{i\pi/2} = i$
+- $e^{i2k\pi} = 1$, $\forall k \in \mathbb{Z}$
+- $\forall \omega \in \mathbb{C}$ ($|\omega| = r$, $\text{Arg}(\omega) = \theta$) : $z \cdot \omega$ tourne $z$ d'un angle $\theta$ puis le multiplie par le module $r$
+
+### Plan complexe
+
+$\text{Im}$ (axe vertical), $\text{Re}$ (axe horizontal), $|z|$ = distance a l'origine, $\theta$ = argument
+
+### Polynomes a coefficients reels
+
+$P(z)$ avec $a_k \in \mathbb{R}$ $\forall k$ $\Rightarrow$ $P(\bar{z}) = \overline{P(z)}$ ; $P(z^*) = 0 \Rightarrow P(\bar{z}^*) = 0$
+
+### Thm fondamental de l'algebre
+
+$P(z) = a_0 + a_1 z + a_2 z^2 + \cdots + a_n z^n$, $z^* \in \mathbb{C}$ t.q. $P(z^*) = 0$ = racine
+
+**Thm :** dans $\mathbb{C}$, tout $P$ avec $n \geq 1$ possede au moins une racine.
+
+**Division euclidienne :** $P(z)$ avec $n \geq 1$, $z_0 \in \mathbb{C}$ fixe $\Rightarrow \exists Q(z)$ avec $\deg = n-1$ t.q. :
+
+$$P(z) = (z - z_0)Q(z) + P(z_0), \quad \forall z \in \mathbb{C}$$
+
+**Thm :** dans $\mathbb{C}$, tout $P$ avec $n \geq 1$ possede $n$ racines :
+
+$$\exists z_1, \ldots, z_n \in \mathbb{C} \text{ t.q. } P(z_k) = 0 \;\forall k, \quad P(z) = a_n(z-z_1)\cdots(z-z_n)$$
+
+→ racines pas necessairement distinctes $\Rightarrow$ $(z - z_i)^\alpha$
+
+Si $P$, $n = 2k+1$, $a_k \in \mathbb{R}$ $\forall k$ $\Rightarrow$ au moins 1 racine reelle
+
+→ tout $P(z)$ a coeff $\mathbb{R}$ se factorise en produit de polynomes de degre 1 ou 2 irreductibles a coeff $\mathbb{R}$
+
+**FAC** : trouver $z$ par tatonnement $\rightarrow$ div. euclidienne $\rightarrow$ recommencer.
+
+---
+
+## Chap III — Suites
+
+### Definitions
+
+$(a_n)$, $n \geq n_0$
+
+- **croissante** : $a_n \leq a_{n+1}$ $\forall n$
+- **decroissante** : $a_n \geq a_{n+1}$ $\forall n$
+- **monotone** si un des deux
+- **convergente** : $\exists L$
+- **divergente** : $\nexists L$ ($L := \pm\infty$)
+- **majoree** : $\exists$ cst $M$ t.q. $a_n \leq M$ $\forall n$ ; **minoree** : $\exists m$ ; **bornee** : les deux
+
+### Limite
+
+**Tend vers $L$ :** $\displaystyle\lim_{n\to\infty} a_n = L$ : $\forall \varepsilon > 0$, $\exists N \in \mathbb{N}$ t.q. $|a_n - L| \leq \varepsilon$ $\forall n \geq N$
+
+- si $\exists L$ $\Rightarrow$ unique
+- $a_n$ converge $\Rightarrow$ $a_n$ bornee
+- $a_n \to L$ $\Rightarrow$ $|a_n| \to |L|$
+- operat : $\lim(a_n + b_n) = \lim a_n + \lim b_n$ ; $\lim(a_n \cdot b_n) = \lim a_n \cdot \lim b_n$ ; $a_n \geq b_n$ $\Rightarrow$ $\lim a_n \geq \lim b_n$ ($\forall n$ suff. gd)
+
+**$a_n \to +\infty$ :** $\forall M > 0$, $\exists N \in \mathbb{Z}$ t.q. $a_n \geq M$ $\forall n \geq N$
+
+Si $a_n \to \infty$ :
+
+- $-1/a_n \to 0$
+- $b_n \to +\infty$ $\Rightarrow$ $a_n \cdot b_n \to +\infty$
+- $b_n$ bornee $\Rightarrow$ $b_n/a_n \to 0$
+- $b_n \geq \delta > 0$ $\forall n$ suff. gd $\Rightarrow$ $a_n \cdot b_n \to +\infty$
+
+### Limite sup / inf
+
+$$M_n := \sup\{a_n, a_{n+1}, \ldots\} \text{ (decroissante)}, \quad m_n := \inf\{a_n, a_{n+1}, \ldots\} \text{ (croissante)}$$
+
+$$m_n \leq a_n \leq M_n$$
+
+$$\limsup a_n := \lim M_n, \quad \liminf a_n := \lim m_n$$
+
+$$\lim a_n = L \Leftrightarrow \limsup a_n = \liminf a_n = L$$
+
+### Serie geometrique
+
+$$S_n := 1 + \lambda + \lambda^2 + \cdots + \lambda^n$$
+
+- $\lambda > 1$ $\Rightarrow$ $S_n \to +\infty$
+- $|\lambda| < 1$ $\Rightarrow$ $S_n \to \dfrac{1}{1-\lambda}$
+- $-\lambda \leq -1$ $\Rightarrow$ diverge
+
+$$e_n := \left(1 + \frac{1}{n}\right)^n \to e \quad \text{(strictement croissante, } 2 \leq e_n \leq 3\text{)}$$
+
+### Formes indeterminees
+
+$\infty - \infty$, $0 \cdot \infty$, $\infty/\infty$, $0/0$, $1^\infty$, $\infty^0$, $0^0$
+
+→ extraire le terme dominant ; $a^2 - b^2 = (a-b)(a+b)$
+
+**Thm :** $\displaystyle\lim_{x \to 0}$ : $\dfrac{\sin x}{x} = 1$, $\dfrac{e^x - 1}{x} = 1$, $\dfrac{\log(x+1)}{x} = 1$, $\dfrac{1 - \cos x}{x^2} = \dfrac{1}{2}$
+
+**Equivalence :** $a_n \sim b_n$ : $a_n/b_n \to 1$
+
+- $\dfrac{a_n}{b_n} = e^{\log a_n - \log b_n}$ ; $a_n^{b_n} = e^{b_n \log a_n}$
+
+### Thm Bolzano–Weierstrass
+
+**Sous-suite :** $(b_k) = (a_{n_k})$
+
+**Thm :** de toute suite bornee, on peut extraire une sous-suite convergente.
+$(x_n) \in [a,b] \Rightarrow \exists L \in [a,b]$ et $\exists (x_{n_k}) \to L$
+
+### Suite de Cauchy
+
+Une suite est de Cauchy si : $\forall \varepsilon > 0$, $\exists N \in \mathbb{Z}$ t.q. $|a_n - a_m| \leq \varepsilon$ $\forall m, n \geq N$
+
+(qd une suite converge, les termes sont proches les uns des autres)
+
+**Thm :** dans $\mathbb{R}$ : convergente $\Leftrightarrow$ de Cauchy
+
+### Theoremes d'etudes
+
+- **Chien mechant** : $a_n \to +\infty$ et $a_n \leq b_n$ $\Rightarrow$ $b_n \to +\infty$
+- **Deux gendarmes** : $a_n \leq x_n \leq b_n$, $\lim a_n = \lim b_n = L$ $\Rightarrow$ $\lim x_n = L$
+- Si $x_n$ bornee, $y_n \to 0$ $\Rightarrow$ $y_n x_n \to 0$
+- **Monotone + bornee** : croissante + Maj ou decroissante + Min $\Rightarrow$ converge
+
+**Critere d'Alembert (suite) :**
+
+$$\rho := \lim_{n\to\infty} \left|\frac{a_{n+1}}{a_n}\right|$$
+
+- $0 \leq \rho < 1$ $\Rightarrow$ $a_n \to 0$
+- $\rho > 1$ $\Rightarrow$ $a_n$ diverge ; $\rho > 1$, $a_n > 0$ $\Rightarrow$ $a_n \to +\infty$
+
+**Comportement :** $\log(n) \leq n^c \leq C^n$, $C \in \mathbb{R}$
+
+---
+
+## Chap IV — Suite de recurrence
+
+### Definition
+
+Soit $g : \mathbb{R} \to \mathbb{R}$, $x \in \mathbb{R}$ ; $(a_n)$ est definie par :
+
+- son premier terme : $x_0 = a$
+- par recurrence, $\forall n > 0$ : $x_{n+1} = g(x_n)$
+
+**Point fixe :** $x_*$ est pt fixe si $g(x_*) = x_*$ ; si $x_0 = x_*$ $\Rightarrow$ suite cst.
+
+**Thm :** si $x_{n+1} = g(x_n)$ est convergente et si $g : \mathbb{R} \to \mathbb{R}$ est continue, $\lim x_n = x_*$ (pt fixe de $g$)
+$\Rightarrow$ si $x_0 =$ pt fixe $\Rightarrow$ $x_0$ = la limite.
+
+### Methode 1 — observation
+
+Ecrire les premiers termes et observer, verifier les observations.
+
+Ex : $x_{n+1} = 1 + x_n/2$ :
+
+- $x_0 > 2$ : decroissante, majoree
+- $x_0 = 2$ : cst
+- $x_0 < 2$ : croissante, minoree
+
+$\Rightarrow$ les 2 cas bornes convergent ; comme $\exists L$, on remplace dans l'equ. :
+
+$$x_{n+1} = 1 + \frac{x_n}{2} \Rightarrow L = 1 + \frac{L}{2} \Rightarrow L = 2$$
+
+### Methode 2 — expression explicite
+
+On veut exprimer $x_n$ en fonction de $x_0$ (par recurrence).
+
+Ex : $x_n = 2\left(1 - \left(\tfrac{1}{2}\right)^n\right) + \left(\tfrac{1}{2}\right)^n x_0 \to 2$
+
+### Methode 3 — suite de Cauchy
+
+$$|x_{k+1} - x_k| = \frac{1}{2}|x_k - x_{k-1}|$$
+
+$\forall n > m$ : $|x_n - x_m| \leq \sum \cdots \to 0$ $\forall x_0 \in \mathbb{R}$ $\Rightarrow$ suite de Cauchy $\Rightarrow \exists L$ $\Rightarrow$ methode 1.
+
+### Graphique (cobweb)
+
+Construction pour visualiser :
+
+1. partir de $(x_n, 0)$
+2. monter (v) au graphe $g$ : $(x_n, g(x_n)) = (x_n, x_{n+1})$
+3. glisser (h) a $y = x$ pour $(x_{n+1}, x_{n+1})$
+4. redescendre (v) a $(x_{n+1}, 0)$
+
+Point fixe = intersection de $g$ et $y = x$
+
+---
+
+## Chap V — Series numeriques
+
+### Definition + proprietes
+
+$$\sum_n a_n = S_n := a_0 + a_1 + \cdots + a_n, \quad S_0 := a_0, \quad S_1 := a_0 + a_1, \quad \ldots$$
+
+$\Delta$ important : si non contradictoire ($1 - 1 + 1 - 1 + \cdots$)
+
+- **converge** : $\displaystyle\lim_{n\to\infty} \sum_{n=0}^\infty a_n = S$ $\exists$
+- **diverge** : $= \pm\infty$
+
+- si $\sum_n a_n$ converge $\Rightarrow$ $a_n \to 0$ (pas $\Leftarrow$)
+- si $\sum a_n$ et $\sum b_n$ convergent :
+  - $\sum(a_n + b_n) = \sum a_n + \sum b_n$
+  - $\sum \lambda a_n = \lambda \sum a_n$, $\forall \lambda \in \mathbb{R}$
+- la convergence depend d'un nombre fini de termes
+
+### $\sum_n \frac{1}{n^p}$
+
+**Thm :** $p \in \mathbb{R}$ fixe : si $p > 1$ $\Rightarrow$ converge ; si $p \leq 1$ $\Rightarrow$ diverge.
+
+Tres sensible : $\dfrac{1}{n^{1{,}00001}} < \infty$ ; $\dfrac{1}{n^{0{,}99999}} = \infty$
+
+### $\sum_n \lambda^n$
+
+- si $|\lambda| < 1$ $\Rightarrow$ converge
+- si non $\Rightarrow$ diverge
+
+### Serie telescopique
+
+$$\sum_{n \geq 1} (x_n - x_{n-1})$$
+
+**Thm :** si $x_n \to L$ $\Rightarrow$ $\sum a_n$ converge et vaut $\displaystyle\lim_{n\to\infty}(x_n - x_0) = L - x_0$
+
+### Serie dependant d'un parametre
+
+$$x \mapsto f(x) := \sum_{n \geq 1} a_n(x), \quad f : I \to \mathbb{R}$$
+
+$$D(f) = \left\{x \in I \;\middle|\; \sum_{n \geq 1} a_n(x) \text{ converge}\right\}$$
+
+Ex : $f(x) = \sum_{n \geq 0} \cos(3^n x)/2^n$ $\Rightarrow$ $D(f) = \mathbb{R}$ : continue partout, derivable nulle part
+
+### Critere de Leibniz
+
+Soit $a_n = (-1)^n x_n$, si :
+
+1. $x_n \geq 0$
+2. $x_n$ decroissant
+3. $x_n \to 0$
+
+$\Rightarrow$ $\sum a_n$ converge
+
+(diagramme : $S_0, S_1, S_2, \ldots$ oscillent en convergeant vers $S$)
+
+### Theoremes d'etude
+
+**Critere de comparaison :** soit $0 \leq a_n \leq b_n$, $\forall n > N \in \mathbb{Z}$ :
+
+- si $\sum b_n$ converge $\Rightarrow$ $\sum a_n$ converge
+- si $\sum a_n$ diverge $\Rightarrow$ $\sum b_n$ diverge
+
+**Limite quotient :** $a_n, b_n > 0$ $\forall n \geq N \in \mathbb{Z}$, $\exists \alpha := \displaystyle\lim_{n\to\infty} \dfrac{a_n}{b_n}$ :
+
+- si $\alpha > 0$ $\Rightarrow$ $\sum a_n$ et $\sum b_n$ convergent ou divergent ensemble
+- si $\alpha = 0$ et $\sum b_n$ converge $\Rightarrow$ $\sum a_n$ converge
+- si $\alpha = +\infty$ et $\sum b_n$ diverge $\Rightarrow$ $\sum a_n$ diverge
+
+**Critere de d'Alembert :**
+
+$$\rho := \lim_{n\to\infty} \left|\frac{a_{n+1}}{a_n}\right|, \quad \exists \rho \text{ est } +\infty$$
+
+- si $\rho < 1$ $\Rightarrow$ $\sum a_n$ converge
+- si $\rho > 1$ $\Rightarrow$ diverge
+- si $\rho = 1$ $\Rightarrow$ ne dit rien
+
+**Critere de Cauchy :**
+
+$$\sigma := \limsup_{n\to\infty} \sqrt[n]{|a_n|}$$
+
+1. si $\sigma < 1$ $\Rightarrow$ $\sum a_n$ converge
+2. si $\sigma > 1$ $\Rightarrow$ diverge
+
+### Convergence absolue
+
+$\sum_n a_n$ **converge absolument** : $\sum |a_n|$ converge
+
+**Thm :** $\sum |a_n|$ converge $\Rightarrow$ $\sum a_n$ converge
+
+---
+
+## Chap VI — Fonctions $\mathbb{R}$
+
+### Monotonie
+
+$I \subset \mathbb{R}$, $f : I \to \mathbb{R}$
+
+- **croissante** : $f(x) \leq f(x')$ $\forall x, x' \in I$, $x < x'$
+- **decroissante** : $f(x) \geq f(x')$ $\forall x, x' \in I$, $x > x'$
+- **constante** si les deux
+- variant : trouver l'intervalle sur lequel $f'$ est croissante ou decroissante
+
+### Periodicite
+
+$f$ est $t$-periodique : $t > 0$, $f : \mathbb{R} \to \mathbb{R}$, $f(x+t) = f(x)$ $\forall x \in \mathbb{R}$
+
+$t$ min = la periode de $f = T$
+
+**Thm :** $f : \mathbb{R} \to \mathbb{R}$, $T_f$ ; $g : \mathbb{R} \to \mathbb{R}$, $T_g$ : si $T_f/T_g \in \mathbb{Q}$ $\Rightarrow$ $f + g$ est periodique
+
+### Parite / Imparite
+
+- **paire** : $f : D \to \mathbb{R}$ $\Rightarrow$ $f(-x) = f(x)$ $\forall x \in D$
+- **impaire** : $f : D \to \mathbb{R}$ $\Rightarrow$ $f(-x) = -f(x)$ $\forall x \in D$
+- montrer que non : contre-exemple
+
+**Thm :** si $D$ est symetrique, toute fonction $f : D \to \mathbb{R}$ peut s'ecrire de maniere unique comme somme d'une fonction paire et d'une impaire
+
+### Convexite / Concavite
+
+Intervalle $I$, $f : I \to \mathbb{R}$, $\forall \lambda \in [0,1]$, $x_1 < x_2$
+
+- **convexe** : $\forall x_1, x_2 \in I$ : $f\bigl((1-\lambda)x_1 + \lambda x_2\bigr) \leq (1-\lambda)f(x_1) + \lambda f(x_2)$
+- **concave** : si $-f$ est convexe
+
+**Thm :** $f : D \to \mathbb{R}$ :
+
+1. si $A \subset B \subset D$ $\Rightarrow$ $\sup_A f \leq \sup_B f$, $\inf_A f \geq \inf_B f$
+2. $\sup(-f) = -\inf f$
+3. $\sup(f+g) \leq \sup f + \sup g$
+4. $\forall \alpha > 0$, $\beta \in \mathbb{R}$ $\Rightarrow$ $\sup(\alpha f + \beta) = \alpha \sup f + \beta$
+
+### Min / Max, Sup / Inf
+
+$f : D \to \mathbb{R}$
+
+- **max (global)** : $\exists x^* \in D$ t.q. $f(x) \leq f(x^*)$ $\forall x \in D$
+- **min (global)** : $\exists x_0 \in D$ t.q. $f(x) \geq f(x_0)$ $\forall x \in D$
+- **majorant** : $\exists M \in \mathbb{R}$ t.q. $f(x) \leq M$ $\forall x \in D$
+- **minorant** : $\exists m \in \mathbb{R}$ t.q. $f(x) \geq m$ $\forall x \in D$
+- bornee si les deux
+- Sup $f$ = si majoree, le plus petit majorant ; sinon $+\infty$
+- Inf $f$ = si minoree, le plus grand minorant ; sinon $-\infty$
+- egal a Max/Min si ceux-ci existent
+
+---
+
+## Chap VII — Limites de fonctions
+
+### Voisinage epointe
+
+$$V = \,]x_0 - \alpha, x_0[\,\cup\,]x_0, x_0 + \alpha[, \quad \alpha > 0$$
+
+$f$ definie dans un voisinage si $\exists V$ t.q. $f(x)$ est defini $\forall x \in V$
+
+### Limite en un point
+
+$f \to L \in \mathbb{R}$ quand $x \to x_0$ :
+
+$$\forall \varepsilon > 0,\; \exists \delta > 0 \text{ t.q. } |f(x) - L| \leq \varepsilon \text{ quand } 0 < |x - x_0| \leq \delta$$
+
+$$\Rightarrow \lim_{x \to x_0} f(x) = L$$
+
+- si $\exists L$ $\Rightarrow$ unique
+
+**Car :** $\displaystyle\lim_{x \to x_0} f(x) = L$ iff $\forall (a_n) \neq x_0$ et $a_n \to x_0$ : $\displaystyle\lim_{n\to\infty} f(a_n) = L$
+
+→ montrer que la limite n'existe pas : utiliser des suites laterales ou des limites laterales differentes
+
+### Limite laterale
+
+- $x \to x_0^+$ : dans $]x_0, x_0+\alpha[$
+- $x \to x_0^-$ : dans $]x_0-\alpha, x_0[$
+
+$$\lim_{x\to x_0} f(x) = L \Leftrightarrow \lim_{x\to x_0^+} f(x) = \lim_{x\to x_0^-} f(x) = L$$
+
+### Proprietes
+
+$$\lim(f \pm g) = \lim f \pm \lim g, \quad \lim(f \cdot g) = \lim f \cdot \lim g, \quad f(x) \leq g(x) \Rightarrow \lim f \leq \lim g$$
+
+**Deux gendarmes :** $g(x) \leq f(x) \leq h(x)$ $\forall x \in V$, si $\lim g = \lim h = L$ $\Rightarrow$ $\lim f = L$
+
+### Limite infinie
+
+$x \to x_0$, $\forall M > 0$, $\exists \delta > 0$ t.q. $f(x) \geq M$ quand $0 < |x - x_0| \leq \delta$
+
+Si $f(x) \to \infty$ :
+
+- $\lim_{x\to x_0} 1/f(x) = 0$
+- $g \to \infty$ : $f + g = \infty$ et $f \cdot g = \infty$
+- $g$ borne : $f + g = +\infty$, $g/f = 0$
+- $g \to L \neq 0$ : $f \cdot g = +\infty$ si $L > 0$, $= -\infty$ si $L < 0$
+- $\delta > 0$ t.q. $g \geq \delta$ $\forall x \in V$ $\Rightarrow$ $f \cdot g = +\infty$
+- $g \geq f$ $\forall x \in V$ $\Rightarrow$ $g(x) \to +\infty$
+
+### Limites finies ($x \to \infty$)
+
+$f : \text{Dom}(f) = ]a, +\infty[$ :
+
+$$\lim_{x\to\infty} f(x) = L : \forall \varepsilon > 0,\; \exists N > 0 \text{ t.q. } |f(x) - L| \leq \varepsilon \text{ quand } x \geq N$$
+
+### Limites infinies ($f(x) \to \infty$)
+
+$$\lim_{x\to\infty} f(x) = \infty \text{ iff } \forall M > 0,\; \exists N > 0 \text{ t.q. } f(x) \geq M \text{ des que } x \geq N$$
+
+### Indetermine $0/0$
+
+- polynomes $\to$ factorisation $(x - x_0)$
+- methode du conjugue
+
+**Thm :** $\displaystyle\lim_{x \to 0}$ :
+
+$$\frac{\sin x}{x} = 1, \quad \frac{1 - \cos x}{x^2} = \frac{1}{2}, \quad \frac{\log(x+1)}{x} = 1, \quad \frac{e^x - 1}{x} = 1$$
+
+---
+
+## Chap VIII — Continuite
+
+### Definition
+
+$D \subset \mathbb{R}$ ouvert, $f : D \to \mathbb{R}$ **continue en $x_0$** si :
+
+$$\lim_{x \to x_0} f(x) = f(x_0)$$
+
+Si la limite n'existe pas ou est differente de $f(x_0)$, alors $f$ est discontinue.
+
+### Fonctions elementaires continues
+
+- polynomes : continus sur $\mathbb{R}$
+- $\sin$ et $\cos$ : continus sur $\mathbb{R}$ ; $\tan$ : continue sur $\mathbb{R} \setminus \{\pi/2 + k\pi \mid k \in \mathbb{Z}\}$
+- $a^x$, $\forall a > 0$ : continue sur $\mathbb{R}$
+- $\log_a(x)$, $\forall a > 0$ : continue sur $\mathbb{R}^+_*$
+
+### Continuite laterale
+
+- $f$ continue a gauche : $\displaystyle\lim_{x \to x_0^-} f(x) = f(x_0)$
+- $f$ continue a droite : $\displaystyle\lim_{x \to x_0^+} f(x) = f(x_0)$
+
+**Thm :** $f$ est continue ssi elle est continue a gauche et a droite.
+
+### Continuite sur un intervalle compact
+
+$f : [a,b] \to \mathbb{R}$ continue sur :
+
+- continue en tout $x_0 \in \,]a, b[$
+- continue a droite en $x_0 = a$
+- continue a gauche en $x_0 = b$
+
+**Thm :** soit $f : [a,b] \to \mathbb{R}$ continue $\Rightarrow$ $f$ est bornee.
+
+**Thm :** $f : [a,b] \to \mathbb{R}$ continue $\Rightarrow$ $f$ atteint son max et son min.
+
+### Valeurs intermediaires
+
+$f : [a,b] \to \mathbb{R}$ continue, $f(a) < f(b)$ :
+
+$$\forall h : f(a) < h < f(b) \Rightarrow \exists c \in \,]a,b[ \text{ t.q. } f(c) = h$$
+
+$\Rightarrow$ un polynome a coefficients reels de degre impair possede au moins une racine reelle
+
+**Thm :** $f : [a,b] \to \mathbb{R}$. Im$(f)$ est donnee par : $\text{Im}(f) = [\min f(x),\, \max f(x)]$
+
+### Prolongement
+
+$x_0 \in I$, $I' := I \setminus \{x_0\}$ : si $\displaystyle\lim_{x \to x_0} f(x) = L$ existe, alors on peut definir $f(x_0) := L$
+
+### Continuite et calcul de limite
+
+$\lim f(g(x))$ avec $g(x) \to y_0$ et $f$ continue en $y_0$ :
+
+$$\lim f(g(x)) = f\!\left(\lim g(x)\right) = f(y_0)$$
+
+<details class="sources-block">
+  <summary>Handwritten Notes</summary>
+  <div class="sources-block-content">
+    <PdfViewer
+      src="/notes/analysis-1-handwritten-notes.pdf"
+      title="Handwritten EPFL Analysis I notes"
+      caption="You can scroll directly inside this viewer to read the handwritten notes without leaving the page."
+    />
+  </div>
+</details>

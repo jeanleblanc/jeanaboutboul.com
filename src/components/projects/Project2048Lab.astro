@@ -709,6 +709,11 @@ const { defaultDepth = "auto" } = Astro.props;
     color: rgb(var(--color-ink-faint));
   }
 
+  .project-lab__stat span {
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
   .project-lab__stat strong {
     display: block;
     margin-top: 0.45rem;
@@ -717,6 +722,8 @@ const { defaultDepth = "auto" } = Astro.props;
   }
 
   .project-lab__board-frame {
+    display: flex;
+    justify-content: center;
     border: 1px solid rgb(var(--color-line));
     background:
       radial-gradient(circle at top right, rgba(var(--color-accent), 0.08), transparent 45%),
@@ -726,98 +733,129 @@ const { defaultDepth = "auto" } = Astro.props;
 
   .project-lab__board {
     display: grid;
-    gap: 0.55rem;
+    width: min(100%, 31rem);
+    aspect-ratio: 1;
+    gap: 0.72rem;
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    margin: 0 auto;
+    border-radius: 0.95rem;
+    background: #bbada0;
+    padding: 0.72rem;
     outline: none;
+    box-sizing: border-box;
   }
 
   .project-lab__board:focus-visible {
     box-shadow: 0 0 0 2px rgba(var(--color-accent), 0.3);
   }
 
-  .project-lab__tile {
+  .project-lab__board :global(.project-lab__tile) {
     display: flex;
-    aspect-ratio: 1;
+    min-width: 0;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgb(var(--color-line));
-    background: rgb(var(--color-paper));
-    color: rgb(var(--color-ink));
+    border: 0;
+    border-radius: 0.55rem;
+    background: rgba(238, 228, 218, 0.35);
+    color: transparent;
     font-family: ui-sans-serif, system-ui, sans-serif;
-    font-size: clamp(1rem, 2.8vw, 1.5rem);
+    font-size: clamp(1.1rem, 3.8vw, 1.95rem);
     font-weight: 700;
     font-variant-numeric: tabular-nums;
+    line-height: 1;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
     transition:
+      transform 180ms ease,
       background-color 180ms ease,
-      border-color 180ms ease,
-      color 180ms ease;
+      color 180ms ease,
+      box-shadow 180ms ease;
   }
 
-  .project-lab__tile.is-updated {
+  .project-lab__board :global(.project-lab__tile span) {
+    transform: translateY(0.04em);
+  }
+
+  .project-lab__board :global(.project-lab__tile.is-updated) {
     animation: tile-pop 260ms ease;
   }
 
-  .project-lab__tile[data-digits="4"] {
-    font-size: clamp(0.9rem, 2.3vw, 1.2rem);
+  .project-lab__board :global(.project-lab__tile[data-digits="3"]) {
+    font-size: clamp(1rem, 3.2vw, 1.55rem);
   }
 
-  .project-lab__tile[data-rank="0"] {
-    background: rgb(var(--color-paper));
-    color: rgb(var(--color-ink-faint));
+  .project-lab__board :global(.project-lab__tile[data-digits="4"]) {
+    font-size: clamp(0.78rem, 2.6vw, 1.18rem);
   }
 
-  .project-lab__tile[data-rank="1"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 87%, rgb(var(--color-accent)) 13%);
+  .project-lab__board :global(.project-lab__tile[data-digits="5"]) {
+    font-size: clamp(0.68rem, 2.1vw, 0.96rem);
   }
 
-  .project-lab__tile[data-rank="2"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 82%, rgb(var(--color-accent)) 18%);
+  .project-lab__board :global(.project-lab__tile[data-rank="0"]) {
+    background: rgba(238, 228, 218, 0.35);
+    color: transparent;
   }
 
-  .project-lab__tile[data-rank="3"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 77%, rgb(var(--color-accent)) 23%);
+  .project-lab__board :global(.project-lab__tile[data-rank="1"]) {
+    background: #eee4da;
+    color: #776e65;
   }
 
-  .project-lab__tile[data-rank="4"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 72%, rgb(var(--color-accent)) 28%);
+  .project-lab__board :global(.project-lab__tile[data-rank="2"]) {
+    background: #ede0c8;
+    color: #776e65;
   }
 
-  .project-lab__tile[data-rank="5"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 67%, rgb(var(--color-accent)) 33%);
+  .project-lab__board :global(.project-lab__tile[data-rank="3"]) {
+    background: #f2b179;
+    color: #f9f6f2;
   }
 
-  .project-lab__tile[data-rank="6"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 61%, rgb(var(--color-accent)) 39%);
+  .project-lab__board :global(.project-lab__tile[data-rank="4"]) {
+    background: #f59563;
+    color: #f9f6f2;
   }
 
-  .project-lab__tile[data-rank="7"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 54%, rgb(var(--color-accent)) 46%);
+  .project-lab__board :global(.project-lab__tile[data-rank="5"]) {
+    background: #f67c5f;
+    color: #f9f6f2;
   }
 
-  .project-lab__tile[data-rank="8"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 46%, rgb(var(--color-accent)) 54%);
+  .project-lab__board :global(.project-lab__tile[data-rank="6"]) {
+    background: #f65e3b;
+    color: #f9f6f2;
   }
 
-  .project-lab__tile[data-rank="9"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 37%, rgb(var(--color-accent)) 63%);
-    color: white;
+  .project-lab__board :global(.project-lab__tile[data-rank="7"]) {
+    background: #edcf72;
+    color: #f9f6f2;
   }
 
-  .project-lab__tile[data-rank="10"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 28%, rgb(var(--color-accent)) 72%);
-    color: white;
+  .project-lab__board :global(.project-lab__tile[data-rank="8"]) {
+    background: #edcc61;
+    color: #f9f6f2;
   }
 
-  .project-lab__tile[data-rank="11"] {
-    background: color-mix(in srgb, rgb(var(--color-paper)) 20%, rgb(var(--color-accent)) 80%);
-    color: white;
+  .project-lab__board :global(.project-lab__tile[data-rank="9"]) {
+    background: #edc850;
+    color: #f9f6f2;
   }
 
-  .project-lab__tile[data-rank="12"],
-  .project-lab__tile[data-rank="13"] {
-    background: rgb(var(--color-accent));
-    border-color: rgb(var(--color-accent-deep));
-    color: white;
+  .project-lab__board :global(.project-lab__tile[data-rank="10"]) {
+    background: #edc53f;
+    color: #f9f6f2;
+  }
+
+  .project-lab__board :global(.project-lab__tile[data-rank="11"]) {
+    background: #edc22e;
+    color: #f9f6f2;
+  }
+
+  .project-lab__board :global(.project-lab__tile[data-rank="12"]),
+  .project-lab__board :global(.project-lab__tile[data-rank="13"]) {
+    background: #3c3a32;
+    color: #f9f6f2;
   }
 
   .project-lab__status {
@@ -951,7 +989,7 @@ const { defaultDepth = "auto" } = Astro.props;
   }
 
   .project-lab__move-table th,
-  .project-lab__move-table td {
+  .project-lab__move-table :global(td) {
     border-top: 1px solid rgb(var(--color-line));
     padding: 0.75rem 0;
     text-align: left;
@@ -965,7 +1003,7 @@ const { defaultDepth = "auto" } = Astro.props;
     color: rgb(var(--color-ink-faint));
   }
 
-  .project-lab__move-table tr.is-best td {
+  .project-lab__move-table :global(tr.is-best td) {
     color: rgb(var(--color-accent));
     font-weight: 700;
   }
@@ -976,12 +1014,12 @@ const { defaultDepth = "auto" } = Astro.props;
     margin-top: 0.75rem;
   }
 
-  .project-lab__heuristic-row {
+  .project-lab__heuristics-list :global(.project-lab__heuristic-row) {
     display: grid;
     gap: 0.45rem;
   }
 
-  .project-lab__heuristic-meta {
+  .project-lab__heuristics-list :global(.project-lab__heuristic-meta) {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
@@ -990,49 +1028,47 @@ const { defaultDepth = "auto" } = Astro.props;
     color: rgb(var(--color-ink-soft));
   }
 
-  .project-lab__heuristic-meta strong {
+  .project-lab__heuristics-list :global(.project-lab__heuristic-meta strong) {
     font-size: 0.82rem;
   }
 
-  .project-lab__heuristic-row.is-positive strong {
+  .project-lab__heuristics-list :global(.project-lab__heuristic-row.is-positive strong) {
     color: rgb(var(--color-success));
   }
 
-  .project-lab__heuristic-row.is-negative strong {
+  .project-lab__heuristics-list :global(.project-lab__heuristic-row.is-negative strong) {
     color: rgb(var(--color-accent));
   }
 
-  .project-lab__heuristic-bar {
+  .project-lab__heuristics-list :global(.project-lab__heuristic-bar) {
     height: 0.48rem;
     overflow: hidden;
     background: rgb(var(--color-paper-subtle));
   }
 
-  .project-lab__heuristic-bar span {
+  .project-lab__heuristics-list :global(.project-lab__heuristic-bar span) {
     display: block;
     height: 100%;
     transition: width 260ms ease;
   }
 
-  .project-lab__heuristic-row.is-positive .project-lab__heuristic-bar span {
+  .project-lab__heuristics-list :global(.project-lab__heuristic-row.is-positive .project-lab__heuristic-bar span) {
     background: rgb(var(--color-success));
   }
 
-  .project-lab__heuristic-row.is-negative .project-lab__heuristic-bar span {
+  .project-lab__heuristics-list :global(.project-lab__heuristic-row.is-negative .project-lab__heuristic-bar span) {
     background: rgb(var(--color-accent));
   }
 
   @keyframes tile-pop {
     0% {
-      transform: scale(0.9);
-      border-color: rgba(var(--color-accent), 0.6);
+      transform: scale(0.92);
     }
     65% {
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
     100% {
       transform: scale(1);
-      border-color: rgb(var(--color-line));
     }
   }
 
@@ -1061,6 +1097,15 @@ const { defaultDepth = "auto" } = Astro.props;
     .project-lab__overview,
     .project-lab__analysis-stats {
       grid-template-columns: 1fr;
+    }
+
+    .project-lab__board-frame {
+      padding: 0.7rem;
+    }
+
+    .project-lab__board {
+      gap: 0.55rem;
+      padding: 0.55rem;
     }
 
     .project-lab__analysis-header {

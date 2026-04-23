@@ -1,0 +1,448 @@
+---
+title: "Électrotechnique I"
+summary: "Notes de cours EPFL couvrant les éléments de base des circuits, les lois de Kirchhoff, Thévenin et Norton, les phaseurs, les impédances complexes et la puissance en régime sinusoïdal."
+date: 2025-09-01
+category: "Lecture Notes"
+tags: ["circuits", "electrical-engineering", "phaseors", "sinusoidal-regime", "EPFL"]
+venue: "EPFL — Électrotechnique I"
+---
+
+import PdfViewer from "../../components/notes/PdfViewer.astro";
+
+<details class="sources-block">
+  <summary>Sources</summary>
+  <div class="sources-block-content">
+    <ul>
+      <li><em>Électrotechnique : Base de l’électricité</em>, Marcel Jufer et Yves Perriard.</li>
+    </ul>
+  </div>
+</details>
+
+Notes du cours d'Électrotechnique I donné à l'EPFL pendant l'automne 2025.
+
+## Définitions élémentaires
+
+- **Conducteur** : permet aux charges de se déplacer
+- **Isolant** : ne permet pas le déplacement des charges (≠ conducteur sans charge)
+- **Semi-conducteur** : isolant puis parfois conducteur grâce au dopage
+- **Circuit ouvert** : pas de courant
+- **Circuit fermé** : courant dans un sens unique
+- **Court-circuit** : $R = 0$
+- **Circuit ouvert** : $R \to \infty$
+
+**Grandeurs :**
+
+- **Courant** (intensité) : débit de charge par unité de temps
+
+$$i(t) = \frac{dq}{dt} \quad [\text{Ampère, A}]$$
+
+- **Différence de potentiel** / tension :
+
+$$U_{AB} = U_A - U_B \quad [\text{Volt, V}] = [\text{kg m}^2 \text{s}^{-3} \text{A}^{-1}]$$
+
+Le courant va de A vers B dans le sens de la tension.
+
+- **Charge électrique** : $1 \text{ A·s} = 1 \text{ coulomb}$, soit $6{,}24 \cdot 10^{19}$ électrons
+- **Sens du courant** : sens de déplacement des charges positives, donc opposé à celui des électrons
+
+---
+
+## Sources idéales
+
+- **Source idéale de tension** : délivre une tension $u$ continue et indépendante du courant $i$
+- **Source idéale de courant** : délivre un courant $i$ continu et indépendant de la tension $u$
+
+---
+
+## Résistance
+
+$$R = \rho \frac{l}{S} \quad [\Omega = \text{V/A}]$$
+
+avec $\rho$ la résistivité, $l$ la longueur et $S$ la section.
+
+**Conductance :**
+
+$$G = \frac{1}{R} \quad [\text{Siemens, S} = \text{A/V}]$$
+
+**Loi d'Ohm :**
+
+$$u(t) = R \cdot i(t)$$
+
+**Puissance instantanée (effet Joule) :**
+
+$$p(t) = u(t) \cdot i(t) = R \cdot i^2(t) = \frac{u^2(t)}{R} \quad [\text{W}]$$
+
+**Énergie (perte Joule) :**
+
+$$W(t) = \int_0^t p(\tau)\, d\tau$$
+
+---
+
+## Capacité
+
+Accumulation de charges entre deux plaques sous l'effet d'une différence de potentiel. Équivalent à un **circuit ouvert** en régime continu.
+
+$$Q = C \cdot U_{AB} \quad [\text{Farad, F} = \text{A·s/V}]$$
+
+$$q(t) = C \cdot u(t) \implies i(t) = C \frac{du}{dt}$$
+
+**Énergie stockée :**
+
+$$W_C(t) = \frac{1}{2} C u^2(t)$$
+
+---
+
+## Inductance
+
+Lisse le courant. Accumule de l'énergie électromagnétique. Équivalent à un **court-circuit** en régime continu.
+
+$$\Phi_\text{tot}(t) = N \Phi_0 = L \cdot i(t) \quad [\text{V·m}]$$
+
+Flux total = nombre de spires × flux par spire = inductance × intensité.
+
+$$u(t) = \frac{d\Phi_0}{dt} = L \frac{di}{dt} \quad [\text{Henry, H} = \text{V·s/A}]$$
+
+$$u(t) = 0 \implies i(t) = \text{cst}$$
+
+**Énergie stockée :**
+
+$$W_L(t) = \frac{1}{2} L i^2(t)$$
+
+---
+
+## Nœuds, Branches, Mailles
+
+- **Nœud** : convergence de trois conducteurs ou plus
+- **Branche** : relie deux nœuds, traversée par un seul courant
+- **Maille** : ensemble de branches formant un chemin fermé depuis un nœud sans passer deux fois par la même branche
+
+**Lois de Kirchhoff :**
+
+*Loi des nœuds :*
+
+$$\sum_{k=1}^{N} I_k = 0$$
+
+Courants entrants $(+)$ = courants sortants $(-)$
+
+*Loi des mailles :*
+
+$$\sum_{k=1}^{M} U_k = 0$$
+
+Tensions dans le sens horaire $(+)$ = tensions dans le sens anti-horaire $(-)$
+
+---
+
+## Éléments en série et en parallèle
+
+**Série** — même courant, tensions qui s'additionnent :
+
+| Élément | Série |
+|---|---|
+| Résistance | $R_s = \displaystyle\sum_{i=1}^n R_i$ |
+| Inductance | $L_s = \displaystyle\sum_{i=1}^n L_i$ |
+| Capacité | $\dfrac{1}{C_s} = \displaystyle\sum_{i=1}^n \dfrac{1}{C_i}$ |
+| Source de tension | $u_s = \displaystyle\sum_{i=1}^n u_i$ |
+
+**Parallèle** — même tension, courants qui s'additionnent :
+
+| Élément | Parallèle |
+|---|---|
+| Résistance | $\dfrac{1}{R_p} = \displaystyle\sum_{i=1}^n \dfrac{1}{R_i}$ |
+| Inductance | $\dfrac{1}{L_p} = \displaystyle\sum_{i=1}^n \dfrac{1}{L_i}$ |
+| Capacité | $C_p = \displaystyle\sum_{i=1}^n C_i$ |
+| Source de courant | $i_p = \displaystyle\sum_{i=1}^n i_i$ |
+
+Pour deux résistances en parallèle :
+
+$$R_p = \dfrac{R_1 \cdot R_2}{R_1 + R_2}$$
+
+---
+
+## Diviseurs
+
+**Diviseur de tension** — connaître la tension dans une branche $k$ :
+
+$$u_k = R_k \cdot i = R_k \cdot \frac{u}{R_\text{tot}}$$
+
+**Diviseur de courant** — connaître le courant dans une branche $k$ :
+
+$$i_k = u \cdot \frac{1}{R_k} = \frac{R_1}{R_1 + R_2} \cdot i$$
+
+---
+
+## Équivalence source de tension – source de courant
+
+Une source de tension $u_0$ en série avec $R_0$ est équivalente à une source de courant $i_0$ en parallèle avec $R_0$ :
+
+$$u_0 \updownarrow i_0, \qquad u_0 = i_0 \cdot R_0, \qquad \text{série} \Longleftrightarrow \text{parallèle}$$
+
+---
+
+## Superposition
+
+Dans un circuit linéaire, les courants et tensions sont la somme des contributions de chaque source prise séparément.
+
+- Annuler une source de tension $\implies$ **court-circuit**
+- Annuler une source de courant $\implies$ **circuit ouvert**
+
+Les contributions de chaque source ne doivent pas être modifiées pendant le calcul de l'autre.
+
+---
+
+## Théorème de Thévenin
+
+Remplacer un circuit complexe par une **source de tension $u_0$** en série avec une résistance $R_i$.
+
+$$u = u_0 \cdot \frac{R}{R + R_i}$$
+
+**Procédure :**
+
+1. Identifier $R$, puis les bornes $a$ et $b$, et ouvrir la branche
+2. Calculer la tension $u_{ab}$ pour obtenir $u_0$
+3. Annuler toutes les sources puis calculer la résistance équivalente pour obtenir $R_i$
+
+---
+
+## Théorème de Norton
+
+Remplacer un circuit complexe par une **source de courant $i_0$** en parallèle avec une résistance $R_i$.
+
+$$i = i_0 \cdot \frac{R_i}{R + R_i}$$
+
+**Procédure :**
+
+1. Identifier $R$, puis les bornes $a$ et $b$
+2. Court-circuiter $a$ et $b$ puis calculer $i_{ab} = i_0$
+3. Ouvrir $R$, annuler les sources puis calculer $R_i$
+
+---
+
+## Nombres complexes & Phaseurs
+
+### Rappel nombres complexes
+
+$$\underline{z} = a + jb = r(\cos\theta + j\sin\theta) = re^{j\theta}$$
+
+$$r = |\underline{z}| = \sqrt{a^2 + b^2}, \qquad \theta = \arg(\underline{z}) = \arctan\frac{b}{a}$$
+
+$$j = \sqrt{-1}, \quad j^2 = -1, \quad j^3 = -j, \quad j^4 = 1$$
+
+**Conjugué :**
+
+$$\underline{z}^* = a - jb = re^{-j\theta}$$
+
+**Formule d'Euler :**
+
+$$e^{j\theta} = \cos\theta + j\sin\theta, \qquad e^{-j\theta} = \cos\theta - j\sin\theta$$
+
+$$\cos\theta = \frac{1}{2}(e^{j\theta} + e^{-j\theta}), \qquad \sin\theta = \frac{1}{2j}(e^{j\theta} - e^{-j\theta})$$
+
+**Valeurs particulières :**
+
+$$e^{jk2\pi} = 1, \quad e^{j(\pi + k2\pi)} = -1, \quad e^{j(\pi/2 + k2\pi)} = j, \quad e^{j(-\pi/2 + k2\pi)} = -j$$
+
+**Opérations en forme exponentielle :**
+
+$$\underline{z}_1 \cdot \underline{z}_2 = r_1 r_2 \, e^{j(\theta_1 + \theta_2)}$$
+
+$$\frac{\underline{z}_1}{\underline{z}_2} = \frac{r_1}{r_2} \, e^{j(\theta_1 - \theta_2)}, \qquad \underline{z}^{-1} = \frac{1}{r} e^{-j\theta}$$
+
+**Dérivation / intégration :**
+
+$$\frac{d\underline{z}}{d\theta} = r e^{j(\theta + \pi/2)}, \qquad \int \underline{z}\, d\theta = r e^{j(\theta - \pi/2)}$$
+
+---
+
+### Phaseur
+
+Moyen simple de représenter $u$ et $i$ sinusoïdaux. Ne dépend pas du temps. Basé sur la formule d'Euler.
+
+**Phaseur complexe de valeur de crête :**
+
+$$\hat{\underline{x}} = \hat{x} \, e^{j\alpha} = \sqrt{2}\, x \, e^{j\alpha}$$
+
+**Phaseur efficace complexe :**
+
+$$\underline{x} = x \, e^{j\alpha}$$
+
+**Relations tension / courant :**
+
+$$\underline{U} = U e^{j\alpha}, \qquad u(t) = \sqrt{2}\, U \cos(\omega t + \alpha) = \text{Re}\!\left\{\sqrt{2}\, \underline{U} \, e^{j\omega t}\right\}$$
+
+$$\underline{I} = I e^{j\beta}, \qquad i(t) = \sqrt{2}\, I \cos(\omega t + \beta) = \text{Re}\!\left\{\sqrt{2}\, \underline{I} \, e^{j\omega t}\right\}$$
+
+**Déphasage tension / courant :**
+
+$$\varphi = \alpha - \beta$$
+
+**Opérations sur les phaseurs :**
+
+$$\frac{d\underline{X}}{dt} = j\omega\, \underline{X}, \qquad \frac{d^n}{dt^n} = (j\omega)^n \underline{X}, \qquad \int \underline{X}\, dt = \frac{1}{j\omega}\, \underline{X}$$
+
+---
+
+## Circuit sinusoïdal monophasé
+
+### Fonctions périodiques
+
+$$x(t) = x(t + nT), \quad n \in \mathbb{Z}$$
+
+- $\hat{x}$ : valeur de crête
+- $T$ : période en secondes
+- $\bar{x}$ : valeur moyenne
+- $x$ : valeur efficace
+
+$$\bar{x} = \dfrac{1}{T} \displaystyle\int x(t)\, dt, \qquad x = \sqrt{\dfrac{1}{T} \displaystyle\int x^2(t)\, dt}$$
+
+**Sinus :**
+
+$$x(t) = A\sin(\omega t + \alpha)$$
+
+$$\omega = \frac{2\pi}{T} \; [\text{rad·s}^{-1}], \quad f = \frac{1}{T} \; [\text{Hz}]$$
+
+$$\bar{x} = 0, \quad x = \frac{A}{\sqrt{2}}$$
+
+**Avance / retard de phase :**
+
+- avance : $\alpha_2 - \alpha_1 > 0$
+- retard : $\alpha_1 - \alpha_2 > 0$
+
+**Tension et courant sinusoïdaux :**
+
+$$u(t) = \hat{U}\cos(\omega t + \alpha) = \sqrt{2}\, U \cos(\omega t + \alpha)$$
+
+$$i(t) = \hat{I}\cos(\omega t + \beta) = \sqrt{2}\, I \cos(\omega t + \beta)$$
+
+**Dérivée :**
+
+$$\dfrac{d}{dt}[A\sin(\omega t + \alpha)] = A\omega\cos(\omega t + \alpha)$$
+
+**Intégrale :**
+
+$$\displaystyle\int A\sin(\omega t+\alpha)\,dt = -\dfrac{A}{\omega}\cos(\omega t+\alpha)$$
+
+**Somme :**
+
+$$\sin(\omega t + \alpha) + \sin(\omega t + \beta) = 2\cos\!\left(\frac{\alpha-\beta}{2}\right)\sin\!\left(\omega t + \frac{\alpha+\beta}{2}\right)$$
+
+---
+
+## Impédance complexe
+
+Analogue à la résistance en régime sinusoïdal.
+
+$$\underline{Z} = \frac{\underline{u}(t)}{\underline{i}(t)} = \frac{\underline{U}}{\underline{I}} = Z e^{j\varphi} \quad [\Omega]$$
+
+$$\underline{Z} = R + jX \quad \text{avec} \quad Z = \sqrt{R^2 + X^2}, \quad \varphi = \arctan\frac{X}{R}$$
+
+- $R = \text{Re}(\underline{Z}) = Z\cos\varphi$ : résistance
+- $X = \text{Im}(\underline{Z}) = Z\sin\varphi$ : réactance
+
+**Loi d'Ohm en phaseurs :**
+
+$$\underline{U} = \underline{Z}\, \underline{I}$$
+
+**Admittance complexe :**
+
+$$\underline{Y} = \frac{1}{\underline{Z}} = \frac{\underline{I}}{\underline{U}} = Y e^{-j\varphi} \quad [\text{S}]$$
+
+$$\underline{Y} = G + jB \quad \text{avec} \quad Y = \sqrt{G^2+B^2}, \quad \varphi = \arctan\!\left(-\frac{B}{G}\right)$$
+
+- $G = \text{Re}(\underline{Y}) = Y\cos\varphi$ : conductance
+- $B = \text{Im}(\underline{Y}) = -Y\sin\varphi$ : susceptance
+
+### Impédances des composants
+
+| | Résistance | Inductance | Capacité |
+|---|---|---|---|
+| $\underline{Z}$ | $R$ | $j\omega L$ | $\dfrac{1}{j\omega C}$ |
+| $Z$ (module) | $R$ | $\omega L$ | $\dfrac{1}{\omega C}$ |
+| $\varphi$ | $0$ | $+\dfrac{\pi}{2}$ | $-\dfrac{\pi}{2}$ |
+| $\underline{Y}$ | $\dfrac{1}{R} = G$ | $\dfrac{1}{j\omega L}$ | $j\omega C$ |
+| $R_\text{eq}$ | $R$ | $0$ | $0$ |
+| $X_\text{eq}$ | $0$ | $\omega L$ | $-\dfrac{1}{\omega C}$ |
+| $G_\text{eq}$ | $\dfrac{1}{R}$ | $0$ | $0$ |
+| $B_\text{eq}$ | $0$ | $-\dfrac{1}{\omega L}$ | $\omega C$ |
+
+### Impédances en série et en parallèle
+
+$$\underline{Z}_s = \sum_k \underline{Z}_k, \qquad \underline{Y}_p = \sum_k \underline{Y}_k$$
+
+**Lois de Kirchhoff en phaseurs :**
+
+$$\sum_k \underline{I}_k = 0, \qquad \sum_l \underline{U}_l = 0$$
+
+**Diviseur de tension complexe :**
+
+$$\underline{U}_1 = \frac{\underline{Z}_1}{\underline{Z}_1 + \underline{Z}_2}\, \underline{U}, \qquad \underline{U}_2 = \frac{\underline{Z}_2}{\underline{Z}_1 + \underline{Z}_2}\, \underline{U}$$
+
+**Diviseur de courant complexe :**
+
+$$\underline{I}_1 = \frac{\underline{Z}_2}{\underline{Z}_1 + \underline{Z}_2}\, \underline{I}, \qquad \underline{I}_2 = \frac{\underline{Z}_1}{\underline{Z}_1 + \underline{Z}_2}\, \underline{I}$$
+
+---
+
+## Puissance en régime sinusoïdal
+
+**Puissance instantanée :**
+
+$$p(t) = u(t) \cdot i(t) = UI\cos\varphi \left[1 + \cos(2\omega t + 2\alpha)\right] + UI\sin\varphi \cdot \sin(2\omega t + 2\alpha)$$
+
+Valeur max = $UI$
+
+**Puissance active** $P$ — valeur moyenne de $p(t)$, énergie convertible en travail ou chaleur :
+
+$$P = \frac{1}{T}\int_0^T p(t)\,dt = UI\cos\varphi \quad [\text{W}]$$
+
+**Puissance réactive** $Q$ — amplitude de la composante alternative, énergie non convertible :
+
+$$Q = UI\sin\varphi \quad [\text{VAR}]$$
+
+**Puissance apparente** $S$ :
+
+$$S = UI = \sqrt{P^2 + Q^2} \quad [\text{VA}]$$
+
+**Puissance complexe** $\underline{S}$ :
+
+$$\underline{S} = P + jQ = \underline{U}\,\underline{I}^* = UI e^{j\varphi}$$
+
+Avec l'impédance :
+
+$$P = RI^2, \qquad Q = XI^2$$
+
+Avec l'admittance :
+
+$$P = GU^2, \qquad Q = -BU^2$$
+
+**Facteur de puissance :**
+
+$$\cos\varphi = \frac{P}{S} \in [0, 1]$$
+
+- $\cos\varphi \to 1$ : cas résistif
+- $\cos\varphi \to 0$ : cas inductif ou capacitif
+
+**Correction du facteur de puissance :**
+
+Objectif : $UI\cos\varphi \to UI$, donc annuler autant que possible la puissance réactive en ajoutant des condensateurs.
+
+<details class="sources-block">
+  <summary>Formulaire du cours</summary>
+  <div class="sources-block-content">
+    <PdfViewer
+      src="/notes/electrotechnique-1-formulaire.pdf"
+      title="Formulaire du cours d'électrotechnique I"
+      caption="Vous pouvez faire défiler le PDF directement dans cette fenêtre pour consulter le formulaire sans quitter la page."
+    />
+  </div>
+</details>
+
+<details class="sources-block">
+  <summary>Notes manuscrites</summary>
+  <div class="sources-block-content">
+    <PdfViewer
+      src="/notes/electrotechnique-1-handwritten-notes.pdf"
+      title="Notes manuscrites d'électrotechnique I"
+      caption="Vous pouvez faire défiler le PDF directement dans cette fenêtre pour lire les notes manuscrites sans quitter la page."
+    />
+  </div>
+</details>
