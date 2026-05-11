@@ -1,0 +1,341 @@
+---
+title: "Linked-Crossing"
+summary: "Projet de semestre EPFL en C++ et GTKmm : simulation d’une arène circulaire, chaîne articulée guidée par FABRIK, parseur de scénarios. Webplayer ajouté a posteriori pour le site."
+date: 2026-05-11
+thumbnail: "/projects/linked-crossing/images/thumbnail.png"
+tags: ["c++", "gtkmm", "oop", "geometry", "fabrik", "game-architecture", "interactive-demo"]
+status: "completed"
+featured: true
+---
+
+import ProjectLinkedCrossingPlayer from "../../components/projects/ProjectLinkedCrossingPlayer.astro";
+import PdfViewer from "../../components/notes/PdfViewer.astro";
+
+## Version jouable
+
+<ProjectLinkedCrossingPlayer />
+
+## Résumé
+
+**Linked-Crossing** est un projet de semestre réalisé à l’EPFL en **C++** avec
+une interface **GTKmm**, auquel j’ai ajouté ensuite un **webplayer** pour le
+site.
+
+Le jeu se déroule dans une arène circulaire peuplée de **particules** et de
+**faiseurs**. Le joueur construit une **chaîne articulée** en capturant des
+particules, puis la guide vers un but opposé dans l’arène sans casser les
+contraintes géométriques ni heurter les obstacles mobiles.
+
+Ce qui rend le projet intéressant n’est pas seulement son aspect visuel, mais
+surtout son architecture logicielle :
+
+- un moteur de simulation discret ;
+- une hiérarchie d’entités mobiles en C++ orienté objet ;
+- un socle géométrique réutilisable ;
+- un parseur robuste de scénarios textuels ;
+- une étape de guidage inspirée de **FABRIK** ;
+- une séparation nette entre modèle, logique d’interface et rendu.
+
+Projet réalisé en collaboration avec **Perla Brodowicz**.
+
+## Contexte et objectif
+
+Le cahier des charges imposait une arène circulaire de rayon fixe dans laquelle
+coexistent trois familles d’objets :
+
+- des **particules** mobiles qui se dupliquent au fil du temps ;
+- des **faiseurs**, obstacles dynamiques composés de plusieurs éléments ;
+- une **chaîne articulée** construite progressivement par capture.
+
+Le cœur du problème n’est donc pas “faire un mini-jeu”, mais maintenir plusieurs
+invariants simultanément :
+
+- garder une géométrie valide à chaque étape ;
+- refléter correctement les mobiles sur le bord de l’arène ;
+- empêcher les captures illégales ;
+- préserver la longueur des segments pendant le guidage ;
+- piloter le tout via une API assez propre pour l’interface graphique.
+
+## Architecture du dépôt
+
+Le dépôt est bien découpé et reflète directement l’architecture du code :
+
+- `src/projet.cc` : point d’entrée ;
+- `src/gui.cc` et `include/gui.h` : interface GTKmm, événements et timer ;
+- `src/graphic.cc` et `include/graphic.h` : primitives de rendu ;
+- `src/jeu.cc` et `include/jeu.h` : façade principale du moteur ;
+- `src/mobile.cc` et `include/mobile.h` : entités mobiles `Particule` et `Faiseur` ;
+- `src/chaine.cc` et `include/chaine.h` : chaîne articulée et collisions ;
+- `src/tools.cc` et `include/tools.h` : géométrie 2D, vecteurs, tests et wrappers de dessin ;
+- `src/message.cc` : messages de validation et d’erreur imposés par le cours.
+
+Le bon choix de conception ici est que **`Jeu` sert de façade** : l’interface ne
+manipule pas directement les structures internes, elle demande au moteur de
+lire un fichier, de mettre à jour la simulation, de construire la chaîne, ou de
+faire un pas de guidage.
+
+## Explication du code
+
+### 1. `Jeu` comme façade du moteur
+
+La classe `Jeu` concentre l’état global : score, particules, faiseurs, chaîne,
+mode courant et statut de la partie.
+
+Elle expose aussi les opérations de plus haut niveau :
+
+- `lireFichier` et `sauvegarderFichier` pour la sérialisation ;
+- `updateJeu` pour avancer d’un tick ;
+- `tryConstructChain` pour capturer une particule ;
+- `guidanceStep` pour déplacer la chaîne vers un but intermédiaire ;
+- `checkGameStatus` pour déterminer victoire ou défaite.
+
+Le guidage est particulièrement élégant parce qu’il ne déforme jamais
+aveuglément la chaîne : il calcule un but atteignable, exécute deux passes
+FABRIK, valide la configuration, puis seulement après applique le résultat.
+
+```cpp
+bool Jeu::guidanceStep(const S2d& target_point) {
+    const auto& articulations = chaine.getArticulations();
+    if (!canGuide(articulations))
+        return false;
+
+    S2d intermediate = computeIntermediateGoal(articulations.back(), target_point);
+    auto p_prime = fabrikPhase1(articulations, intermediate);
+    auto p_pp    = fabrikPhase2(articulations, p_prime);
+
+    if (!isValidConfiguration(p_pp))
+        return false;
+
+    applyConfiguration(p_pp);
+    checkGameStatus();
+    return true;
+}
+```
+
+Cette étape résume bien la philosophie générale du projet : tenter une
+transformation, mais ne jamais compromettre les invariants du modèle.
+
+### 2. Le socle géométrique dans `tools`
+
+Le module `tools` fournit les briques géométriques de base :
+
+- `S2d` pour les points ;
+- `Circle` pour les cercles ;
+- `Vector` pour les opérations directionnelles ;
+- `distance`, `normalizeAngle`, les tests d’inclusion et d’intersection ;
+- des wrappers de dessin qui isolent la dépendance graphique.
+
+Un détail important est l’usage explicite d’une **tolérance numérique**
+`epsil_zero`. Le code ne traite pas seulement des figures idéales, mais des
+comparaisons flottantes réellement utilisées lors de la lecture des scénarios et
+pendant l’exécution. C’est ce qui permet d’éviter des faux positifs ou des cas
+géométriques instables.
+
+### 3. Hiérarchie objet : `Mobile`, `Particule`, `Faiseur`
+
+La structure orientée objet du projet repose sur une base abstraite `Mobile`
+spécialisée en `Particule` et `Faiseur`.
+
+Cette hiérarchie factorise ce qui est commun :
+
+- position ;
+- angle ;
+- déplacement ;
+- mise à jour ;
+- dessin ;
+- sérialisation.
+
+Les **particules** possèdent en plus une logique de duplication temporelle. À
+intervalle régulier, elles se scindent en deux particules filles avec des angles
+décalés et une vitesse réduite.
+
+Les **faiseurs**, eux, jouent le rôle d’obstacles segmentés. Leur tête est
+stockée explicitement, puis le reste de la structure est reconstruit à la
+demande, ce qui garde l’état compact tout en simplifiant collisions et rendu.
+
+### 4. La chaîne articulée et FABRIK
+
+La chaîne est une suite ordonnée d’articulations soumise à deux règles simples
+mais fortes :
+
+- la racine doit rester cohérente avec la frontière de l’arène ;
+- la distance entre deux articulations successives ne peut pas dépasser
+  `r_capture`.
+
+L’ajout d’une articulation reste volontairement **local** :
+
+- si la chaîne est vide, la particule capturée devient la racine ;
+- sinon, seule une particule dans la région de capture de l’effecteur peut être
+  ajoutée ;
+- si plusieurs particules sont candidates, l’opération est refusée.
+
+Le guidage repose ensuite sur une intégration discrète de **FABRIK** :
+
+1. une passe de l’effecteur vers la racine ;
+2. une passe de la racine vers l’effecteur ;
+3. une validation géométrique complète avant commit.
+
+Le résultat est un système de guidage convaincant sans tomber dans une
+cinématique inverse trop lourde pour un projet de cette taille.
+
+### 5. Le parseur de scénarios
+
+Le projet s’appuie sur des fichiers texte fournis dans le cadre du cours. Le
+parseur est donc un morceau essentiel du code, et non un simple détail
+utilitaire.
+
+Son fonctionnement peut se résumer comme une machine à états :
+
+```txt
+SCORE -> NB_PARTICULES -> PARTICULES -> NB_FAISEURS -> FAISEURS
+-> NB_ARTICULATIONS -> ARTICULATIONS -> MODE -> DONE
+```
+
+Chaque étape valide à la fois :
+
+- la syntaxe de la ligne ;
+- la validité locale de l’objet lu ;
+- la cohérence avec l’état déjà construit.
+
+Cette stratégie “**validate before commit**” évite de fabriquer des demi-états
+invalides, ce qui est exactement ce qu’on veut dans un projet de simulation.
+
+### 6. Interface GTKmm et rendu
+
+Le couple `gui` / `graphic` traduit le moteur en expérience interactive :
+
+- boutons de contrôle (`Open`, `Save`, `Start`, `Stop`, `Step`, `Restart`) ;
+- timer périodique ;
+- gestion des clics pour construction et guidage ;
+- projection du monde vers le canvas de rendu.
+
+L’un des détails les plus propres est la transformation du repère :
+
+- centrage au milieu de la zone de dessin ;
+- mise à l’échelle isotrope ;
+- inversion de l’axe `Y` pour conserver un repère “mathématique”.
+
+Autrement dit, le moteur raisonne dans son propre espace, et la vue se charge
+seule de la conversion graphique.
+
+## Pipeline d’une mise à jour
+
+`updateJeu` agit comme le contrat temporel du système. L’ordre des opérations
+compte autant que les opérations elles-mêmes :
+
+```cpp
+void Jeu::updateJeu() {
+    if (status != ONGOING) return;
+
+    if (score > 0) score--;
+    else {
+        status = LOST;
+        return;
+    }
+
+    updateParticules();
+    updateFaiseurs();
+
+    bool chain_moved_by_guidance = false;
+    if (mode == GUIDAGE && !chaine.isEmpty() && chaine.getNbArticulations() > 1) {
+        if (guidanceStep(intermediate_guidance_goal)) {
+            chain_moved_by_guidance = true;
+        }
+    }
+
+    if (chain_moved_by_guidance) {
+        handleChainCollision();
+    }
+
+    checkGameStatus();
+}
+```
+
+Cette séquence impose une causalité claire :
+
+- le score baisse d’abord ;
+- les particules et les faiseurs avancent ensuite ;
+- le guidage agit sur une simulation déjà mise à jour ;
+- les collisions sont recontrôlées si la chaîne a réellement bougé ;
+- l’état final n’est évalué qu’une fois le tick stabilisé.
+
+C’est une très bonne illustration d’un point souvent sous-estimé en première
+année : dans un moteur de jeu simple, la robustesse dépend beaucoup de
+l’**ordonnancement**.
+
+## Validation par scénarios
+
+Le rapport final conserve plusieurs campagnes de test intéressantes. Deux séries
+ressortent particulièrement :
+
+- `t22.txt` pour la construction progressive de la chaîne et le guidage ;
+- `t35.txt` pour la destruction de chaîne lors d’une collision avec un faiseur.
+
+<div class="not-prose my-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+  <figure class="border border-line bg-paper-raised p-3">
+    <img
+      src="/projects/linked-crossing/images/thumbnail.png"
+      alt="Début d’un scénario Linked-Crossing avec l’arène, les particules et la première capture."
+      class="w-full border border-line bg-white"
+    />
+    <figcaption class="mt-3 font-sans text-[0.72rem] uppercase tracking-[0.14em] text-ink-faint">
+      Début du scénario <code>t22</code>
+    </figcaption>
+  </figure>
+
+  <figure class="border border-line bg-paper-raised p-3">
+    <img
+      src="/projects/linked-crossing/images/fabrik-step.png"
+      alt="Étape de guidage FABRIK pendant la construction de la chaîne."
+      class="w-full border border-line bg-white"
+    />
+    <figcaption class="mt-3 font-sans text-[0.72rem] uppercase tracking-[0.14em] text-ink-faint">
+      Guidage intermédiaire avec FABRIK
+    </figcaption>
+  </figure>
+
+  <figure class="border border-line bg-paper-raised p-3">
+    <img
+      src="/projects/linked-crossing/images/chain-growth.png"
+      alt="Chaîne longue en cours de construction dans une arène Linked-Crossing."
+      class="w-full border border-line bg-white"
+    />
+    <figcaption class="mt-3 font-sans text-[0.72rem] uppercase tracking-[0.14em] text-ink-faint">
+      Croissance de la chaîne et navigation
+    </figcaption>
+  </figure>
+
+  <figure class="border border-line bg-paper-raised p-3">
+    <img
+      src="/projects/linked-crossing/images/chain-destruction.png"
+      alt="Destruction de la chaîne après collision avec un faiseur."
+      class="w-full border border-line bg-white"
+    />
+    <figcaption class="mt-3 font-sans text-[0.72rem] uppercase tracking-[0.14em] text-ink-faint">
+      Collision et destruction de la chaîne
+    </figcaption>
+  </figure>
+</div>
+
+Ces scénarios sont utiles parce qu’ils testent des interactions transversales :
+
+- rendu graphique ;
+- géométrie ;
+- règles métier ;
+- mise à jour temporelle ;
+- cohérence globale du guidage.
+
+## Crédits
+Projet réalisé avec Perla Brodowicz. J’ai principalement travaillé sur le
+moteur, la simulation et la lecture/écriture des scénarios, ainsi que sur l'interface le rendu graphique et l'intégration côté interaction tandis que Perla a principalement passé son temps à jouer au jeu. Mais shout out pour la bonne humeur. Bravo.
+## Rapport original
+
+Le rapport académique d’origine est conservé ci-dessous comme archive technique.
+Il complète la synthèse de cette page avec le contexte du cours, les captures de
+test et la répartition détaillée du travail.
+
+<PdfViewer
+  src="/projects/linked-crossing/linked-crossing-original-report.pdf"
+  title="Linked-Crossing — rapport de rendu original"
+  caption="Archive du rapport académique conservée avec le projet. Le document détaille les scénarios de validation, la progression par rendus et la répartition du travail avec Perla Brodowicz."
+/>

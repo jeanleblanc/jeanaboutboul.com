@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Linked-Crossing Web Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="panel intro-panel">
+        <p class="eyebrow">Browser Preview</p>
+        <h1>Linked-Crossing</h1>
+        <p class="lead">
+          Une prévisualisation jouable pensée pour le web. L’idée ici n’est pas
+          d’exposer tous les outils du projet, mais de donner une version simple
+          et directe du jeu dans le navigateur.
+        </p>
+        <div class="tips">
+          <p><strong>Start</strong> : lance vraiment la partie</p>
+          <p><strong>Clic gauche</strong> : capturer une particule</p>
+          <p><strong>Clic droit</strong> : guider la chaîne</p>
+          <p><strong>Espace</strong> : pause / reprise</p>
+        </div>
+      </section>
+
+      <section class="play-area">
+        <div class="toolbar panel">
+          <div class="toolbar-copy">
+            <p class="toolbar-title">Preview jouable locale</p>
+            <p class="toolbar-subtitle">
+              Le canvas reste verrouillé tant que la partie n’a pas commencé.
+            </p>
+          </div>
+          <div class="toolbar-actions">
+            <button id="primary-action" class="primary-action">Start</button>
+            <button id="restart-action" class="secondary-action">Restart</button>
+          </div>
+        </div>
+
+        <div class="canvas-frame panel">
+          <div id="canvas-overlay" class="canvas-overlay">
+            <div class="canvas-overlay-card">
+              <p class="canvas-overlay-title">Partie en attente</p>
+              <p id="canvas-overlay-text" class="canvas-overlay-text">
+                Appuie sur Start pour lancer la simulation puis joue
+                directement dans l’arène.
+              </p>
+            </div>
+          </div>
+          <canvas id="game-canvas" width="720" height="720"></canvas>
+        </div>
+      </section>
+
+      <aside class="side panel">
+        <h2>État</h2>
+        <dl class="stats">
+          <div><dt>Score</dt><dd id="stat-score">0</dd></div>
+          <div><dt>Particules</dt><dd id="stat-particles">0</dd></div>
+          <div><dt>Faiseurs</dt><dd id="stat-faiseurs">0</dd></div>
+          <div><dt>Articulations</dt><dd id="stat-articulations">0</dd></div>
+          <div><dt>Mode</dt><dd id="stat-mode">CONSTRUCTION</dd></div>
+          <div><dt>Status</dt><dd id="stat-status">ONGOING</dd></div>
+          <div><dt>Souris</dt><dd id="stat-pointer">0.0, 0.0</dd></div>
+        </dl>
+
+        <h2>Journal</h2>
+        <div id="message-log" class="message-log">
+          Preview prête. Appuie sur Start pour commencer.
+        </div>
+      </aside>
+    </main>
+
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>

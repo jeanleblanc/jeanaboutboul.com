@@ -1,0 +1,49 @@
+---
+interface Props {
+  playerHref?: string;
+  reportHref?: string;
+}
+
+const {
+  playerHref = "/projects/linked-crossing/webplayer/index.html",
+  reportHref = "/projects/linked-crossing/linked-crossing-original-report.pdf",
+} = Astro.props;
+---
+
+<div class="not-prose my-8 overflow-hidden border border-line bg-paper-raised">
+  <div class="flex flex-col gap-3 border-b border-line px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+    <p class="m-0 text-sm leading-relaxed text-ink-soft">
+      <code>Start</code> lance la partie, <code>Space</code> met en pause, clic gauche
+      capture, clic droit guide.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      <a
+        href={playerHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="button-secondary"
+      >
+        Ouvrir le player
+      </a>
+      <a
+        href={reportHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="button-secondary"
+      >
+        Ouvrir le rapport
+      </a>
+    </div>
+  </div>
+
+  <div class="bg-paper-subtle p-3 sm:p-4">
+    <iframe
+      src={playerHref}
+      title="Linked-Crossing webplayer"
+      class="block w-full border border-line bg-white"
+      style="height: clamp(42rem, 84vh, 72rem);"
+      loading="lazy"
+    ></iframe>
+  </div>
+</div>
